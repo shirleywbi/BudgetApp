@@ -1,15 +1,29 @@
 package balance;
 
 public class MoneyCount {
-    private static int income = 0;
-    private static int expenses = 0;
+    private static float income = 0;
+    private static float expenses = 0;
+    private static float balance = 0;
 
-    public static void moneyEarned() {
-        System.out.println("You have earned $" +income+ " so far.");
+    public static void addIncome(float num) {
+        income += num;
     }
 
-    public static void moneySpent() {
-        System.out.println("You have spent $" +expenses+ " so far.");
-
+    public static void addExpense(float num) {
+        expenses += num;
     }
+
+    public static float getIncome() {
+        return income;
+    }
+
+    public static float getExpenses() {
+        return expenses;
+    }
+
+    public static float getBalance() {
+        balance = income - expenses;
+        return balance;
+    }
+
 }

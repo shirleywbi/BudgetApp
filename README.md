@@ -31,28 +31,25 @@ Stage 2: User Interaction
 
 Main interaction screen:
 
-"What would you like to do:"
-[1] add income
-[2] add expense
-[3] show report
+"What would you like to do?"
+[1] Add income
+[2] Add expense
+[3] Show report
+[4] Exit
 
-If user types in "1", they will be asked "Enter your income:". The integer would be saved. It will print income so far.
+If user types in "1", they will be asked "Enter your income:". The number would be added to the total balance. 
 If user types in "2", they will be asked the following:
 	"Enter name of expense:"
 	"Cost:"
 	The expense and cost will be saved.
-	Print (name of expense, cost).
-If user types in "3", show balance of income, total expenses, and list of expenses.
+	Print the name of the expense and its cost.
+If user types in "3", show summary report of total income, total expenses, list of expense names and costs, and current balance. 
+If user types in "4", exit program.
 
-2. 
-
-
-TASKS: 
-- Construct an object (Note: this should probably happen within your main method)
-- Pass a parameter
-- Use a local variable
-- Return a value and use it
-- Use a condition, and a loop
-- Make a call graph from your main method
-- Draw the flowchart for a method with a condition or a loop
-- Use the debugger
+*********************************************************************
+TO-DO:
+- Categorize expenses into various categories.
+- Add dates to expense log.
+- Save and update file with expenses.
+- Create visuals for the report (e.g., charts and graphs)
+- Add filter for string inputs into incomeEntry.
