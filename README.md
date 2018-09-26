@@ -47,6 +47,16 @@ If user types in "3", show summary report of total income, total expenses, list 
 If user types in "4", exit program.
 
 *********************************************************************
+Stage 3: Data Abstraction
+
+1. Divided BudgetTracker into smaller helper functions to make it easier to read/work with.
+2. Created tests for Balance to ensure income, expenses, expense entries were being added correctly.
+	***No tests were written for Reports as it only pulls and prints content. As per Piazza @292, it may be a bit redundant.
+	***No tests were written for BudgetTracker as per Piazza @237 and @337 where 
+	- (@237) it is stated that we are not expected to test them in class and 
+	- (@337) "You can't test console input/output, but probably you should test the methods being called from within your interaction loop"
+
+*********************************************************************
 TO-DO:
 - Categorize expenses into various categories.
 - Add dates to expense log.
