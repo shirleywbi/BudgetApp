@@ -1,10 +1,12 @@
 package ui;
 
-import model.BudgetTracker;
+import java.io.IOException;
 
 public class RunBudgetTracker {
 
-    public static void main(String[] args) {
+    //EFFECTS: runs the program
+    public static void main(String[] args) throws IOException{
         new BudgetTracker();
+
     }
 }

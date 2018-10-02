@@ -1,5 +1,15 @@
-package model;
+package ui;
 
+import model.Balances;
+import model.Reports;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class BudgetTracker {
@@ -15,7 +25,7 @@ public class BudgetTracker {
     //              - if 3 is entered, show report of total income, total expense, expense list of names and costs,
     //                and balance
     //              - if 4 is entered, exit
-    public BudgetTracker() {
+    public BudgetTracker() throws IOException {
         Reports reports = Reports.reports;
         while (true) {
             System.out.printf("What would you like to do? %n" +
@@ -31,12 +41,14 @@ public class BudgetTracker {
             } else if (option.equals("3")) {
                 reports.getSummaryReport();
             } else if (option.equals("4")) {
+                System.out.println("Saving...");
+                save();
+                System.out.println("Saved.");
                 break;
             }
         }
     }
 
-    // REQUIRES: Scanner entry == "1"
     // MODIFIES: this, balances
     // EFFECTS: prompts and adds user inputted income to total income
     private void logIncome() {
@@ -44,7 +56,6 @@ public class BudgetTracker {
         balances.addIncome(Float.valueOf(entry.nextLine()));
     }
 
-    // REQUIRES: Scanner entry == "2"
     // MODIFIES: this, balances
     // EFFECTS: prompts and saves user input for expense name and cost, and displays it back to the user
     private void logExpense() {
@@ -56,8 +67,45 @@ public class BudgetTracker {
         balances.addExpenseEntry(expenseNameEntry, expenseCostEntry);
         System.out.printf("Item: " + expenseNameEntry + "%nCost: $ %.2f %n",expenseCostEntry);
     }
+
+    //EFFECTS: saves total income, total expenses, list of expenses and prints out what is saved
+    public void save() throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get("budgetinput.txt"));
+        PrintWriter writer = new PrintWriter("budgetoutput.txt", "UTF-8");
+        for (Integer i = 0; i < balances.nameList.size(); i++) {
+            lines.add(balances.nameList.get(i) + " " + balances.costList.get(i));}
+        for (String line : lines) {
+            ArrayList<String> partsOfBalance = splitOnSpace(line,": ");
+            ArrayList<String> partsofExpense = splitOnSpace(line, " ");
+            if (line.contains("Total Income:")) {
+                float newIncome = Float.valueOf(partsOfBalance.get(1)) + balances.getIncome();
+                line = "Total Income: " + newIncome;
+            } else if (line.contains("Total Expenses:")) {
+                float newExpense = Float.valueOf(partsOfBalance.get(1)) + balances.getExpenses();
+                line = "Total Expenses: " + newExpense;
+            } else if (line.contains("List of Expenses:")) {
+                line = "List of Expenses:";
+            } else {
+                if (!line.isEmpty())
+                    line = partsofExpense.get(0) + " " + partsofExpense.get(1);
+            }
+            System.out.println(line);
+            writer.println(line);
+        }
+        writer.close();
+    }
+
+    //EFFECTS: splits data
+    private static ArrayList<String> splitOnSpace(String line, String splitter) {
+        String[] splits = line.split(splitter);
+        return new ArrayList<>(Arrays.asList(splits));
+    }
+
+
+
 }
 
 
 //overall format of BudgetTracker referenced from LoggingCalculator
 //converting numbers to string referenced from https://docs.oracle.com/javase/tutorial/java/data/converting.html
+//save() and splitOnSpace() methods referenced from FileReaderWriter

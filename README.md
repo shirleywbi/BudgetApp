@@ -57,9 +57,18 @@ Stage 3: Data Abstraction
 	- (@337) "You can't test console input/output, but probably you should test the methods being called from within your interaction loop"
 
 *********************************************************************
+Stage 4: Types, Interfaces and Saving
+
+1. Added load and save feature. ***NEED TO ADD TESTS
+***2. Added two interfaces ***NEED TO ADD TESTS
+
+
+
 TO-DO:
 - Categorize expenses into various categories.
+	- To be able to add categories
 - Add dates to expense log.
 - Save and update file with expenses.
 - Create visuals for the report (e.g., charts and graphs)
 - Add filter for string inputs into incomeEntry.
+- Prompt user to enter positive data.

@@ -27,6 +27,12 @@ public class BalancesTest {
     }
 
     @Test
+    public void testAddZeroIncome() {
+        float amount = 0;
+        assertEquals(testBalance.addIncome(0),TOTAL_INCOME + 0, 0.01);
+    }
+
+    @Test
     public void testAddIncome() {
         float amount = INCOME;
         assertEquals(testBalance.addIncome(amount), TOTAL_INCOME + amount, 0.01);
@@ -40,6 +46,12 @@ public class BalancesTest {
         assertEquals(testBalance.getBalance(),TOTAL_INCOME + amount,0.01);
         assertEquals(testBalance.addIncome(500),TOTAL_INCOME + amount + 500, 0.01);
         assertEquals(testBalance.getBalance(),TOTAL_INCOME + amount + 500,0.01);
+    }
+
+    @Test
+    public void testAddZeroExpense() {
+        float amount = 0;
+        assertEquals(testBalance.addExpense(0),TOTAL_EXPENSES + 0, 0.01);
     }
 
     @Test

@@ -4,7 +4,6 @@ public class Reports {
     private Balances bal = Balances.bal;
     public static Reports reports = new Reports();
 
-    // REQUIRES: Scanner entry == "3"
     // EFFECTS: Displays total income, total expenses, list of expenses and total balance
     public void getSummaryReport() {
         System.out.printf("********************************* %nReport:%n");
