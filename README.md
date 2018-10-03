@@ -59,14 +59,21 @@ Stage 3: Data Abstraction
 *********************************************************************
 Stage 4: Types, Interfaces and Saving
 
-1. Added load and save feature. ***NEED TO ADD TESTS
-***2. Added two interfaces ***NEED TO ADD TESTS
-
+***TESTS REQUIRED
+1. Added load and save feature.
+2. Added two interfaces: Reports and Expenses
+3. Added ability to categorize expenses to pre-built categories.
+4. Updated report to provide a subtotal of each expense category.
 
 
 TO-DO:
-- Categorize expenses into various categories.
+- To expand categories.
 	- To be able to add categories
+- Fix bugs:
+	- float values
+	- Spacing in expense names
+- Pull up information from the file.
+- Add option to go back to main
 - Add dates to expense log.
 - Save and update file with expenses.
 - Create visuals for the report (e.g., charts and graphs)

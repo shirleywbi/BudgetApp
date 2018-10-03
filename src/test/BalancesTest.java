@@ -1,6 +1,6 @@
 package test;
 
-import model.Balances;
+import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,10 +13,18 @@ public class BalancesTest {
     private static float TOTAL_INCOME = 0;
     private static float TOTAL_EXPENSES = 0;
     private Balances testBalance;
+    private Food testFood;
+    private Rent testRent;
+    private Transportation testTransport;
+    private Other testOther;
 
     @BeforeEach
     public void runBefore() {
         testBalance = new Balances();
+        testFood = new Food();
+        testRent = new Rent();
+        testTransport = new Transportation();
+        testOther = new Other();
     }
 
     @Test
@@ -92,19 +100,50 @@ public class BalancesTest {
 
     @Test
     public void testAddExpenseEntryToLists() {
-        testBalance.addExpenseEntry("Pie",5);
+        testBalance.addExpenseEntry("Pie",5, "Food");
         assertTrue(testBalance.nameList.get(0).equals("Pie"));
         assertTrue(testBalance.costList.get(0).floatValue() == 5);
+        assertTrue(testBalance.categoryList.get(0).equals("Food"));
     }
 
     @Test
     public void testAddExpenseEntriesToLists() {
-        testBalance.addExpenseEntry("Pie",5);
+        testBalance.addExpenseEntry("Pie",5, "Food");
         assertTrue(testBalance.nameList.get(0).equals("Pie"));
         assertTrue(testBalance.costList.get(0).floatValue() == 5);
-        testBalance.addExpenseEntry("Apple",3);
+        assertTrue(testBalance.categoryList.get(0).equals("Food"));
+        testBalance.addExpenseEntry("Apple",3, "Other");
         assertTrue(testBalance.nameList.get(1).equals("Apple"));
         assertTrue(testBalance.costList.get(1).floatValue() == 3);
+        assertTrue(testBalance.categoryList.get(1).equals("Other"));
+    }
+
+    @Test
+    public void testAddSubExpenseIfFood() {
+        String category = "Food";
+        float cost = 5;
+        assertEquals(testBalance.addSubExpense(category,cost), cost);
+    }
+
+    @Test
+    public void testAddSubExpenseIfRent() {
+        String category = "Rent";
+        float cost = 5;
+        assertEquals(testBalance.addSubExpense(category,cost), cost);
+    }
+
+    @Test
+    public void testAddSubExpenseIfTransport() {
+        String category = "Transport";
+        float cost = 5;
+        assertEquals(testBalance.addSubExpense(category,cost), cost);
+    }
+
+    @Test
+    public void testAddSubExpenseIfOther() {
+        String category = "Other";
+        float cost = 5;
+        assertEquals(testBalance.addSubExpense(category,cost), cost);
     }
 }
 
