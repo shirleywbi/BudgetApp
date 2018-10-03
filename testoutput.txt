@@ -1,0 +1,8 @@
+Total Income: 1701.0
+Total Expense: 1351.0
+List of Expenses:
+Food Apple 10.0
+Transportation BusPass 93.0
+Rent Rent 800.0
+Other Pikachu 97.0
+Other Balloon 3.0

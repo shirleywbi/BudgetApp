@@ -47,7 +47,7 @@ public class BudgetTracker {
                 report.runReports();
             } else if (option.equals("4")) {
                 System.out.println("Saving...");
-                op.save();
+                op.save("budgetoutput.txt");
                 System.out.println("Saved.");
                 break;
             }

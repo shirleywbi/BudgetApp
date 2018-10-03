@@ -18,12 +18,6 @@ public class Operations {
     private Expenses transportationSubtotal = Balances.transportationTotal;
     private Expenses otherSubtotal = Balances.otherTotal;
 
-    public static void main(String[] args) throws IOException {
-        Operations op = new Operations();
-        op.load("budgetinput.txt");
-        System.out.println(Balances.income);
-    }
-
     // REQUIRES: .txt file in the form of:
     //           Total Income: XXX"
     //           Total Expenses: XXX"
@@ -37,9 +31,9 @@ public class Operations {
             ArrayList<String> partsOfBalance = splitOnSpace(line, ": ");
             ArrayList<String> partsOfExpense = splitOnSpace(line, " ");
             if (line.contains("Total Income:")) {
-                balances.addIncome(Float.valueOf(partsOfBalance.get(1)));
+                Balances.income = (Float.valueOf(partsOfBalance.get(1)));
             } else if (line.contains("Total Expenses:")) {
-                balances.addExpense(Float.valueOf(partsOfBalance.get(1)));
+                Balances.expenses = (Float.valueOf(partsOfBalance.get(1)));
             } else if (line.contains("List of Expenses:")) {
                 System.out.println("");
             } else {
@@ -68,9 +62,9 @@ public class Operations {
     }
 
     //EFFECTS: saves total income, total expenses, list of expenses and prints out what is saved
-    public void save() throws IOException {
+    public void save(String filename) throws IOException {
         ArrayList<String> lines = new ArrayList<>();
-        PrintWriter writer = new PrintWriter("budgetoutput.txt", "UTF-8");
+        PrintWriter writer = new PrintWriter(filename, "UTF-8");
         lines.add("Total Income: " + balances.getIncome());
         lines.add("Total Expense: " + balances.getExpenses());
         lines.add("List of Expenses:");
