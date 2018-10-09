@@ -1,21 +1,13 @@
 package ui;
 
 import model.Balances;
-import model.Expenses;
-import model.Reports;
+import reports.ReportPrinter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class BudgetTracker {
     private Balances balances = Balances.bal;
-    private Operations op = new Operations();
     private Scanner entry = new Scanner(System.in);
 
     // REQUIRES: initial prompt entry between 1-4 (inclusive) and monetary values as numbers
@@ -25,33 +17,40 @@ public class BudgetTracker {
     //              - if 2 is entered, requests for user's expense and add expense to total expense,
     //                stores and displays expense name and cost
     //              - if 3 is entered, show report of total income, total expense, expense list of names and costs,
-    //                and balance
+    //                and subtotal
     //              - if 4 is entered, save and exit
     public BudgetTracker() throws IOException {
-        System.out.println("Loading...");
+        Operations op = new Operations();
+        ReportPrinter report = ReportPrinter.report;
         op.load("budgetinput.txt");
-        System.out.println("Loaded.");
-        Reports report = Reports.report;
+        loop:
         while (true) {
-            System.out.printf("What would you like to do? %n" +
-                    "[1] Add income %n" +
-                    "[2] Add expense %n" +
-                    "[3] Show report %n" +
-                    "[4] Exit %n");
+            mainMenuPrompt();
             String option = entry.nextLine();
-            if (option.equals("1")) {
-                logIncome();
-            } else if (option.equals("2")) {
-                logExpense();
-            } else if (option.equals("3")) {
-                report.runReports();
-            } else if (option.equals("4")) {
-                System.out.println("Saving...");
-                op.save("budgetoutput.txt");
-                System.out.println("Saved.");
-                break;
+            switch (option) {
+                case "1":
+                    logIncome();
+                    break;
+                case "2":
+                    logExpense();
+                    break;
+                case "3":
+                    report.runReports();
+                    break;
+                case "4":
+                    op.save("budgetoutput.txt");
+                    break loop;
             }
         }
+    }
+
+    //EFFECTS: prints menu of options - [1] add income, [2] add expense, [3] show report, [4] save and exit
+    private void mainMenuPrompt() {
+        System.out.printf("What would you like to do? %n" +
+                "[1] Add income %n" +
+                "[2] Add expense %n" +
+                "[3] Show report %n" +
+                "[4] Exit %n");
     }
 
     // MODIFIES: this, balances
@@ -76,32 +75,36 @@ public class BudgetTracker {
     }
 
     // MODIFIES: this
-    // EFFECTS: converts inputted numbers 1-4 to expense categories,
-    //          where 1 = Food, 2 = Rent, 3 = Transportation, 4 = Other
-    //          if input is other than 1-4, the expense is categorized as "Other"
+    // EFFECTS: converts inputted numbers 1-6 to expense categories,
+    //          where 1 = Food, 2 = Entertainment, 3 = Health, 4 = Transportation, 5 = Rent, 6 = Other
+    //          if input is other than 1-6, the expense is categorized as "Other"
     private String categorizeExpense() {
         System.out.printf("Select Category: %n" +
                 "[1] Food %n" +
-                "[2] Rent %n" +
-                "[3] Transportation %n" +
-                "[4] Other %n");
+                "[2] Entertainment %n" +
+                "[3] Health %n" +
+                "[4] Transportation %n" +
+                "[5] Rent %n" +
+                "[6] Other %n");
         String category = entry.nextLine();
-        if (category.equals("1")) {
-            return "Food";
-        } else if (category.equals("2")) {
-            return "Rent";
-        } else if (category.equals("3")) {
-            return "Transportation";
-        } else {
-            return "Other";
+        switch (category) {
+            case "1":
+                return "Food";
+            case "2":
+                return "Entertainment";
+            case "3":
+                return "Health";
+            case "4":
+                return "Transportation";
+            case "5":
+                return "Rent";
         }
+        return "Other";
     }
-
 
     //EFFECTS: runs the program
     public static void main(String[] args) throws IOException {
         new BudgetTracker();
-
     }
 }
 

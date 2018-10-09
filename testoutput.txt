@@ -1,5 +1,5 @@
 Total Income: 1701.0
-Total Expense: 1351.0
+Total Expenses: 1351.0
 List of Expenses:
 Food Apple 10.0
 Transportation BusPass 93.0

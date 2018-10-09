@@ -59,23 +59,29 @@ Stage 3: Data Abstraction
 *********************************************************************
 Stage 4: Types, Interfaces and Saving
 
-***TESTS REQUIRED
 1. Added load and save feature.
 2. Added two interfaces: Reports and Expenses
 3. Added ability to categorize expenses to pre-built categories.
 4. Updated report to provide a subtotal of each expense category.
 
+*********************************************************************
+Stage 5:
+
+1. Changed interfaces to abstract class.
+2. Entertainment and Health categories added.
+***TO ADD OVERRIDE FOR ABSTRACT
 
 TO-DO:
-- To expand categories.
+- Merge object for list of expenses
+- Possibly create a set of all categories
+- To expand expense categories.
 	- To be able to add categories
 - Fix bugs:
-	- float values
-	- Spacing in expense names
+	- Spacing in expense names when saving/loading
+	- invalid input
+		- prompt user when invalid input is provided
 - Pull up information from the file.
 - Add option to go back to main
 - Add dates to expense log.
-- Save and update file with expenses.
 - Create visuals for the report (e.g., charts and graphs)
 - Add filter for string inputs into incomeEntry.
-- Prompt user to enter positive data.

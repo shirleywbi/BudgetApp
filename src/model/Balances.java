@@ -1,5 +1,7 @@
 package model;
 
+import model.expenses.*;
+
 import java.util.ArrayList;
 
 public class Balances {
@@ -7,10 +9,12 @@ public class Balances {
     public static float expenses = 0;
     public static float balance = 0;
 
-    public static Food foodTotal = new Food();
-    public static Transportation transportationTotal = new Transportation();
-    public static Rent rentTotal = new Rent();
-    public static Other otherTotal = new Other();
+    public static Expense food = new Food("Food",0);
+    public static Expense entertainment = new Entertainment("Entertainment",0);
+    public static Expense health = new Health("Health",0);
+    public static Expense transportation = new Transportation("Transportation",0);
+    public static Expense rent = new Rent("Rent",0);
+    public static Expense other = new Other("Other",0);
     public static Balances bal = new Balances();
 
     public ArrayList<String> nameList = new ArrayList<>();
@@ -33,12 +37,12 @@ public class Balances {
         return expenses;
     }
 
-    // EFFECTS: returns the total balance of the income
+    // EFFECTS: returns the total subtotal of the income
     public float getIncome() {
         return income;
     }
 
-    // EFFECTS: returns the total balance of the expenses
+    // EFFECTS: returns the total subtotal of the expenses
     public float getExpenses() {
         return expenses;
     }
@@ -61,18 +65,26 @@ public class Balances {
     // MODIFIES: this
     // EFFECTS: adds expense into its category: food, rent, transportation, other
     public float addSubExpense(String category, float cost) {
-        if (category.equals("Food")) {
-            foodTotal.addSubExpense(cost);
-            return foodTotal.getSubExpense();
-        } else if (category.equals("Rent")) {
-            rentTotal.addSubExpense(cost);
-            return rentTotal.getSubExpense();
-        } else if (category.equals("Transportation")) {
-            transportationTotal.addSubExpense(cost);
-            return transportationTotal.getSubExpense();
-        } else {
-            otherTotal.addSubExpense(cost);
-            return otherTotal.getSubExpense();
+        switch (category) {
+            case "Food":
+                food.addSubExpense(cost);
+                return food.getSubExpense();
+            case "Entertainment":
+                entertainment.addSubExpense(cost);
+                return entertainment.getSubExpense();
+            case "Health":
+                health.addSubExpense(cost);
+                return health.getSubExpense();
+            case "Rent":
+                rent.addSubExpense(cost);
+                return rent.getSubExpense();
+            case "Transportation":
+                transportation.addSubExpense(cost);
+                return transportation.getSubExpense();
         }
+        other.addSubExpense(cost);
+        return other.getSubExpense();
     }
+
 }
+

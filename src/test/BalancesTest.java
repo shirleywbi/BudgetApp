@@ -1,6 +1,7 @@
 package test;
 
 import model.*;
+import model.expenses.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,17 +15,21 @@ public class BalancesTest {
     private static float TOTAL_EXPENSES = 0;
     private Balances testBalance;
     private Food testFood;
-    private Rent testRent;
+    private Entertainment testEntertainment;
+    private Health testHealth;
     private Transportation testTransport;
+    private Rent testRent;
     private Other testOther;
 
     @BeforeEach
     public void runBefore() {
         testBalance = new Balances();
-        testFood = new Food();
-        testRent = new Rent();
-        testTransport = new Transportation();
-        testOther = new Other();
+        testFood = new Food("Food",0);
+        testEntertainment = new Entertainment("Entertainment",0);
+        testHealth = new Health("Health",0);
+        testTransport = new Transportation("Transportation",0);
+        testRent = new Rent("Rent",0);
+        testOther = new Other("Other",0);
     }
 
     @Test
@@ -44,16 +49,16 @@ public class BalancesTest {
     public void testAddIncome() {
         float amount = INCOME;
         assertEquals(testBalance.addIncome(amount), TOTAL_INCOME + amount, 0.01);
-        assertEquals(testBalance.getBalance(),TOTAL_INCOME + amount,0.01);
+        assertEquals(testBalance.getIncome(),TOTAL_INCOME + amount,0.01);
     }
 
     @Test
     public void testAddMoreIncome() {
         float amount = INCOME;
         assertEquals(testBalance.addIncome(amount), TOTAL_INCOME + amount, 0.01);
-        assertEquals(testBalance.getBalance(),TOTAL_INCOME + amount,0.01);
+        assertEquals(testBalance.getIncome(),TOTAL_INCOME + amount,0.01);
         assertEquals(testBalance.addIncome(500),TOTAL_INCOME + amount + 500, 0.01);
-        assertEquals(testBalance.getBalance(),TOTAL_INCOME + amount + 500,0.01);
+        assertEquals(testBalance.getIncome(),TOTAL_INCOME + amount + 500,0.01);
     }
 
     @Test
@@ -126,8 +131,15 @@ public class BalancesTest {
     }
 
     @Test
-    public void testAddSubExpenseIfRent() {
-        String category = "Rent";
+    public void testAddSubExpenseIfEntertainment() {
+        String category = "Entertainment";
+        float cost = 5;
+        assertEquals(testBalance.addSubExpense(category,cost), cost);
+    }
+
+    @Test
+    public void testAddSubExpenseIfHealth() {
+        String category = "Health";
         float cost = 5;
         assertEquals(testBalance.addSubExpense(category,cost), cost);
     }
@@ -135,6 +147,13 @@ public class BalancesTest {
     @Test
     public void testAddSubExpenseIfTransport() {
         String category = "Transport";
+        float cost = 5;
+        assertEquals(testBalance.addSubExpense(category,cost), cost);
+    }
+
+    @Test
+    public void testAddSubExpenseIfRent() {
+        String category = "Rent";
         float cost = 5;
         assertEquals(testBalance.addSubExpense(category,cost), cost);
     }

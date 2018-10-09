@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BudgetTrackerTest {
+public class OperationsTest {
     Operations testOp;
     Balances testBalance;
 
@@ -38,11 +38,6 @@ public class BudgetTrackerTest {
         assertEquals(testBalance.categoryList.get(3), "Other");
         assertEquals(testBalance.nameList.get(3),"Pikachu");
         assertEquals((Float) testBalance.costList.get(3),97, 0.01);
-    }
-
-    @Test
-    public void testSaveNoChange() throws IOException{
-        testLoad();
     }
 
     @Test
