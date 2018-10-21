@@ -34,6 +34,8 @@ public abstract class Expense {
     }
 
     // EFFECTS: returns report name
-    protected abstract String getReportName();
+    protected String getReportName() {
+        return reportName;
+    }
 
 }

@@ -14,7 +14,7 @@ public class ExpenseReport extends Report {
     private Expense other = Balances.other;
 
     // EFFECTS: Constructs expense report
-    public ExpenseReport() {
+    protected ExpenseReport() {
         reportName = "Expense";
         balance = String.format("%.2f", Balances.bal.getExpenses());
     }

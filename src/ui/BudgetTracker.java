@@ -21,7 +21,7 @@ public class BudgetTracker {
     //              - if 4 is entered, save and exit
     public BudgetTracker() throws IOException {
         Operations op = new Operations();
-        ReportPrinter report = ReportPrinter.report;
+        ReportPrinter report = new ReportPrinter();
         op.load("budgetinput.txt");
         loop:
         while (true) {
@@ -98,13 +98,9 @@ public class BudgetTracker {
                 return "Transportation";
             case "5":
                 return "Rent";
+            default:
+                return "Other";
         }
-        return "Other";
-    }
-
-    //EFFECTS: runs the program
-    public static void main(String[] args) throws IOException {
-        new BudgetTracker();
     }
 }
 

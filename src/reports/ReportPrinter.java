@@ -3,7 +3,7 @@ package reports;
 import model.Balances;
 
 public class ReportPrinter {
-    public static ReportPrinter report = new ReportPrinter();
+
 
     // EFFECTS: Displays total subtotal, total income, total expenses, and list of expenses
     public void runReports() {

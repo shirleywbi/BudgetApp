@@ -6,8 +6,8 @@ public abstract class Report {
     protected String balance;
 
     public Report() {
-        reportName = "";
-        balance = "";
+        this.reportName = "";
+        this.balance = "";
     }
 
     // EFFECTS: Prints and returns the subtotal

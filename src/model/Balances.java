@@ -81,10 +81,10 @@ public class Balances {
             case "Transportation":
                 transportation.addSubExpense(cost);
                 return transportation.getSubExpense();
+            default:
+                other.addSubExpense(cost);
+                return other.getSubExpense();
         }
-        other.addSubExpense(cost);
-        return other.getSubExpense();
     }
-
 }
 

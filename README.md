@@ -69,7 +69,7 @@ Stage 5:
 
 1. Changed interfaces to abstract class.
 2. Entertainment and Health categories added.
-***TO ADD OVERRIDE FOR ABSTRACT
+3. Added Expense percentages to report.
 
 TO-DO:
 - Merge object for list of expenses
