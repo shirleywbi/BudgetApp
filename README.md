@@ -12,8 +12,8 @@ Possible Capabilities (TBD):
 - inputting your income and expenses
 - categorizing your expenses
 - print report to indicate:
-	- total income
-	- total money spent
+	- expenseTotal income
+	- expenseTotal money spent
 	- breakdown of expenses
 
 *********************************************************************
@@ -37,13 +37,13 @@ Main interaction screen:
 [3] Show report
 [4] Exit
 
-If user types in "1", they will be asked "Enter your income:". The number would be added to the total balance. 
+If user types in "1", they will be asked "Enter your income:". The number would be added to the expenseTotal balance.
 If user types in "2", they will be asked the following:
 	"Enter name of expense:"
 	"Cost:"
 	The expense and cost will be saved.
 	Print the name of the expense and its cost.
-If user types in "3", show summary report of total income, total expenses, list of expense names and costs, and current balance. 
+If user types in "3", show summary report of expenseTotal income, expenseTotal expenses, list of expense names and costs, and current balance.
 If user types in "4", exit program.
 
 *********************************************************************
@@ -62,7 +62,7 @@ Stage 4: Types, Interfaces and Saving
 1. Added load and save feature.
 2. Added two interfaces: Reports and Expenses
 3. Added ability to categorize expenses to pre-built categories.
-4. Updated report to provide a subtotal of each expense category.
+4. Updated report to provide a expenseTotal of each expense category.
 
 *********************************************************************
 Stage 5:
@@ -71,17 +71,23 @@ Stage 5:
 2. Entertainment and Health categories added.
 3. Added Expense percentages to report.
 
+*********************************************************************
+Stage 6: Robustness
+
+1. Added exceptions:
+    - SavingsBeingUsedExceptionTest - in BalanceReport and ReportPrinter
+    - NegativeAmountExceptionTest, NumberFormatExceptionTest, and InvalidEntryExceptionTest - in BudgetTracker
+    Exceptions allowed for system to not crash when invalid input was entered.
+2. Rearranged Balances and Expenses
+
 TO-DO:
 - Merge object for list of expenses
-- Possibly create a set of all categories
-- To expand expense categories.
-	- To be able to add categories
+- Possibly create a set of all categories - pending HashSet execution
+- To allow editing of expense categories
 - Fix bugs:
 	- Spacing in expense names when saving/loading
-	- invalid input
-		- prompt user when invalid input is provided
 - Pull up information from the file.
 - Add option to go back to main
 - Add dates to expense log.
 - Create visuals for the report (e.g., charts and graphs)
-- Add filter for string inputs into incomeEntry.
+

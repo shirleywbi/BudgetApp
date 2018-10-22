@@ -1,13 +1,17 @@
 package reports;
 
-// abstract class Report with method getReport()
+import ui.BudgetTracker;
+
+// abstract class Report
 public abstract class Report {
     protected String reportName;
-    protected String balance;
+    protected float balance;
 
-    public Report() {
-        this.reportName = "";
-        this.balance = "";
+    public float expense = BudgetTracker.expense.getExpense();
+    public float income = BudgetTracker.income.getIncome();
+
+    public Report(String reportName) {
+        this.reportName = reportName;
     }
 
     // EFFECTS: Prints and returns the subtotal

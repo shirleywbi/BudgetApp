@@ -1,14 +1,20 @@
 package ui;
 
-import model.Balances;
+import exceptions.NegativeAmountException;
+import exceptions.InvalidEntryException;
+import model.Income;
+import model.expenses.*;
 import reports.ReportPrinter;
 
 import java.io.IOException;
 import java.util.Scanner;
 
 public class BudgetTracker {
-    private Balances balances = Balances.bal;
-    private Scanner entry = new Scanner(System.in);
+    //TODO: create a condition for when to show Menu
+    //private boolean showMenu = true;
+    public Scanner entry = new Scanner(System.in);
+    public static Expense expense = new Expense();
+    public static Income income = new Income();
 
     // REQUIRES: initial prompt entry between 1-4 (inclusive) and monetary values as numbers
     // MODIFIES: this, balances, reports
@@ -19,7 +25,7 @@ public class BudgetTracker {
     //              - if 3 is entered, show report of total income, total expense, expense list of names and costs,
     //                and subtotal
     //              - if 4 is entered, save and exit
-    public BudgetTracker() throws IOException {
+    public void runBudgetTracker() throws IOException, NegativeAmountException {
         Operations op = new Operations();
         ReportPrinter report = new ReportPrinter();
         op.load("budgetinput.txt");
@@ -29,13 +35,23 @@ public class BudgetTracker {
             String option = entry.nextLine();
             switch (option) {
                 case "1":
-                    logIncome();
+                    try {
+                        logIncome();
+                    } catch (InvalidEntryException e) {
+                        System.out.println("Invalid input. Please try again.");
+                    } finally {
+                        System.out.println("Current Income: " + income.getIncome());
+                    }
                     break;
                 case "2":
-                    logExpense();
+                    try {
+                        logExpense();
+                    } catch (InvalidEntryException e) {
+                        System.out.println("Invalid input. Please select a number from 1 to 6.");
+                    }
                     break;
                 case "3":
-                    report.runReports();
+                        report.runReports();
                     break;
                 case "4":
                     op.save("budgetoutput.txt");
@@ -55,30 +71,45 @@ public class BudgetTracker {
 
     // MODIFIES: this, balances
     // EFFECTS: prompts and adds user inputted income to total income
-    private void logIncome() {
+    public void logIncome() throws NegativeAmountException {
         System.out.println("Enter your income:");
-        balances.addIncome(Float.valueOf(entry.nextLine()));
+        try {
+            float pendingIncome = Float.parseFloat(entry.nextLine());
+            if (pendingIncome < 0) {
+                throw new NegativeAmountException();
+            } else {
+                income.addIncome(pendingIncome);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a number.");
+        }
     }
 
     // MODIFIES: this, balances
     // EFFECTS: prompts and saves user input for expense category, name and cost, and displays it back to the user
-    private void logExpense() {
+    private void logExpense() throws InvalidEntryException {
         String expenseCategory = categorizeExpense();
         System.out.println("Enter name of expense:");
         String expenseNameEntry = entry.nextLine();
         System.out.println("Enter the cost:");
-        float expenseCostEntry = Float.valueOf(entry.nextLine());
-        balances.addExpense(expenseCostEntry);
-        balances.addExpenseEntry(expenseNameEntry, expenseCostEntry, expenseCategory);
-        balances.addSubExpense(expenseCategory, expenseCostEntry);
-        System.out.printf("Item: " + expenseNameEntry + "%nCategory: " + expenseCategory + "%nCost: $ %.2f %n", expenseCostEntry);
+        try {
+            float expenseCostEntry = Float.parseFloat(entry.nextLine());
+            expense.addExpense(expenseCostEntry);
+            expense.addExpenseItem(expenseNameEntry, expenseCostEntry, expenseCategory);
+            expense.sortSubExpense(expenseCategory, expenseCostEntry);
+            System.out.printf("Item: " + expenseNameEntry + "%nCategory: " + expenseCategory + "%nCost: $ %.2f %n", expenseCostEntry);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a number.");
+        } catch (NegativeAmountException e) {
+            System.out.println("Invalid input. Please enter a positive number.");
+        }
     }
 
     // MODIFIES: this
     // EFFECTS: converts inputted numbers 1-6 to expense categories,
     //          where 1 = Food, 2 = Entertainment, 3 = Health, 4 = Transportation, 5 = Rent, 6 = Other
     //          if input is other than 1-6, the expense is categorized as "Other"
-    private String categorizeExpense() {
+    public String categorizeExpense() throws NumberFormatException, InvalidEntryException {
         System.out.printf("Select Category: %n" +
                 "[1] Food %n" +
                 "[2] Entertainment %n" +
@@ -98,8 +129,10 @@ public class BudgetTracker {
                 return "Transportation";
             case "5":
                 return "Rent";
-            default:
+            case "6":
                 return "Other";
+            default:
+                throw new InvalidEntryException();
         }
     }
 }
@@ -108,3 +141,4 @@ public class BudgetTracker {
 //overall format of BudgetTracker referenced from LoggingCalculator
 //converting numbers to string referenced from https://docs.oracle.com/javase/tutorial/java/data/converting.html
 //save() and splitOnSpace() methods originally referenced from FileReaderWriter
+//parsing float referenced from https://www.geeksforgeeks.org/check-if-a-given-string-is-a-valid-number-integer-or-floating-point-in-java/

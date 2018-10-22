@@ -1,7 +1,8 @@
 package ui;
 
+import exceptions.NegativeAmountException;
+import model.Income;
 import model.expenses.Expense;
-import model.Balances;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,13 +13,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Operations {
-    private Balances balances = Balances.bal;
-    private Expense foodSubtotal = Balances.food;
-    private Expense entertainmentSubtotal = Balances.entertainment;
-    private Expense healthSubtotal = Balances.health;
-    private Expense transportationSubtotal = Balances.transportation;
-    private Expense rentSubtotal = Balances.rent;
-    private Expense otherSubtotal = Balances.other;
+    private Expense expense = BudgetTracker.expense;
+    private Income income = BudgetTracker.income;
+    private Expense food = Expense.food;
+    private Expense entertainment = Expense.entertainment;
+    private Expense health = Expense.health;
+    private Expense transportation = Expense.transportation;
+    private Expense rent = Expense.rent;
+    private Expense other = Expense.other;
 
     // REQUIRES: .txt file in the form of:
     //           Total Income: XXX"
@@ -27,34 +29,35 @@ public class Operations {
     //           <Category> <Name> <Cost>
     // MODIFIES: this
     // EFFECTS: loads income, expenses, list of expenses from budgetinput file
-    public void load(String filename) throws IOException {
+    public void load(String filename) throws IOException, NegativeAmountException {
         List<String> lines = Files.readAllLines(Paths.get(filename));
         for (String line : lines) {
             ArrayList<String> partsOfBalance = splitOnSpace(line, ": ");
             ArrayList<String> partsOfExpense = splitOnSpace(line, " ");
             if (line.contains("Total Income:")) {
-                Balances.income = (Float.valueOf(partsOfBalance.get(1)));
+                income.setIncome((Float.valueOf(partsOfBalance.get(1))));
             } else if (line.contains("Total Expenses:")) {
-                Balances.expenses = (Float.valueOf(partsOfBalance.get(1)));
+                expense.setExpense((Float.valueOf(partsOfBalance.get(1))));
             } else if (line.contains("List of Expenses:")) {
                 System.out.println("");
             } else {
                 if (!line.isEmpty()) {
-                    balances.categoryList.add(partsOfExpense.get(0));
-                    balances.nameList.add(partsOfExpense.get(1));
-                    balances.costList.add(Float.valueOf(partsOfExpense.get(2)));
+                    String category = partsOfExpense.get(0);
+                    String name = partsOfExpense.get(1);
+                    float cost = Float.valueOf(partsOfExpense.get(2));
+                    expense.addExpenseItem(name,cost,category);
                     if (partsOfExpense.get(0).equals("Food")) {
-                        foodSubtotal.addSubExpense(Float.valueOf(partsOfExpense.get(2)));
+                        food.addExpense(Float.valueOf(partsOfExpense.get(2)));
                     } else if (partsOfExpense.get(0).equals("Entertainment")) {
-                        entertainmentSubtotal.addSubExpense(Float.valueOf(partsOfExpense.get(2)));
+                        entertainment.addExpense(Float.valueOf(partsOfExpense.get(2)));
                     } else if (partsOfExpense.get(0).equals("Health")) {
-                        healthSubtotal.addSubExpense(Float.valueOf(partsOfExpense.get(2)));
+                        health.addExpense(Float.valueOf(partsOfExpense.get(2)));
                     } else if (partsOfExpense.get(0).equals("Transportation")) {
-                        transportationSubtotal.addSubExpense(Float.valueOf(partsOfExpense.get(2)));
+                        transportation.addExpense(Float.valueOf(partsOfExpense.get(2)));
                     } else if (partsOfExpense.get(0).equals("Rent")) {
-                        rentSubtotal.addSubExpense(Float.valueOf(partsOfExpense.get(2)));
+                        rent.addExpense(Float.valueOf(partsOfExpense.get(2)));
                     } else {
-                        otherSubtotal.addSubExpense(Float.valueOf(partsOfExpense.get(2)));
+                        other.addExpense(Float.valueOf(partsOfExpense.get(2)));
                     }
                 }
             }
@@ -71,13 +74,13 @@ public class Operations {
     public void save(String filename) throws IOException {
         ArrayList<String> lines = new ArrayList<>();
         PrintWriter writer = new PrintWriter(filename, "UTF-8");
-        lines.add("Total Income: " + balances.getIncome());
-        lines.add("Total Expenses: " + balances.getExpenses());
+        lines.add("Total Income: " + income.getIncome());
+        lines.add("Total Expenses: " + expense.getExpense());
         lines.add("List of Expenses:");
-        for (Integer i = 0; i < balances.nameList.size(); i++) {
-            lines.add(balances.categoryList.get(i) + " "
-                    + balances.nameList.get(i) + " "
-                    + String.format("%.2f",balances.costList.get(i)));
+        for (Integer i = 0; i < expense.getExpenseNameList().size(); i++) {
+            lines.add(expense.getExpenseCategoryList().get(i) + " "
+                    + expense.getExpenseNameList().get(i) + " "
+                    + String.format("%.2f",expense.getExpenseCostList().get(i)));
         }
         for (String line : lines) {
             System.out.println(line);
@@ -85,5 +88,10 @@ public class Operations {
         }
         writer.close();
     }
+
+    //getter for income for testing
+    public Income getIncome() {return BudgetTracker.income;}
+    //getter for expense for testing
+    public Expense getExpense() {return BudgetTracker.expense;}
 
 }
