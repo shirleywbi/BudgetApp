@@ -1,11 +1,10 @@
 package test;
 
 import model.Income;
-import model.expenses.Expense;
+import model.Expense;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import reports.BalanceReport;
-import reports.Report;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,7 +25,7 @@ public class ReportTest {
     public void testGetBalanceZero() {
         income.setIncome(0);
         expense.setExpense(0);
-        float balance = income.getIncome() - expense.getExpense();
+        float balance = income.getIncomeTotal() - expense.getExpenseTotal();
         assertEquals(balanceReport.getBalance(), balance);
 
     }
@@ -36,8 +35,8 @@ public class ReportTest {
     public void testGetBalance() {
         income.setIncome(500);
         expense.setExpense(300);
-        assertEquals(income.getIncome(),500);
-        assertEquals(expense.getExpense(),300);
+        assertEquals(income.getIncomeTotal(),500);
+        assertEquals(expense.getExpenseTotal(),300);
         assertEquals(balanceReport.getBalance(), 200);
 
     }

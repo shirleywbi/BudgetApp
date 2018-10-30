@@ -91,3 +91,20 @@ TO-DO:
 - Add dates to expense log.
 - Create visuals for the report (e.g., charts and graphs)
 
+*********************************************************************
+Stage 8: Data Relationships
+
+1. Set up and maintain a reflexive relationship: syncing add, remove (Persons and Income)
+2. Introduce a comparison, and override hashcode and equals to make it work (Persons and Income)
+- run via tests, not in main
+3. Changed design to reduce coupling by removing categories and changing it to a list
+4. Added hash map of categories for expense menu option
+5. Created ExpenseItem object to merge lists of categories, costs, and expense names
+
+TO-DO:
+- Add dates to expense log.
+- Add option to go back to main
+- Create visuals for the report (e.g., charts and graphs)
+- To allow editing of expense categories
+- Fix bugs:
+	- Spacing in expense names when saving/loading

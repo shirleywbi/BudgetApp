@@ -2,7 +2,8 @@ package ui;
 
 import exceptions.NegativeAmountException;
 import model.Income;
-import model.expenses.Expense;
+import model.Expense;
+import model.ExpenseItem;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -45,7 +46,8 @@ public class Operations {
                     String category = partsOfExpense.get(0);
                     String name = partsOfExpense.get(1);
                     float cost = Float.valueOf(partsOfExpense.get(2));
-                    expense.addExpenseItem(name,cost,category);
+                    ExpenseItem loadedExpense = new ExpenseItem(name, category, cost);
+                    expense.expenseItems.add(loadedExpense);
                     if (partsOfExpense.get(0).equals("Food")) {
                         food.addExpense(Float.valueOf(partsOfExpense.get(2)));
                     } else if (partsOfExpense.get(0).equals("Entertainment")) {
@@ -74,13 +76,13 @@ public class Operations {
     public void save(String filename) throws IOException {
         ArrayList<String> lines = new ArrayList<>();
         PrintWriter writer = new PrintWriter(filename, "UTF-8");
-        lines.add("Total Income: " + income.getIncome());
-        lines.add("Total Expenses: " + expense.getExpense());
+        lines.add("Total Income: " + income.getIncomeTotal());
+        lines.add("Total Expenses: " + expense.getExpenseTotal());
         lines.add("List of Expenses:");
-        for (Integer i = 0; i < expense.getExpenseNameList().size(); i++) {
-            lines.add(expense.getExpenseCategoryList().get(i) + " "
-                    + expense.getExpenseNameList().get(i) + " "
-                    + String.format("%.2f",expense.getExpenseCostList().get(i)));
+        for (Integer i = 0; i < expense.expenseItems.size(); i++) {
+            lines.add(expense.expenseItems.get(i).getExpenseItemCategory() + " "
+                    + expense.expenseItems.get(i).getExpenseItemName() + " "
+                    + String.format("%.2f",expense.expenseItems.get(i).getExpenseItemCost()));
         }
         for (String line : lines) {
             System.out.println(line);

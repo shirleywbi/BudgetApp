@@ -6,15 +6,14 @@ public class BalanceReport extends Report {
 
     // EFFECTS: Constructs balance report
     public BalanceReport() {
-        super("Balance");
+        super("BALANCE");
         balance = getBalance();
     }
 
     // MODIFIES: this
     // EFFECTS: returns income - expenses
     public float getBalance() {
-        float balance = income - expense;
-        return balance;
+        return income - expense;
     }
 
     // EFFECTS: Prints and returns the subtotal

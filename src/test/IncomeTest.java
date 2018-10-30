@@ -16,26 +16,26 @@ public class IncomeTest {
 
     @Test
     public void testInitialIncome() {
-        assertTrue(income.getIncome() == 0);
+        assertTrue(income.getIncomeTotal() == 0);
     }
 
     @Test
     public void testAddIncomeZero() {
         income.addIncome(0);
-        assertTrue(income.getIncome() == 0);
+        assertTrue(income.getIncomeTotal() == 0);
     }
 
     @Test
     public void testAddIncomeOne() {
         income.addIncome(1);
-        assertTrue(income.getIncome() == 1);
+        assertTrue(income.getIncomeTotal() == 1);
     }
 
     @Test
     public void testAddIncomeMore() {
         income.addIncome(1000);
-        assertTrue(income.getIncome() == 1000);
+        assertTrue(income.getIncomeTotal() == 1000);
         income.addIncome(500);
-        assertTrue(income.getIncome() == 1500);
+        assertTrue(income.getIncomeTotal() == 1500);
     }
 }

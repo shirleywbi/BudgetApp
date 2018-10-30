@@ -2,8 +2,6 @@ package reports;
 
 import exceptions.SavingsBeingUsedException;
 
-import static ui.BudgetTracker.expense;
-
 public class ReportPrinter{
 
     // EFFECTS: Displays total subtotal, total income, total expenses, and list of expenses
@@ -14,16 +12,16 @@ public class ReportPrinter{
 
         System.out.printf("*********************************%n");
         try {
-            float balanceAmount = balanceReport.balance;
-            balanceReport.getReport("Balance", balanceAmount);
+            float balanceAmount = balanceReport.getBalance();
+            balanceReport.getReport(balanceReport.getReportName(), balanceAmount);
         } catch (SavingsBeingUsedException e) {
             System.out.println("WARNING: Your expenses have exceeded your income.");
         } finally {
-            float incomeAmount = incomeReport.balance;
-            incomeReport.getReport("Income", incomeAmount);
-            float expenseAmount = expenseReport.expense;
-            expenseReport.getReport("Expense", expenseAmount);
-            expense.getExpenseList();
+            float incomeAmount = incomeReport.getBalance();
+            incomeReport.getReport(incomeReport.getReportName(), incomeAmount);
+            float expenseAmount = expenseReport.expense.getExpenseTotal();
+            expenseReport.getReport(expenseReport.getReportName(), expenseAmount);
+            expenseReport.getExpenseList();
             expenseReport.getExpenseBreakdown();
             expenseReport.expensePercentile();
             System.out.println("*********************************");

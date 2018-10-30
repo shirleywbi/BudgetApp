@@ -7,8 +7,8 @@ public abstract class Report {
     protected String reportName;
     protected float balance;
 
-    public float expense = BudgetTracker.expense.getExpense();
-    public float income = BudgetTracker.income.getIncome();
+    public float expense = BudgetTracker.expense.getExpenseTotal();
+    public float income = BudgetTracker.income.getIncomeTotal();
 
     public Report(String reportName) {
         this.reportName = reportName;
@@ -20,4 +20,18 @@ public abstract class Report {
         System.out.println(report);
         return report;
     }
+
+    public String getReportName() {
+        return reportName;
+    }
+
+    public float getBalance() {
+        return balance;
+    }
+
+    public void printLine() {
+        System.out.println("*********************************");
+    }
+
+
 }
