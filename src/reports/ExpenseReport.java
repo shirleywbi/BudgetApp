@@ -2,7 +2,6 @@ package reports;
 
 import model.expenses.*;
 
-// class ExpenseReport with method getReport() and getExpenseList()
 public class ExpenseReport extends Report {
 
     private Expense food = Expense.food;
@@ -22,17 +21,11 @@ public class ExpenseReport extends Report {
     // EFFECTS: Displays subtotals of each expense category
     public void getExpenseBreakdown() {
         System.out.println("Expense Categories:");
-        System.out.print("         ");
         food.getReport(food.getExpenseName(), food.getExpense());
-        System.out.print("         ");
         entertainment.getReport(entertainment.getExpenseName(), entertainment.getExpense());
-        System.out.print("         ");
         health.getReport(health.getExpenseName(), health.getExpense());
-        System.out.print("         ");
         transportation.getReport(transportation.getExpenseName(), transportation.getExpense());
-        System.out.print("         ");
         rent.getReport(rent.getExpenseName(), rent.getExpense());
-        System.out.print("         ");
         other.getReport(other.getExpenseName(), other.getExpense());
     }
 

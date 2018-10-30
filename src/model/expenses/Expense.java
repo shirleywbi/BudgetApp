@@ -2,13 +2,14 @@ package model.expenses;
 
 import exceptions.NegativeAmountException;
 
-import java.util.ArrayList;
-//import java.util.HashSet;
+import java.util.*;
 
 public class Expense {
     protected String expenseName;
     protected float expenseTotal;
-//    private HashSet<Expense> expenseCategories;
+    public List<String> expenseCategories = new ArrayList<>(Arrays.asList
+        ("Food", "Entertainment", "Health", "Rent", "Transportation", "Other"));
+    private List<ExpenseItem> expenses = new ArrayList<>();
 
     public static Expense food = new Food("Food",0);
     public static Expense entertainment = new Entertainment("Entertainment",0);
@@ -18,7 +19,7 @@ public class Expense {
     public static Expense other = new Other("Other",0);
 
     private ArrayList<String> nameList = new ArrayList<>();
-    private ArrayList<Number> costList = new ArrayList<>();
+    private ArrayList<Float> costList = new ArrayList<>();
     private ArrayList<String> categoryList = new ArrayList<>();
 
     // EFFECTS: constructs expense with 0 expenses
@@ -32,21 +33,9 @@ public class Expense {
         this.expenseTotal = expenseTotal;
     }
 
-//    // MODIFIES: this
-//    // EFFECTS: initializes set of expense categories
-//    private void setupCategories(){
-//        expenseCategories = new HashSet<>();
-//        expenseCategories.add(food);
-//        expenseCategories.add(entertainment);
-//        expenseCategories.add(health);
-//        expenseCategories.add(transportation);
-//        expenseCategories.add(rent);
-//        expenseCategories.add(other);
-//    }
-
     // EFFECTS: prints and returns report name and total expense
     public String getReport(String reportName, float expenseTotal) {
-        String report = reportName + ": $" + String.format("%.2f",expenseTotal);
+        String report = "         " + reportName + ": $" + String.format("%.2f",expenseTotal);
         System.out.println(report);
         return report;
     }
@@ -80,7 +69,7 @@ public class Expense {
     }
 
     // EFFECTS: returns list of expense costs
-    public ArrayList<Number> getExpenseCostList() {
+    public ArrayList<Float> getExpenseCostList() {
         return costList;
     }
 
@@ -93,12 +82,11 @@ public class Expense {
     // REQUIRES: num >= 0
     // MODIFIES: this
     // EFFECTS: Adds num to the total expense
-    public float addExpense(float num) throws NegativeAmountException {
+    public void addExpense(float num) throws NegativeAmountException {
         if (num < 0) {
             throw new NegativeAmountException();
         }
         expenseTotal += num;
-        return expenseTotal;
     }
 
     // MODIFIES: this

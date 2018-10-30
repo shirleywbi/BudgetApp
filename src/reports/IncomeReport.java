@@ -1,8 +1,5 @@
 package reports;
 
-import model.Income;
-import ui.BudgetTracker;
-
 // class IncomeReport with method getReport()
 public class IncomeReport extends Report {
 

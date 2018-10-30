@@ -54,6 +54,7 @@ public class SavingsBeingUsedExceptionTest {
         try {
             balanceReport.getReport("Balance", -500);
             assertTrue(balanceReport.getBalance() == -500);
+            fail("No exception was thrown");
         } catch (SavingsBeingUsedException e) {
             //do nothing
         }

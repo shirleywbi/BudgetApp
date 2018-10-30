@@ -114,6 +114,7 @@ public class InvalidEntryExceptionTest {
         assertEquals(budgetTracker.expense.getExpense(), 0);
         try {
             budgetTracker.expense.addExpense(-1);
+            fail("No exception was thrown");
         } catch (NegativeAmountException e) {
             //do nothing
         }
@@ -141,6 +142,7 @@ public class InvalidEntryExceptionTest {
         try {
             String category = budgetTracker.categorizeExpense();
             assertEquals(category, null);
+            fail("No exception was thrown");
         } catch (InvalidEntryException e) {
             //do nothing
         }
@@ -154,6 +156,7 @@ public class InvalidEntryExceptionTest {
         try {
             String category = budgetTracker.categorizeExpense();
             assertEquals(category, null);
+            fail("No exception was thrown");
         } catch (InvalidEntryException e) {
             //do nothing
         }

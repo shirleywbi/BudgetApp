@@ -7,6 +7,8 @@ import model.expenses.*;
 import reports.ReportPrinter;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class BudgetTracker {
@@ -15,6 +17,7 @@ public class BudgetTracker {
     public Scanner entry = new Scanner(System.in);
     public static Expense expense = new Expense();
     public static Income income = new Income();
+    Map<String, String> expenseCategories = new HashMap<>();
 
     // REQUIRES: initial prompt entry between 1-4 (inclusive) and monetary values as numbers
     // MODIFIES: this, balances, reports
@@ -25,10 +28,15 @@ public class BudgetTracker {
     //              - if 3 is entered, show report of total income, total expense, expense list of names and costs,
     //                and subtotal
     //              - if 4 is entered, save and exit
-    public void runBudgetTracker() throws IOException, NegativeAmountException {
+    public void runBudgetTracker() throws IOException {
         Operations op = new Operations();
         ReportPrinter report = new ReportPrinter();
-        op.load("budgetinput.txt");
+        setupExpenseCategories();
+        try {
+            op.load("budgetinput.txt");
+        } catch (NegativeAmountException e) {
+            System.out.println("File contains negative expenses.");
+        }
         loop:
         while (true) {
             mainMenuPrompt();
@@ -51,7 +59,7 @@ public class BudgetTracker {
                     }
                     break;
                 case "3":
-                        report.runReports();
+                    report.runReports();
                     break;
                 case "4":
                     op.save("budgetoutput.txt");
@@ -108,33 +116,34 @@ public class BudgetTracker {
     // MODIFIES: this
     // EFFECTS: converts inputted numbers 1-6 to expense categories,
     //          where 1 = Food, 2 = Entertainment, 3 = Health, 4 = Transportation, 5 = Rent, 6 = Other
-    //          if input is other than 1-6, the expense is categorized as "Other"
-    public String categorizeExpense() throws NumberFormatException, InvalidEntryException {
+    public String categorizeExpense() throws InvalidEntryException {
         System.out.printf("Select Category: %n" +
-                "[1] Food %n" +
-                "[2] Entertainment %n" +
-                "[3] Health %n" +
-                "[4] Transportation %n" +
-                "[5] Rent %n" +
-                "[6] Other %n");
-        String category = entry.nextLine();
-        switch (category) {
-            case "1":
-                return "Food";
-            case "2":
-                return "Entertainment";
-            case "3":
-                return "Health";
-            case "4":
-                return "Transportation";
-            case "5":
-                return "Rent";
-            case "6":
-                return "Other";
-            default:
-                throw new InvalidEntryException();
-        }
+                "[1] " + expenseCategories.get("1") + "%n" +
+                "[2] " + expenseCategories.get("2") + "%n" +
+                "[3] " + expenseCategories.get("3") + "%n" +
+                "[4] " + expenseCategories.get("4") + "%n" +
+                "[5] " + expenseCategories.get("5") + "%n" +
+                "[6] " + expenseCategories.get("6") + "%n");
+        String selection = entry.nextLine();
+            String category = expenseCategories.get(selection);
+            if (category != null) {
+                return category;
+            }
+            throw new InvalidEntryException();
     }
+
+    // EFFECTS: sets up expense categories:
+    //          where 1 = Food, 2 = Entertainment, 3 = Health, 4 = Transportation, 5 = Rent, 6 = Other
+    private void setupExpenseCategories() {
+        expenseCategories.put("1","Food");
+        expenseCategories.put("2","Entertainment");
+        expenseCategories.put("3","Health");
+        expenseCategories.put("4","Transportation");
+        expenseCategories.put("5","Rent");
+        expenseCategories.put("6","Other");
+    }
+
+
 }
 
 

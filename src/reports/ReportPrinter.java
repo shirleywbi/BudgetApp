@@ -14,12 +14,15 @@ public class ReportPrinter{
 
         System.out.printf("*********************************%n");
         try {
-            balanceReport.getReport("Balance", balanceReport.balance);
+            float balanceAmount = balanceReport.balance;
+            balanceReport.getReport("Balance", balanceAmount);
         } catch (SavingsBeingUsedException e) {
             System.out.println("WARNING: Your expenses have exceeded your income.");
         } finally {
-            incomeReport.getReport("Income", incomeReport.balance);
-            expenseReport.getReport("Expense", expenseReport.balance);
+            float incomeAmount = incomeReport.balance;
+            incomeReport.getReport("Income", incomeAmount);
+            float expenseAmount = expenseReport.expense;
+            expenseReport.getReport("Expense", expenseAmount);
             expense.getExpenseList();
             expenseReport.getExpenseBreakdown();
             expenseReport.expensePercentile();
