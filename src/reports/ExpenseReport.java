@@ -21,55 +21,52 @@ public class ExpenseReport extends Report {
 
     // EFFECTS: Displays list of expenses; if no expenses, shows nothing
     public void getExpenseList() {
-        printLine();
         System.out.println("EXPENSE LIST:");
-        for (Integer i = 0; i < expense.expenseItems.size(); i++) {
-            System.out.printf(expense.expenseItems.get(i).getExpenseItemCategory() + " "
-                    + expense.expenseItems.get(i).getExpenseItemName()
-                    + " $%.2f" + "%n", expense.expenseItems.get(i).getExpenseItemCost());
+        for (Integer i = 0; i < expense.getExpenseItems().size(); i++) {
+            System.out.printf(expense.getExpenseItems().get(i).getExpenseItemCategory() + " "
+                    + expense.getExpenseItems().get(i).getExpenseItemName()
+                    + " $%.2f" + "%n", expense.getExpenseItems().get(i).getExpenseItemCost());
         }
     }
 
     // EFFECTS: Displays subtotals of each expense category
     public void getExpenseBreakdown() {
-        printLine();
         System.out.println("EXPENSE CATEGORIES:");
-        getReport(food.getExpenseCategory(), food.getExpenseTotal());
-        getReport(entertainment.getExpenseCategory(), entertainment.getExpenseTotal());
-        getReport(health.getExpenseCategory(), health.getExpenseTotal());
-        getReport(transportation.getExpenseCategory(), transportation.getExpenseTotal());
-        getReport(rent.getExpenseCategory(), rent.getExpenseTotal());
-        getReport(other.getExpenseCategory(), other.getExpenseTotal());
+        getReport(food.getExpenseCategoryName(), food.getExpenseAmount());
+        getReport(entertainment.getExpenseCategoryName(), entertainment.getExpenseAmount());
+        getReport(health.getExpenseCategoryName(), health.getExpenseAmount());
+        getReport(transportation.getExpenseCategoryName(), transportation.getExpenseAmount());
+        getReport(rent.getExpenseCategoryName(), rent.getExpenseAmount());
+        getReport(other.getExpenseCategoryName(), other.getExpenseAmount());
     }
 
     @Override
     // EFFECTS: prints and returns report name and total expense
-    public String getReport(String reportName, float expenseTotal) {
+    public void getReport(String reportName, float expenseTotal) {
         String report = reportName + ": $" + String.format("%.2f", expenseTotal);
         System.out.println(report);
-        return report;
     }
 
     //EFFECTS: calculates and prints percentage of money spent in each expense category
-    public void expensePercentile() {
-        float foodPercent = calculatePercent(food.getExpenseTotal());
-        float entertainmentPercent = calculatePercent(entertainment.getExpenseTotal());
-        float healthPercent = calculatePercent(health.getExpenseTotal());
-        float transportPercent = calculatePercent(transportation.getExpenseTotal());
-        float rentPercent = calculatePercent(rent.getExpenseTotal());
-        float otherPercent = calculatePercent(other.getExpenseTotal());
+    public void calculateAllCategoryPercent() {
+        float foodPercent = calculateOneCategoryPercent(food.getExpenseAmount());
+        float entertainmentPercent = calculateOneCategoryPercent(entertainment.getExpenseAmount());
+        float healthPercent = calculateOneCategoryPercent(health.getExpenseAmount());
+        float transportPercent = calculateOneCategoryPercent(transportation.getExpenseAmount());
+        float rentPercent = calculateOneCategoryPercent(rent.getExpenseAmount());
+        float otherPercent = calculateOneCategoryPercent(other.getExpenseAmount());
         System.out.println("*********************************");
         System.out.println("PERCENT BREAKDOWN:");
-        System.out.printf(food.getExpenseCategory() + ": %.2f %% %n", foodPercent);
-        System.out.printf(entertainment.getExpenseCategory() + ": %.2f %% %n", entertainmentPercent);
-        System.out.printf(health.getExpenseCategory() + ": %.2f %% %n", healthPercent);
-        System.out.printf(transportation.getExpenseCategory() + ": %.2f %% %n", transportPercent);
-        System.out.printf(rent.getExpenseCategory() + ": %.2f %% %n", rentPercent);
-        System.out.printf(other.getExpenseCategory() + ": %.2f %% %n", otherPercent);
+        System.out.printf(food.getExpenseCategoryName() + ": %.2f %% %n", foodPercent);
+        System.out.printf(entertainment.getExpenseCategoryName() + ": %.2f %% %n", entertainmentPercent);
+        System.out.printf(health.getExpenseCategoryName() + ": %.2f %% %n", healthPercent);
+        System.out.printf(transportation.getExpenseCategoryName() + ": %.2f %% %n", transportPercent);
+        System.out.printf(rent.getExpenseCategoryName() + ": %.2f %% %n", rentPercent);
+        System.out.printf(other.getExpenseCategoryName() + ": %.2f %% %n", otherPercent);
     }
 
     // EFFECTS: returns percentage of cost to total expense
-    private float calculatePercent(float cost) {
+    private float calculateOneCategoryPercent(float cost) {
         return cost / super.expense * 100;
     }
 

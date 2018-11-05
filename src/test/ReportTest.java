@@ -25,7 +25,7 @@ public class ReportTest {
     public void testGetBalanceZero() {
         income.setIncome(0);
         expense.setExpense(0);
-        float balance = income.getIncomeTotal() - expense.getExpenseTotal();
+        float balance = income.getIncomeTotal() - expense.getExpenseAmount();
         assertEquals(balanceReport.getBalance(), balance);
 
     }
@@ -36,7 +36,7 @@ public class ReportTest {
         income.setIncome(500);
         expense.setExpense(300);
         assertEquals(income.getIncomeTotal(),500);
-        assertEquals(expense.getExpenseTotal(),300);
+        assertEquals(expense.getExpenseAmount(),300);
         assertEquals(balanceReport.getBalance(), 200);
 
     }

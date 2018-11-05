@@ -47,19 +47,19 @@ public class Operations {
                     String name = partsOfExpense.get(1);
                     float cost = Float.valueOf(partsOfExpense.get(2));
                     ExpenseItem loadedExpense = new ExpenseItem(name, category, cost);
-                    expense.expenseItems.add(loadedExpense);
+                    expense.addExpenseItem(loadedExpense);
                     if (partsOfExpense.get(0).equals("Food")) {
-                        food.addExpense(Float.valueOf(partsOfExpense.get(2)));
+                        food.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
                     } else if (partsOfExpense.get(0).equals("Entertainment")) {
-                        entertainment.addExpense(Float.valueOf(partsOfExpense.get(2)));
+                        entertainment.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
                     } else if (partsOfExpense.get(0).equals("Health")) {
-                        health.addExpense(Float.valueOf(partsOfExpense.get(2)));
+                        health.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
                     } else if (partsOfExpense.get(0).equals("Transportation")) {
-                        transportation.addExpense(Float.valueOf(partsOfExpense.get(2)));
+                        transportation.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
                     } else if (partsOfExpense.get(0).equals("Rent")) {
-                        rent.addExpense(Float.valueOf(partsOfExpense.get(2)));
+                        rent.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
                     } else {
-                        other.addExpense(Float.valueOf(partsOfExpense.get(2)));
+                        other.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
                     }
                 }
             }
@@ -77,12 +77,12 @@ public class Operations {
         ArrayList<String> lines = new ArrayList<>();
         PrintWriter writer = new PrintWriter(filename, "UTF-8");
         lines.add("Total Income: " + income.getIncomeTotal());
-        lines.add("Total Expenses: " + expense.getExpenseTotal());
+        lines.add("Total Expenses: " + expense.getExpenseAmount());
         lines.add("List of Expenses:");
-        for (Integer i = 0; i < expense.expenseItems.size(); i++) {
-            lines.add(expense.expenseItems.get(i).getExpenseItemCategory() + " "
-                    + expense.expenseItems.get(i).getExpenseItemName() + " "
-                    + String.format("%.2f",expense.expenseItems.get(i).getExpenseItemCost()));
+        for (Integer i = 0; i < expense.getExpenseItems().size(); i++) {
+            lines.add(expense.getExpenseItems().get(i).getExpenseItemCategory() + " "
+                    + expense.getExpenseItems().get(i).getExpenseItemName() + " "
+                    + String.format("%.2f",expense.getExpenseItems().get(i).getExpenseItemCost()));
         }
         for (String line : lines) {
             System.out.println(line);

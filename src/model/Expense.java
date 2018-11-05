@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Expense {
-    private String expenseCategory;
+    private String expenseCategoryName;
     private float expenseTotal;
 
     public static Expense food;
@@ -16,7 +16,7 @@ public class Expense {
     public static Expense rent;
     public static Expense other;
 
-    public static List<ExpenseItem> expenseItems = new ArrayList<>();
+    private List<ExpenseItem> expenseItems = new ArrayList<>();
 
     // EFFECTS: constructs expense with 0 expenses and initializes expense categories:
     // food, entertainment, health, transportation, rent and other
@@ -31,19 +31,22 @@ public class Expense {
     }
 
     // EFFECTS: constructs expense for subExpenses
-    public Expense(String expenseCategory, float expenseTotal) {
-        this.expenseCategory = expenseCategory;
+    public Expense(String expenseCategoryName, float expenseTotal) {
+        this.expenseCategoryName = expenseCategoryName;
         this.expenseTotal = expenseTotal;
     }
 
-    // EFFECTS: Returns the total expense
-    public float getExpenseTotal() {
+    // getters
+    public float getExpenseAmount() {
         return expenseTotal;
     }
 
-    // EFFECTS: returns expense category name
-    public String getExpenseCategory() {
-        return expenseCategory;
+    public String getExpenseCategoryName() {
+        return expenseCategoryName;
+    }
+
+    public List<ExpenseItem> getExpenseItems() {
+        return expenseItems;
     }
 
     // MODIFIES: this
@@ -55,36 +58,41 @@ public class Expense {
     // REQUIRES: num >= 0
     // MODIFIES: this
     // EFFECTS: Adds num to the total expense
-    public void addExpense(float num) throws NegativeAmountException {
+    public void addExpenseAmount(float num) throws NegativeAmountException {
         if (num < 0) {
             throw new NegativeAmountException();
         }
         expenseTotal += num;
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds expense item to list of expenses so far
+    public void addExpenseItem(ExpenseItem e) {
+        expenseItems.add(e);
+    }
 
     // MODIFIES: this
     // EFFECTS: sorts expense into expense category and adds it to the category expenseTotal
-    public void sortSubExpense(ExpenseItem e) throws NegativeAmountException {
+    public void sortToExpenseSubcategory(ExpenseItem e) throws NegativeAmountException {
         float cost = e.getExpenseItemCost();
         switch (e.getExpenseItemCategory()) {
             case "Food":
-                food.addExpense(cost);
+                food.addExpenseAmount(cost);
                 break;
             case "Entertainment":
-                entertainment.addExpense(cost);
+                entertainment.addExpenseAmount(cost);
                 break;
             case "Health":
-                health.addExpense(cost);
+                health.addExpenseAmount(cost);
                 break;
             case "Rent":
-                rent.addExpense(cost);
+                rent.addExpenseAmount(cost);
                 break;
             case "Transportation":
-                transportation.addExpense(cost);
+                transportation.addExpenseAmount(cost);
                 break;
             default:
-                other.addExpense(cost);
+                other.addExpenseAmount(cost);
                 break;
         }
     }

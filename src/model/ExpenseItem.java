@@ -50,7 +50,6 @@ public class ExpenseItem {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(name, category, cost, date, expense);
     }
 }

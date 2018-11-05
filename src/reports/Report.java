@@ -7,7 +7,7 @@ public abstract class Report {
     protected String reportName;
     protected float balance;
 
-    public float expense = BudgetTracker.expense.getExpenseTotal();
+    public float expense = BudgetTracker.expense.getExpenseAmount();
     public float income = BudgetTracker.income.getIncomeTotal();
 
     public Report(String reportName) {
@@ -15,10 +15,9 @@ public abstract class Report {
     }
 
     // EFFECTS: Prints and returns the subtotal
-    public String getReport(String reportName, float balance) {
+    public void getReport(String reportName, float balance) {
         String report = reportName + ": $" + String.format("%.2f",balance);
         System.out.println(report);
-        return report;
     }
 
     public String getReportName() {
@@ -29,9 +28,7 @@ public abstract class Report {
         return balance;
     }
 
-    public void printLine() {
-        System.out.println("*********************************");
-    }
+
 
 
 }

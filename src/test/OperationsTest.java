@@ -1,73 +1,69 @@
-//package test;
-//
-//import exceptions.NegativeAmountException;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import ui.Operations;
-//
-//import java.io.IOException;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//
-//public class OperationsTest {
-//    Operations testOp;
-//
-//    @BeforeEach
-//    public void runBefore() {
-//        testOp = new Operations();
-//    }
-//
-//    @Test
-//    public void testLoad() throws IOException, NegativeAmountException {
-//        float income = 1200;
-//        float expense = 1000;
-//        testOp.load("testinput.txt");
-//        assertEquals(testOp.getIncomeTotal().getIncomeTotal(),income);
-//        assertEquals(testOp.getExpenseTotal().getExpenseTotal(), expense);
-//        assertEquals(testOp.getExpenseTotal().getExpenseCategoryList().get(0), "Food");
-//        assertEquals(testOp.getExpenseTotal().getExpenseNameList().get(0),"Apple");
-//        assertEquals((Float) testOp.getExpenseTotal().getExpenseCostList().get(0),10, 0.01);
-//        assertEquals(testOp.getExpenseTotal().getExpenseCategoryList().get(1), "Transportation");
-//        assertEquals(testOp.getExpenseTotal().getExpenseNameList().get(1),"BusPass");
-//        assertEquals((Float) testOp.getExpenseTotal().getExpenseCostList().get(1),93, 0.01);
-//        assertEquals(testOp.getExpenseTotal().getExpenseCategoryList().get(2), "Rent");
-//        assertEquals(testOp.getExpenseTotal().getExpenseNameList().get(2),"Rent");
-//        assertEquals((Float) testOp.getExpenseTotal().getExpenseCostList().get(2),800, 0.01);
-//        assertEquals(testOp.getExpenseTotal().getExpenseCategoryList().get(3), "Other");
-//        assertEquals(testOp.getExpenseTotal().getExpenseNameList().get(3),"Pikachu");
-//        assertEquals((Float) testOp.getExpenseTotal().getExpenseCostList().get(3),97, 0.01);
-//        assertEquals(testOp.getExpenseTotal().getExpenseCategoryList().size(),4);
-//    }
-//
-//    //TODO: FIX BUG - For some reason, test is not clearing, program works fine because no further action after save
-//    @Test
-//    public void testSaveChanges() throws IOException, NegativeAmountException{
-//        assertEquals(testOp.getExpenseTotal().getExpenseCategoryList().size(),4);
-////        testOp.load("testinput.txt");
-//        testOp.getIncomeTotal().addIncome(501);
-//        testOp.getExpenseTotal().addExpense(351);
-//        testOp.getExpenseTotal().addExpenseItem("Balloon",3,"Other");
-//        testOp.save("testoutput.txt");
-//        testOp.load("testoutput.txt");
-//        assertEquals(testOp.getIncomeTotal().getIncomeTotal(),1200 + 501);
-//        assertEquals(testOp.getExpenseTotal().getExpenseTotal(), 1000 + 351);
-//        assertEquals(testOp.getExpenseTotal().getExpenseCategoryList().get(0), "Food");
-//        assertEquals(testOp.getExpenseTotal().getExpenseNameList().get(0),"Apple");
-//        assertEquals((Float) testOp.getExpenseTotal().getExpenseCostList().get(0),10, 0.01);
-//        assertEquals(testOp.getExpenseTotal().getExpenseCategoryList().get(1), "Transportation");
-//        assertEquals(testOp.getExpenseTotal().getExpenseNameList().get(1),"BusPass");
-//        assertEquals((Float) testOp.getExpenseTotal().getExpenseCostList().get(1),93, 0.01);
-//        assertEquals(testOp.getExpenseTotal().getExpenseCategoryList().get(2), "Rent");
-//        assertEquals(testOp.getExpenseTotal().getExpenseNameList().get(2),"Rent");
-//        assertEquals((Float) testOp.getExpenseTotal().getExpenseCostList().get(2),800, 0.01);
-//        assertEquals(testOp.getExpenseTotal().getExpenseCategoryList().get(3), "Other");
-//        assertEquals(testOp.getExpenseTotal().getExpenseNameList().get(3),"Pikachu");
-//        assertEquals((Float) testOp.getExpenseTotal().getExpenseCostList().get(3),97, 0.01);
-////        assertEquals(testOp.getExpenseTotal().getExpenseCategoryList().size(),5);
-//        assertEquals(testOp.getExpenseTotal().getExpenseCategoryList().get(4), "Other");
-//        assertEquals(testOp.getExpenseTotal().getExpenseNameList().get(4),"Balloon");
-//        assertEquals((Float) testOp.getExpenseTotal().getExpenseCostList().get(4),3, 0.01);
-//
-//    }
-//
-//}
+package test;
+
+import exceptions.NegativeAmountException;
+import model.ExpenseItem;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import ui.BudgetTracker;
+import ui.Operations;
+
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+public class OperationsTest {
+    BudgetTracker testBudgetTracker;
+    Operations testOp;
+    ExpenseItem item0, item1, item2, item3, item4;
+
+    @BeforeEach
+    public void runBefore() {
+        testBudgetTracker = new BudgetTracker();
+        testBudgetTracker.setupBudgetTracker();
+        testOp = new Operations();
+        loadExpenseItems();
+    }
+
+    public void loadExpenseItems() {
+        item0 = new ExpenseItem("Apple", "Food", 10);
+        item1 = new ExpenseItem("BusPass", "Transportation", 93);
+        item2 = new ExpenseItem("Rent", "Rent", 800);
+        item3 = new ExpenseItem("Pikachu", "Other", 97);
+        item4 = new ExpenseItem("Balloon", "Other", 3);
+    }
+
+    @Test
+    public void testLoad() throws IOException, NegativeAmountException {
+        float income = 1200;
+        float expense = 1000;
+        testOp.load("testinput.txt");
+        assertEquals(testOp.getIncome().getIncomeTotal(), income);
+        assertEquals(testOp.getExpense().getExpenseAmount(), expense);
+        assertEquals(testOp.getExpense().getExpenseItems().get(0), item0);
+        assertEquals(testOp.getExpense().getExpenseItems().get(1), item1);
+        assertEquals(testOp.getExpense().getExpenseItems().get(2), item2);
+        assertEquals(testOp.getExpense().getExpenseItems().get(3), item3);
+    }
+
+    @Test
+    public void testSaveChanges() throws IOException, NegativeAmountException {
+        assertEquals(testOp.getExpense().getExpenseItems().size(),0);
+        testOp.load("testinput.txt");
+        assertEquals(testOp.getExpense().getExpenseItems().size(),4);
+        testOp.getIncome().addIncome(501);
+        testOp.getExpense().addExpenseAmount(351);
+        testOp.getExpense().addExpenseItem(item4);
+        assertTrue(testOp.getExpense().getExpenseItems().size() == 5);
+        testOp.save("testoutput.txt");
+        assertEquals(testOp.getIncome().getIncomeTotal(), 1200 + 501);
+        assertEquals(testOp.getExpense().getExpenseAmount(), 1000 + 351);
+        assertEquals(testOp.getExpense().getExpenseItems().get(0), item0);
+        assertEquals(testOp.getExpense().getExpenseItems().get(1), item1);
+        assertEquals(testOp.getExpense().getExpenseItems().get(2), item2);
+        assertEquals(testOp.getExpense().getExpenseItems().get(3), item3);
+        assertEquals(testOp.getExpense().getExpenseItems().get(4), item4);
+        assertEquals(testOp.getExpense().getExpenseItems().size(),5);
+    }
+
+}

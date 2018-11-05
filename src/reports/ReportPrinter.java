@@ -10,7 +10,7 @@ public class ReportPrinter{
         ExpenseReport expenseReport = new ExpenseReport();
         Report balanceReport = new BalanceReport();
 
-        System.out.printf("*********************************%n");
+        printLine();
         try {
             float balanceAmount = balanceReport.getBalance();
             balanceReport.getReport(balanceReport.getReportName(), balanceAmount);
@@ -19,13 +19,19 @@ public class ReportPrinter{
         } finally {
             float incomeAmount = incomeReport.getBalance();
             incomeReport.getReport(incomeReport.getReportName(), incomeAmount);
-            float expenseAmount = expenseReport.expense.getExpenseTotal();
+            float expenseAmount = expenseReport.expense.getExpenseAmount();
             expenseReport.getReport(expenseReport.getReportName(), expenseAmount);
+            printLine();
             expenseReport.getExpenseList();
+            printLine();
             expenseReport.getExpenseBreakdown();
-            expenseReport.expensePercentile();
-            System.out.println("*********************************");
+            expenseReport.calculateAllCategoryPercent();
+            printLine();
         }
+    }
+
+    private void printLine() {
+        System.out.println("*********************************");
     }
 }
 

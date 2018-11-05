@@ -85,7 +85,7 @@ public class BudgetTracker {
 
     // MODIFIES: this, balances
     // EFFECTS: prompts and adds user inputted income to total income
-    private void logIncome() throws NegativeAmountException {
+    public void logIncome() throws NegativeAmountException {
         System.out.println("Enter your income:");
         try {
             float pendingIncome = Float.parseFloat(entry.nextLine());
@@ -112,9 +112,9 @@ public class BudgetTracker {
                 throw new NegativeAmountException();
             }
             ExpenseItem newExpense = new ExpenseItem(expenseNameEntry, expenseCategory,expenseCostEntry);
-            expense.expenseItems.add(newExpense);
-            expense.addExpense(expenseCostEntry);
-            expense.sortSubExpense(newExpense);
+            expense.addExpenseItem(newExpense);
+            expense.addExpenseAmount(expenseCostEntry);
+            expense.sortToExpenseSubcategory(newExpense);
             System.out.printf("Item: " + expenseNameEntry + "%nCategory: " + expenseCategory + "%nCost: $ %.2f %n", expenseCostEntry);
         } catch (NumberFormatException e) {
             System.out.println("Invalid input. Please enter a number.");
@@ -126,7 +126,7 @@ public class BudgetTracker {
     // MODIFIES: this
     // EFFECTS: converts inputted numbers 1-6 to expense categories,
     //          where 1 = Food, 2 = Entertainment, 3 = Health, 4 = Transportation, 5 = Rent, 6 = Other
-    private String categorizeExpense() throws InvalidEntryException {
+    public String categorizeExpense() throws InvalidEntryException {
         System.out.printf("Select Category: %n" +
                 "[1] " + expenseCategories.get("1") + "%n" +
                 "[2] " + expenseCategories.get("2") + "%n" +

@@ -18,14 +18,13 @@ public class BalanceReport extends Report {
 
     // EFFECTS: Prints and returns the subtotal
     @Override
-    public String getReport(String reportName, float balance) throws SavingsBeingUsedException {
+    public void getReport(String reportName, float balance) throws SavingsBeingUsedException {
         this.balance = balance;
         String report = reportName + ": $" + String.format("%.2f",balance);
         System.out.println(report);
         if (balance < 0) {
             throw new SavingsBeingUsedException();
         }
-        return report;
     }
 
 }
