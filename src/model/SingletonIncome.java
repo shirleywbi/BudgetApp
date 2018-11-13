@@ -1,13 +1,19 @@
 package model;
 
-import observer.IncomeSubject;
-
-public class Income extends IncomeSubject{
+public class SingletonIncome {
+    private static SingletonIncome single_instance=null;
     private float incomeTotal;
 
     // EFFECTS: constructs income with 0 income
-    public Income() {
+    private SingletonIncome() {
         this.incomeTotal = 0;
+    }
+
+    public static SingletonIncome SingletonIncome() {
+        if (single_instance == null) {
+            single_instance = new SingletonIncome();
+        }
+        return single_instance;
     }
 
     // EFFECTS: returns the total subtotal of the income
@@ -28,6 +34,4 @@ public class Income extends IncomeSubject{
         incomeTotal += num;
         return incomeTotal;
     }
-
 }
-

@@ -30,7 +30,6 @@ public class ReportTest {
 
     }
 
-    //TODO: Issue pulling balanceReport info
     @Test
     public void testGetBalance() {
         income.setIncome(500);

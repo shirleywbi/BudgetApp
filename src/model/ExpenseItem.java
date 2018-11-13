@@ -17,6 +17,7 @@ public class ExpenseItem {
         this.cost = cost;
         this.date = date;
         //TODO: SimpleDateFormat ft = new SimpleDateFormat("E MM/DD/YYYY");
+
     }
 
     //getters

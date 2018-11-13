@@ -20,7 +20,6 @@ public class OperationsTest {
     @BeforeEach
     public void runBefore() {
         testBudgetTracker = new BudgetTracker();
-        testBudgetTracker.setupBudgetTracker();
         testOp = new Operations();
         loadExpenseItems();
     }

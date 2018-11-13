@@ -13,15 +13,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static model.Expense.*;
+
 public class Operations {
     private Expense expense = BudgetTracker.expense;
     private Income income = BudgetTracker.income;
-    private Expense food = Expense.food;
-    private Expense entertainment = Expense.entertainment;
-    private Expense health = Expense.health;
-    private Expense transportation = Expense.transportation;
-    private Expense rent = Expense.rent;
-    private Expense other = Expense.other;
 
     // REQUIRES: .txt file in the form of:
     //           Total Income: XXX"
@@ -43,26 +39,32 @@ public class Operations {
                 System.out.println("");
             } else {
                 if (!line.isEmpty()) {
-                    String category = partsOfExpense.get(0);
-                    String name = partsOfExpense.get(1);
-                    float cost = Float.valueOf(partsOfExpense.get(2));
-                    ExpenseItem loadedExpense = new ExpenseItem(name, category, cost);
-                    expense.addExpenseItem(loadedExpense);
-                    if (partsOfExpense.get(0).equals("Food")) {
-                        food.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
-                    } else if (partsOfExpense.get(0).equals("Entertainment")) {
-                        entertainment.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
-                    } else if (partsOfExpense.get(0).equals("Health")) {
-                        health.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
-                    } else if (partsOfExpense.get(0).equals("Transportation")) {
-                        transportation.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
-                    } else if (partsOfExpense.get(0).equals("Rent")) {
-                        rent.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
-                    } else {
-                        other.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
-                    }
+                    loadExpensesFromFile(partsOfExpense);
                 }
             }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads list of expenses from budgetinput file
+    private void loadExpensesFromFile(ArrayList<String> partsOfExpense) throws NegativeAmountException {
+        String category = partsOfExpense.get(0);
+        String name = partsOfExpense.get(1);
+        float cost = Float.valueOf(partsOfExpense.get(2));
+        ExpenseItem loadedExpense = new ExpenseItem(name, category, cost);
+        expense.addExpenseItem(loadedExpense);
+        if (partsOfExpense.get(0).equals("Food")) {
+            food.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
+        } else if (partsOfExpense.get(0).equals("Entertainment")) {
+            entertainment.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
+        } else if (partsOfExpense.get(0).equals("Health")) {
+            health.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
+        } else if (partsOfExpense.get(0).equals("Transportation")) {
+            transportation.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
+        } else if (partsOfExpense.get(0).equals("Rent")) {
+            rent.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
+        } else {
+            other.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
         }
     }
 

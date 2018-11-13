@@ -101,6 +101,12 @@ Stage 8: Data Relationships
 4. Added hash map of categories for expense menu option
 5. Created ExpenseItem object to merge lists of categories, costs, and expense names
 
+*********************************************************************
+Stage 9: Design Principles
+
+1. Created new class ExpenseCategory and moved method/field from BudgetTracker and Expense
+2. Refactored methods in BudgetTracker and Expense into smaller methods
+
 TO-DO:
 - Add dates to expense log.
 - Add option to go back to main
@@ -108,3 +114,4 @@ TO-DO:
 - To allow editing of expense categories
 - Fix bugs:
 	- Spacing in expense names when saving/loading
+

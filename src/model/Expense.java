@@ -1,11 +1,12 @@
 package model;
 
 import exceptions.NegativeAmountException;
+import observer.ExpenseSubject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Expense {
+public class Expense extends ExpenseSubject {
     private String expenseCategoryName;
     private float expenseTotal;
 
@@ -49,6 +50,15 @@ public class Expense {
         return expenseItems;
     }
 
+    public Expense getFood() {
+        return food;
+    }
+    public Expense getEntertainment() {return entertainment;}
+    public Expense getHealth() {return health;}
+    public Expense getTransportation() {return transportation;}
+    public Expense getRent() {return rent;}
+    public Expense getOther() {return other;}
+
     // MODIFIES: this
     // EFFECTS: sets expense to given num
     public void setExpense(float num) {
@@ -71,29 +81,5 @@ public class Expense {
         expenseItems.add(e);
     }
 
-    // MODIFIES: this
-    // EFFECTS: sorts expense into expense category and adds it to the category expenseTotal
-    public void sortToExpenseSubcategory(ExpenseItem e) throws NegativeAmountException {
-        float cost = e.getExpenseItemCost();
-        switch (e.getExpenseItemCategory()) {
-            case "Food":
-                food.addExpenseAmount(cost);
-                break;
-            case "Entertainment":
-                entertainment.addExpenseAmount(cost);
-                break;
-            case "Health":
-                health.addExpenseAmount(cost);
-                break;
-            case "Rent":
-                rent.addExpenseAmount(cost);
-                break;
-            case "Transportation":
-                transportation.addExpenseAmount(cost);
-                break;
-            default:
-                other.addExpenseAmount(cost);
-                break;
-        }
-    }
+
 }

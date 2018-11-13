@@ -1,5 +1,6 @@
 package reports;
 
+import observer.ExpenseObserver;
 import ui.BudgetTracker;
 
 // abstract class Report
@@ -27,8 +28,5 @@ public abstract class Report {
     public float getBalance() {
         return balance;
     }
-
-
-
 
 }

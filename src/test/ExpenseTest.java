@@ -105,13 +105,4 @@ public class ExpenseTest {
         assertTrue(testExpense.getExpenseItems().get(1).equals(expenseItem2));
     }
 
-    @Test
-    public void testSortSubExpenseFood() throws NegativeAmountException {
-        assertEquals(testExpense.food.getExpenseAmount(),0);
-        testExpense.sortToExpenseSubcategory(expenseItem1);
-        assertEquals(testExpense.food.getExpenseAmount(), 5);
-        testExpense.sortToExpenseSubcategory(expenseItem2);
-        assertEquals(testExpense.food.getExpenseAmount(), 5);
-    }
-
 }
