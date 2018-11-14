@@ -8,12 +8,12 @@ import java.net.URL;
 
 public class WebPageReader {
 
-    public static void main(String[] args) throws MalformedURLException, IOException {
+    //EFFECTS: displays lines in a webpage
+    public void readWebPage(String theURL) throws MalformedURLException, IOException {
 
         BufferedReader br = null;
 
         try {
-            String theURL = "https://www.ugrad.cs.ubc.ca/~cs210/2018w1/welcomemsg.html"; //this can point to any URL
             URL url = new URL(theURL);
             br = new BufferedReader(new InputStreamReader(url.openStream()));
 

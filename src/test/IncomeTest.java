@@ -11,7 +11,7 @@ public class IncomeTest {
 
     @BeforeEach
     public void setup() {
-        income = new Income();
+        income = Income.getInstance();
     }
 
     @Test

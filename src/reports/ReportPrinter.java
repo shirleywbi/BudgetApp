@@ -2,9 +2,8 @@ package reports;
 
 import exceptions.SavingsBeingUsedException;
 import observer.ExpenseObserver;
-import observer.IncomeObserver;
 
-public class ReportPrinter implements ExpenseObserver, IncomeObserver{
+public class ReportPrinter implements ExpenseObserver{
 
     // EFFECTS: Displays total subtotal, total income, total expenses, and list of expenses
     public void runReports() {
@@ -42,10 +41,6 @@ public class ReportPrinter implements ExpenseObserver, IncomeObserver{
         System.out.println("Expenses have been updated. New report available.");
     }
 
-    @Override
-    public void update(IncomeObserver incomeObserver) {
-        System.out.println("Income has been updated. New report available.");
-    }
 }
 
 

@@ -20,7 +20,7 @@ public class Operations {
     private Income income = BudgetTracker.income;
 
     // REQUIRES: .txt file in the form of:
-    //           Total Income: XXX"
+    //           Total getInstance: XXX"
     //           Total Expense: XXX"
     //           List of Expense:
     //           <Category> <Name> <Cost>

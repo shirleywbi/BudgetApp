@@ -16,7 +16,7 @@ public class ReportTest {
     @BeforeEach
     public void setup() {
         balanceReport = new BalanceReport();
-        income = new Income();
+        income = Income.getInstance();
         expense = new Expense();
     }
 

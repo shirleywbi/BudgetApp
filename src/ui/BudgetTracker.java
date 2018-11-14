@@ -29,7 +29,6 @@ public class BudgetTracker {
         op = new Operations();
         report = new ReportPrinter();
         expense.addObservers(report);
-        income.addObservers(report);
         expenseCategory.setupExpenseCategories();
         try {
             op.load("budgetinput.txt");
@@ -40,7 +39,7 @@ public class BudgetTracker {
     }
 
     public void setupBudgetTracker() {
-        income = new Income();
+        income = Income.getInstance();
         expense = new Expense();
     }
 
@@ -101,7 +100,6 @@ public class BudgetTracker {
                 throw new NegativeAmountException();
             } else {
                 income.addIncome(pendingIncome);
-                income.notifyObservers(report);
             }
         } catch (NumberFormatException e) {
             System.out.println("Invalid input. Please enter a number.");
