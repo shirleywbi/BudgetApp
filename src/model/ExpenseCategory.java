@@ -5,10 +5,11 @@ import exceptions.NegativeAmountException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 import static model.Expense.*;
 
-public class ExpenseCategory {
+public class ExpenseCategory extends Observable{
     private Map<String, String> expenseCategories = new HashMap<>();
 
     // EFFECTS: sets up expense categories:

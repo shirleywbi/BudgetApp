@@ -1,6 +1,8 @@
 package model;
 
-public class Income{
+import java.util.Observable;
+
+public class Income extends Observable{
     private static Income instance=null;
     private float incomeTotal;
 

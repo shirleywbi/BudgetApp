@@ -1,10 +1,9 @@
 package reports;
 
 import model.Expense;
-import observer.ExpenseObserver;
 import ui.BudgetTracker;
 
-public class ExpenseReport extends Report implements ExpenseObserver{
+public class ExpenseReport extends Report{
     public static Expense expense = BudgetTracker.expense;
 
     // EFFECTS: Constructs expense report
@@ -64,10 +63,6 @@ public class ExpenseReport extends Report implements ExpenseObserver{
         return cost / super.expense * 100;
     }
 
-    @Override
-    public void update(ExpenseObserver expenseObserver) {
-        System.out.println("Expenses have been updated. New report can be generated.");
-    }
 }
 
 //Pie chart from https://stackoverflow.com/questions/13662984/creating-pie-charts-programmatically

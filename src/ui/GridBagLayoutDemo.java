@@ -36,69 +36,45 @@ package ui;
  */
 
 import java.awt.*;
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.*;
+
+import static java.awt.Color.black;
+import static java.awt.GridBagConstraints.NORTHWEST;
 
 public class GridBagLayoutDemo {
-    final static boolean shouldFill = true;
-    final static boolean shouldWeightX = true;
-    final static boolean RIGHT_TO_LEFT = false;
+    public static final int WIDTH = 1000;
+    public static final int HEIGHT = 800;
 
     public static void addComponentsToPane(Container pane) {
-        if (RIGHT_TO_LEFT) {
-            pane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-        }
+//        pane.setLayout(new GridBagLayout());
+//        GridBagConstraints c = new GridBagConstraints();
+//        pane.setBackground(black);
 
-        JButton button;
-        pane.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-        if (shouldFill) {
-            //natural height, maximum width
-            c.fill = GridBagConstraints.HORIZONTAL;
-        }
+//        JLabel label;
+//        label = new JLabel("Income");
+//        c.fill = GridBagConstraints.HORIZONTAL;
+//        c.insets = new Insets(0, 0, 10, 0);
+//        c.gridwidth = 1;
+//        c.gridx = 0;
+//        c.gridy = 0;
+//        pane.add(label, c);
+//
+//        JTextField field;
+//        field = new JTextField(10);
+//        c.fill = GridBagConstraints.HORIZONTAL;
+//        c.ipady = 10;
+//        c.gridwidth = 1;
+//        c.gridx = 0;
+//        c.gridy++;
+//        pane.add(field, c);
+//
+//        JButton button;
+//        button = new JButton("Add");
+//        c.fill = GridBagConstraints.HORIZONTAL;
+//        c.gridwidth = 1;
+//        c.gridx++;
+//        pane.add(button, c);
 
-        button = new JButton("Button 1");
-        if (shouldWeightX) {
-            c.weightx = 0.5;
-        }
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 0;
-        pane.add(button, c);
-
-        button = new JButton("Button 2");
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = 0;
-        pane.add(button, c);
-
-        button = new JButton("Button 3");
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 2;
-        c.gridy = 0;
-        pane.add(button, c);
-
-        button = new JButton("Long-Named Button 4");
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.ipady = 40;      //make this component tall
-        c.weightx = 0.0;
-        c.gridwidth = 3;
-        c.gridx = 0;
-        c.gridy = 1;
-        pane.add(button, c);
-
-        button = new JButton("5");
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.ipady = 0;       //reset to default
-        c.weighty = 1.0;   //request any extra vertical space
-        c.anchor = GridBagConstraints.PAGE_END; //bottom of space
-        c.insets = new Insets(10,0,0,0);  //top padding
-        c.gridx = 1;       //aligned with button 2
-        c.gridwidth = 2;   //2 columns wide
-        c.gridy = 2;       //third row
-        pane.add(button, c);
     }
 
     /**
@@ -107,15 +83,24 @@ public class GridBagLayoutDemo {
      * event-dispatching thread.
      */
     private static void createAndShowGUI() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        }
+
         //Create and set up the window.
-        JFrame frame = new JFrame("GridBagLayoutDemo");
+        JFrame frame = new JFrame("Budget Tracker");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //Sets size of frame.
+        frame.setSize(WIDTH, HEIGHT);
 
         //Set up the content pane.
         addComponentsToPane(frame.getContentPane());
+        frame.add(new SelectionPanel());
 
         //Display the window.
-        frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
@@ -129,3 +114,4 @@ public class GridBagLayoutDemo {
         });
     }
 }
+

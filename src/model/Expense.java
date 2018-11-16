@@ -1,12 +1,12 @@
 package model;
 
 import exceptions.NegativeAmountException;
-import observer.ExpenseSubject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Expense extends ExpenseSubject {
+public class Expense extends Observable {
     private String expenseCategoryName;
     private float expenseTotal;
 
