@@ -38,9 +38,6 @@ package ui;
 import java.awt.*;
 import javax.swing.*;
 
-import static java.awt.Color.black;
-import static java.awt.GridBagConstraints.NORTHWEST;
-
 public class GridBagLayoutDemo {
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 800;
@@ -49,32 +46,6 @@ public class GridBagLayoutDemo {
 //        pane.setLayout(new GridBagLayout());
 //        GridBagConstraints c = new GridBagConstraints();
 //        pane.setBackground(black);
-
-//        JLabel label;
-//        label = new JLabel("Income");
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.insets = new Insets(0, 0, 10, 0);
-//        c.gridwidth = 1;
-//        c.gridx = 0;
-//        c.gridy = 0;
-//        pane.add(label, c);
-//
-//        JTextField field;
-//        field = new JTextField(10);
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.ipady = 10;
-//        c.gridwidth = 1;
-//        c.gridx = 0;
-//        c.gridy++;
-//        pane.add(field, c);
-//
-//        JButton button;
-//        button = new JButton("Add");
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.gridwidth = 1;
-//        c.gridx++;
-//        pane.add(button, c);
-
     }
 
     /**
@@ -112,6 +83,7 @@ public class GridBagLayoutDemo {
                 createAndShowGUI();
             }
         });
+
     }
 }
 

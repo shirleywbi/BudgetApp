@@ -34,6 +34,8 @@ public class Income extends Observable{
     // EFFECTS: adds num to income
     public float addIncome(float num) {
         incomeTotal += num;
+        setChanged();
+        notifyObservers();
         return incomeTotal;
     }
 }

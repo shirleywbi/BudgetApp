@@ -9,7 +9,7 @@ import java.util.Observable;
 
 import static model.Expense.*;
 
-public class ExpenseCategory extends Observable{
+public class ExpenseCategory{
     private Map<String, String> expenseCategories = new HashMap<>();
 
     // EFFECTS: sets up expense categories:

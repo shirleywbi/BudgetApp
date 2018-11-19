@@ -1,6 +1,7 @@
 package model;
 
 import exceptions.NegativeAmountException;
+import ui.SelectionPanel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class Expense extends Observable {
         transportation = new Expense("Transportation", 0);
         rent = new Expense("Rent", 0);
         other = new Expense("Other", 0);
+        addObserver(new SelectionPanel());
     }
 
     // EFFECTS: constructs expense for subExpenses
@@ -73,6 +75,8 @@ public class Expense extends Observable {
             throw new NegativeAmountException();
         }
         expenseTotal += num;
+        setChanged();
+        notifyObservers();
     }
 
     // MODIFIES: this
