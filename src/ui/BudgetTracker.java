@@ -1,12 +1,9 @@
 package ui;
 
-import exceptions.NegativeAmountException;
 import exceptions.InvalidEntryException;
-import model.Expense;
-import model.ExpenseCategory;
-import model.ExpenseItem;
-import model.Income;
-import reports.ReportPrinter;
+import exceptions.NegativeAmountException;
+import model.*;
+//import reports.ReportPrinter;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -19,22 +16,22 @@ public class BudgetTracker {
     public static Expense expense;
 
     private Scanner entry = new Scanner(System.in);
-    private ExpenseCategory expenseCategory = new ExpenseCategory();
+//    private ExpenseCategory expenseCategory = new ExpenseCategory();
     private Operations op;
-    private ReportPrinter report;
+//    private ReportPrinter report;
 
     // MODIFIES: this, balances, reports
     // EFFECTS: loads a file and starts menu
     public void runBudgetTracker() throws IOException {
         op = new Operations();
-        report = new ReportPrinter();
-        expenseCategory.setupExpenseCategories();
+//        report = new ReportPrinter();
+//        expenseCategory.setupExpenseCategories();
         try {
             op.load("budgetinput.txt");
         } catch (NegativeAmountException e) {
             System.out.println("Please check your file. Negative values found.");
         }
-        mainMenu();
+//        mainMenu();
     }
 
     public void setupBudgetTracker() {
@@ -71,7 +68,7 @@ public class BudgetTracker {
                     }
                     break;
                 case "3":
-                    report.runReports();
+//                    report.runReports();
                     break;
                 case "4":
                     op.save("budgetoutput.txt");
@@ -108,8 +105,8 @@ public class BudgetTracker {
     // MODIFIES: this, balances
     // EFFECTS: prompts and saves user input for expense category, name and cost, and displays it back to the user
     private void logExpense() throws InvalidEntryException {
-        displayExpenseCategoriesMenu();
-        String expCategoryInput = expenseCategory.getExpenseCategoryKeyToValue(entry.nextLine());
+//        displayExpenseCategoriesMenu();
+//        String expCategoryInput = expenseCategory.getExpenseCategoryKeyToValue(entry.nextLine());
         System.out.println("Enter name of expense:");
         String expNameInput = entry.nextLine();
         System.out.println("Enter the cost:");
@@ -118,10 +115,10 @@ public class BudgetTracker {
             if (expCostInput < 0) {
                 throw new NegativeAmountException();
             }
-            ExpenseItem newExpense = new ExpenseItem(expNameInput, expCategoryInput, expCostInput);
-            expense.addExpenseItem(newExpense);
+//            ExpenseItem newExpense = new ExpenseItem(expNameInput, expCategoryInput, expCostInput);
+//            expense.addExpenseItem(newExpense);
             expense.addExpenseAmount(expCostInput);
-            expenseCategory.sortToExpenseCategory(newExpense);
+//            expenseCategory.sortToExpenseCategory(newExpense);
 //            System.out.printf("Item: " + expNameInput + "%nCategory: " + expCategoryInput + "%nCost: $ %.2f %n", expCostInput);
         } catch (NumberFormatException e) {
             System.out.println("Invalid input. Please enter a number.");
@@ -132,14 +129,15 @@ public class BudgetTracker {
 
     // EFFECTS: display expenses category menu as [#] <ExpenseCategory> in the order of:
     //          1 = Food, 2 = Entertainment, 3 = Health, 4 = Transportation, 5 = Rent, 6 = Other
-    private void displayExpenseCategoriesMenu() throws InvalidEntryException {
-        System.out.println("Select Category:");
-        for (int i = 1; i <= expenseCategory.getExpenseCategories().size(); i++) {
-            String iAsString = Integer.toString(i);
-            System.out.println("[" + iAsString + "] " +
-                    expenseCategory.getExpenseCategoryKeyToValue(iAsString));
-        }
-    }
+//    private void displayExpenseCategoriesMenu() throws InvalidEntryException {
+//        System.out.println("Select Category:");
+//        for (int i = 1; i <= expenseCategory.getExpenseCategories().size(); i++) {
+//            String iAsString = Integer.toString(i);
+//            System.out.println("[" + iAsString + "] " +
+//                    expenseCategory.getExpenseCategoryKeyToValue(iAsString));
+//        }
+//    }
+
 }
 
 

@@ -107,11 +107,20 @@ Stage 9: Design Principles
 1. Created new class ExpenseCategory and moved method/field from BudgetTracker and Expense
 2. Refactored methods in BudgetTracker and Expense into smaller methods
 
+*********************************************************************
+Stage 11: GUI
+
+1. Added GUI but bugs have been introduced.
+
 TO-DO:
+- Integrate load/save
+- Increase cohesion of SelectionPanel
+- Write out any missing REQUIRES/MODIFIES/EFFECTS
+- Format numbers so they are all $XX.XX
+- Fix exceptions so that they work with UI
+- Format to make it look nicer
+
+Nice Additions:
 - Add dates to expense log.
-- Add option to go back to main
 - Create visuals for the report (e.g., charts and graphs)
 - To allow editing of expense categories
-- Fix bugs:
-	- Spacing in expense names when saving/loading
-

@@ -1,5 +1,6 @@
 package test;
 
+import exceptions.InvalidEntryException;
 import exceptions.NegativeAmountException;
 import model.Expense;
 import model.ExpenseItem;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static ui.BudgetTracker.expense;
 
 public class ExpenseTest {
     private Expense testFoodExpense;
@@ -103,6 +105,13 @@ public class ExpenseTest {
         assertTrue(testExpense.getExpenseItems().size() == 2);
         assertTrue(testExpense.getExpenseItems().get(0).equals(expenseItem1));
         assertTrue(testExpense.getExpenseItems().get(1).equals(expenseItem2));
+    }
+
+    @Test
+    public void testSortExpense() throws InvalidEntryException {
+        assertEquals(expense.getOther().getExpenseAmount(),0);
+        expense.sortExpense(expenseItem1);
+        assertEquals(expense.getOther().getExpenseAmount(),5);
     }
 
 }

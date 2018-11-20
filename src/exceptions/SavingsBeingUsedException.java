@@ -1,4 +1,4 @@
 package exceptions;
 
-public class SavingsBeingUsedException extends RuntimeException {
+public class SavingsBeingUsedException extends RuntimeException{
 }

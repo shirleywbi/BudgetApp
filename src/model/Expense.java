@@ -30,7 +30,6 @@ public class Expense extends Observable {
         transportation = new Expense("Transportation", 0);
         rent = new Expense("Rent", 0);
         other = new Expense("Other", 0);
-        addObserver(new SelectionPanel());
     }
 
     // EFFECTS: constructs expense for subExpenses
@@ -65,6 +64,8 @@ public class Expense extends Observable {
     // EFFECTS: sets expense to given num
     public void setExpense(float num) {
         this.expenseTotal = num;
+        setChanged();
+        notifyObservers();
     }
 
     // REQUIRES: num >= 0
@@ -83,7 +84,33 @@ public class Expense extends Observable {
     // EFFECTS: adds expense item to list of expenses so far
     public void addExpenseItem(ExpenseItem e) {
         expenseItems.add(e);
+        setChanged();
+        notifyObservers();
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: sorts expense into expense category and adds it to the category expenseTotal
+    public void sortExpense(ExpenseItem e) throws NegativeAmountException {
+        float cost = e.getExpenseItemCost();
+        switch (e.getExpenseItemCategory()) {
+            case "FOOD":
+                food.addExpenseAmount(cost);
+                break;
+            case "ENTERTAINMENT":
+                entertainment.addExpenseAmount(cost);
+                break;
+            case "HEALTH":
+                health.addExpenseAmount(cost);
+                break;
+            case "RENT":
+                rent.addExpenseAmount(cost);
+                break;
+            case "TRANSPORTATION":
+                transportation.addExpenseAmount(cost);
+                break;
+            default:
+                other.addExpenseAmount(cost);
+                break;
+        }
+    }
 }

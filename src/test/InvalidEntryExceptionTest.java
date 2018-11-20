@@ -6,10 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ui.BudgetTracker;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.Scanner;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -115,7 +111,7 @@ public class InvalidEntryExceptionTest {
         assertEquals(budgetTracker.expense.getExpenseAmount(), 0);
         try {
             budgetTracker.expense.addExpenseAmount(-1);
-            fail("No exception was thrown");
+            fail("No exceptions was thrown");
         } catch (NegativeAmountException e) {
             //do nothing
         }
@@ -144,7 +140,7 @@ public class InvalidEntryExceptionTest {
 //        try {
 //            String category = budgetTracker.expenseCategoryMenu();
 //            assertEquals(category, null);
-//            fail("No exception was thrown");
+//            fail("No exceptions was thrown");
 //        } catch (InvalidEntryException e) {
 //            //do nothing
 //        }
@@ -158,7 +154,7 @@ public class InvalidEntryExceptionTest {
 //        try {
 //            String category = budgetTracker.expenseCategoryMenu();
 //            assertEquals(category, null);
-//            fail("No exception was thrown");
+//            fail("No exceptions was thrown");
 //        } catch (InvalidEntryException e) {
 //            //do nothing
 //        }
