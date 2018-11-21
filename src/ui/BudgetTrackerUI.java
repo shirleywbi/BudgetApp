@@ -31,13 +31,14 @@
 
 package ui;
 
-import model.Expense;
-
-import java.io.IOException;
 import javax.swing.*;
+import java.awt.*;
 
 public class BudgetTrackerUI {
+    public static final int WIDTH = 1000;
+    public static final int HEIGHT = 800;
     private static SelectionPanel sp = new SelectionPanel();
+    private static ReportPanel rp = new ReportPanel();
 
     //EFFECTS: creates and shows GUI
     private static void createAndShowGUI() {
@@ -49,9 +50,11 @@ public class BudgetTrackerUI {
         //Create and set up the window.
         JFrame frame = new JFrame("Budget Tracker");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(WIDTH, HEIGHT);
 
         //Set up the content pane.
         frame.add(sp);
+//        frame.add(rp);
 
         //Display the window.
         frame.pack();
@@ -61,7 +64,7 @@ public class BudgetTrackerUI {
     }
 
     //EFFECTS: runs program
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -69,6 +72,7 @@ public class BudgetTrackerUI {
                 createAndShowGUI();
             }
         });
+
     }
 }
 

@@ -2,7 +2,6 @@ package ui;
 
 import exceptions.NegativeAmountException;
 import model.*;
-import reports.ExpenseReport;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,15 +16,13 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class SelectionPanel extends JPanel implements Observer, ActionListener {
-    public static final int WIDTH = 1000;
-    public static final int HEIGHT = 800;
-
-
     private Income income = Income.getInstance();
     private Expense expense = new Expense();
 
     private JLabel image;
+    private JLabel fileNameLabel;
 
+    private JTextField fileNameField;
     private JTextField incomeField;
     private JTextField expenseNameField;
     private JTextField expenseCostField;
@@ -39,6 +36,9 @@ public class SelectionPanel extends JPanel implements Observer, ActionListener {
     private JButton expensePercentReportButton;
     private JButton expensePieChartButton;
 
+    private JButton loadButton;
+    private JButton saveButton;
+
     private JLabel balanceAmountLabel;
     private JLabel incomeAmountLabel;
     private JLabel expenseAmountLabel;
@@ -50,10 +50,7 @@ public class SelectionPanel extends JPanel implements Observer, ActionListener {
     private int insetDefault = 30;
     private Font fontDefault = new Font(null, Font.BOLD, 13);
 
-    //private ExpenseCategory expenseCategory = new ExpenseCategory();
-
     public SelectionPanel() {
-        setSize(WIDTH, HEIGHT);
         setLayout(new GridBagLayout());
         setBorder(BorderFactory.createLineBorder(Color.black));
 
@@ -97,6 +94,12 @@ public class SelectionPanel extends JPanel implements Observer, ActionListener {
         expensePercentReportButton = new JButton("Expense Percentage Breakdown");
 //        expensePieChartButton = new JButton("");
 
+        //sets load and save buttons
+        fileNameLabel = new JLabel("File Name:");
+        fileNameField = new JTextField();
+        loadButton = new JButton("Load");
+        saveButton = new JButton("Save");
+
         //sets image
         try {
             image = new JLabel();
@@ -113,33 +116,35 @@ public class SelectionPanel extends JPanel implements Observer, ActionListener {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        //section 1: Balance, Income, Expense
-        add(balanceLabel, labelConstraints(gbc.gridx, gbc.gridy++));
-        add(balanceAmountLabel, textConstraints(gbc.gridx, gbc.gridy++));
-        add(incomeLabel, labelConstraints(gbc.gridx, gbc.gridy++));
-        add(incomeAmountLabel, textConstraints(gbc.gridx, gbc.gridy++));
-        add(expenseLabel, labelConstraints(gbc.gridx, gbc.gridy++));
-        add(expenseAmountLabel, textConstraints(gbc.gridx, gbc.gridy++));
+        //section 0: Load and Save
+//        add(fileNameLabel, labelConstraints(gbc.gridx,gbc.gridy));
+//        add(fileNameField, fieldConstraints(gbc.gridx,gbc.gridy++));
+//        add(loadButton, addButtonConstraints(gbc.gridx,gbc.gridy++));
+//        add(saveButton, addButtonConstraints(gbc.gridx, gbc.gridy++));
+        balanceDisplay(balanceLabel, incomeLabel, expenseLabel, gbc);
+        incomePanel(addIncomeLabel, gbc);
+        expensePanel(addExpenseLabel, expenseCatLabel, expenseNameLabel, expenseCostLabel, gbc);
+        reportPanel(reportLabel, gbc);
 
-        //section 2: Add Income
-        add(addIncomeLabel, labelConstraints(gbc.gridx, gbc.gridy++));
-        add(incomeField, fieldConstraints(gbc.gridx, gbc.gridy++));
-        add(incomeAddButton, addButtonConstraints(gbc.gridx, gbc.gridy++));
-        incomeAddButton.setActionCommand("add income");
-        incomeAddButton.addActionListener(this);
 
-        //section 3: Add Expense
-        add(addExpenseLabel, labelConstraints(gbc.gridx, gbc.gridy++));
-        add(expenseCatLabel, textConstraints(gbc.gridx, gbc.gridy++));
-        add(expenseCatComboBox, fieldConstraints(gbc.gridx, gbc.gridy++));
-        add(expenseNameLabel, textConstraints(gbc.gridx, gbc.gridy++));
-        add(expenseNameField, fieldConstraints(gbc.gridx, gbc.gridy++));
-        add(expenseCostLabel, textConstraints(gbc.gridx, gbc.gridy++));
-        add(expenseCostField, fieldConstraints(gbc.gridx, gbc.gridy++));
-        add(expenseAddButton, addButtonConstraints(gbc.gridx, gbc.gridy++));
-        expenseAddButton.setActionCommand("add expense");
-        expenseAddButton.addActionListener(this);
+        //section 5: Report Block
+        gbc.gridx++;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(insetDefault, insetDefault/2, insetDefault, insetDefault);
+        gbc.gridheight = GridBagConstraints.REMAINDER;
+        JPanel reportBlock = new JPanel();
+        reportBlock.setSize(WIDTH *3/5,500);
+        reportText = new JTextArea("",45,50);
+        reportPane = new JScrollPane(reportText);
+        reportText.setEditable(false);
+        reportBlock.add(reportPane);
+        add(reportBlock, gbc);
+        reportPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
+
+    }
+
+    private void reportPanel(JLabel reportLabel, GridBagConstraints gbc) {
         //section 4: Reports
         add(reportLabel, labelConstraints(gbc.gridx, gbc.gridy++));
         add(expenseListReportButton, reportButtonConstraints(gbc.gridx,gbc.gridy++));
@@ -153,23 +158,39 @@ public class SelectionPanel extends JPanel implements Observer, ActionListener {
         expensePercentReportButton.addActionListener(this);
 //        expensePieChartButton.setActionCommand("pie chart");
 //        expensePieChartButton.addActionListener(this);
+    }
 
+    private void expensePanel(JLabel addExpenseLabel, JLabel expenseCatLabel, JLabel expenseNameLabel, JLabel expenseCostLabel, GridBagConstraints gbc) {
+        //section 3: Add Expense
+        add(addExpenseLabel, labelConstraints(gbc.gridx, gbc.gridy++));
+        add(expenseCatLabel, textConstraints(gbc.gridx, gbc.gridy++));
+        add(expenseCatComboBox, fieldConstraints(gbc.gridx, gbc.gridy++));
+        add(expenseNameLabel, textConstraints(gbc.gridx, gbc.gridy++));
+        add(expenseNameField, fieldConstraints(gbc.gridx, gbc.gridy++));
+        add(expenseCostLabel, textConstraints(gbc.gridx, gbc.gridy++));
+        add(expenseCostField, fieldConstraints(gbc.gridx, gbc.gridy++));
+        add(expenseAddButton, addButtonConstraints(gbc.gridx, gbc.gridy++));
+        expenseAddButton.setActionCommand("add expense");
+        expenseAddButton.addActionListener(this);
+    }
 
-        //section 5: Report Block
-        gbc.gridx++;
-        gbc.gridy = 0;
-        gbc.insets = new Insets(insetDefault, insetDefault/2, insetDefault, insetDefault);
-        gbc.gridheight = GridBagConstraints.REMAINDER;
-        JPanel reportBlock = new JPanel();
-        reportBlock.setSize(WIDTH *3/5,500);
-        reportText = new JTextArea("",41,50);
-        reportPane = new JScrollPane(reportText);
-        reportText.setEditable(false);
-        reportBlock.add(reportPane);
-        add(reportBlock, gbc);
-        reportPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+    private void incomePanel(JLabel addIncomeLabel, GridBagConstraints gbc) {
+        //section 2: Add Income
+        add(addIncomeLabel, labelConstraints(gbc.gridx, gbc.gridy++));
+        add(incomeField, fieldConstraints(gbc.gridx, gbc.gridy++));
+        add(incomeAddButton, addButtonConstraints(gbc.gridx, gbc.gridy++));
+        incomeAddButton.setActionCommand("add income");
+        incomeAddButton.addActionListener(this);
+    }
 
-
+    private void balanceDisplay(JLabel balanceLabel, JLabel incomeLabel, JLabel expenseLabel, GridBagConstraints gbc) {
+        //section 1: Balance, Income, Expense
+        add(balanceLabel, labelConstraints(gbc.gridx, gbc.gridy++));
+        add(balanceAmountLabel, textConstraints(gbc.gridx, gbc.gridy++));
+        add(incomeLabel, labelConstraints(gbc.gridx, gbc.gridy++));
+        add(incomeAmountLabel, textConstraints(gbc.gridx, gbc.gridy++));
+        add(expenseLabel, labelConstraints(gbc.gridx, gbc.gridy++));
+        add(expenseAmountLabel, textConstraints(gbc.gridx, gbc.gridy++));
     }
 
     //this is the method that runs when Swing registers an action on an element
@@ -347,17 +368,8 @@ public class SelectionPanel extends JPanel implements Observer, ActionListener {
         expenseAmountLabel.setText(String.valueOf(expense.getExpenseAmount()));
     }
 
-    //CONSOLE PRINTER??
-//The following codes set where the text get redirected.
-    private void updateTextArea(final String text) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                reportText.append(text);
-            }
-        });
-    }
-
-    //Followings are The Methods that do the Redirect, you can simply Ignore them.
+    //MODIFIES: this
+    //EFFECTS: redirects output on console to text area
     private void redirectSystemStreams() {
         OutputStream out = new OutputStream() {
             @Override
@@ -378,6 +390,16 @@ public class SelectionPanel extends JPanel implements Observer, ActionListener {
 
         System.setOut(new PrintStream(out, true));
         System.setErr(new PrintStream(out, true));
+    }
+
+    //MODIFIES: this
+    //EFFECTS: adds output to text area
+    private void updateTextArea(final String text) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                reportText.append(text);
+            }
+        });
     }
 
 }
