@@ -38,13 +38,13 @@
 //
 //    @Test
 //    public void testInitialBalances() {
-//        assertEquals(testExpense.getExpenseAmount(), 0);
-//        assertEquals(testFoodExpense.getExpenseAmount(), 0);
-//        assertEquals(testRentExpense.getExpenseAmount(), 0);
-//        assertEquals(testTransportationExpense.getExpenseAmount(), 0);
-//        assertEquals(testEntertainmentExpense.getExpenseAmount(), 0);
-//        assertEquals(testHealthExpense.getExpenseAmount(), 0);
-//        assertEquals(testOtherExpense.getExpenseAmount(), 0);
+//        assertEquals(testExpense.getExpenseTotal(), 0);
+//        assertEquals(testFoodExpense.getExpenseTotal(), 0);
+//        assertEquals(testRentExpense.getExpenseTotal(), 0);
+//        assertEquals(testTransportationExpense.getExpenseTotal(), 0);
+//        assertEquals(testEntertainmentExpense.getExpenseTotal(), 0);
+//        assertEquals(testHealthExpense.getExpenseTotal(), 0);
+//        assertEquals(testOtherExpense.getExpenseTotal(), 0);
 ////        assertEquals(testExpense.getExpenseItems().size(), 0);
 //    }
 //
@@ -52,42 +52,42 @@
 //    @Test
 //    public void testAddExpenseZero() throws NegativeAmountException {
 //        testExpense.addExpenseAmount(0);
-//        assertTrue(testExpense.getExpenseAmount() == 0);
+//        assertTrue(testExpense.getExpenseTotal() == 0);
 //    }
 //
 //    @Test
 //    public void testAddExpenseOne() throws NegativeAmountException {
 //        testExpense.addExpenseAmount(1);
-//        assertTrue(testExpense.getExpenseAmount() == 1);
+//        assertTrue(testExpense.getExpenseTotal() == 1);
 //    }
 //
 //    @Test
 //    public void testAddExpenseMore() throws NegativeAmountException {
 //        testExpense.addExpenseAmount(1);
-//        assertTrue(testExpense.getExpenseAmount() == 1);
+//        assertTrue(testExpense.getExpenseTotal() == 1);
 //        testExpense.addExpenseAmount(50);
-//        assertTrue(testExpense.getExpenseAmount() == 50 + 1);
+//        assertTrue(testExpense.getExpenseTotal() == 50 + 1);
 //    }
 //
 //    //Tests for Categories
 //    @Test
 //    public void testAddExpenseCategoryZero() throws NegativeAmountException {
 //        testFoodExpense.addExpenseAmount(0);
-//        assertTrue(testFoodExpense.getExpenseAmount() == 0);
+//        assertTrue(testFoodExpense.getExpenseTotal() == 0);
 //    }
 //
 //    @Test
 //    public void testAddExpenseCategoryOne() throws NegativeAmountException {
 //        testFoodExpense.addExpenseAmount(1);
-//        assertTrue(testFoodExpense.getExpenseAmount() == 1);
+//        assertTrue(testFoodExpense.getExpenseTotal() == 1);
 //    }
 //
 //    @Test
 //    public void testAddExpenseCategoryMore() throws NegativeAmountException {
 //        testFoodExpense.addExpenseAmount(1);
-//        assertTrue(testFoodExpense.getExpenseAmount() == 1);
+//        assertTrue(testFoodExpense.getExpenseTotal() == 1);
 //        testFoodExpense.addExpenseAmount(50);
-//        assertTrue(testFoodExpense.getExpenseAmount() == 50 + 1);
+//        assertTrue(testFoodExpense.getExpenseTotal() == 50 + 1);
 //    }
 //
 //    //TODO: Bug - expenseItems is not resetting after this test
@@ -109,9 +109,9 @@
 //
 //    @Test
 //    public void testSortExpense() throws InvalidEntryException {
-//        assertEquals(expense.getOther().getExpenseAmount(),0);
+//        assertEquals(expense.getOther().getExpenseTotal(),0);
 //        expense.sortExpense(expenseItem1);
-//        assertEquals(expense.getOther().getExpenseAmount(),5);
+//        assertEquals(expense.getOther().getExpenseTotal(),5);
 //    }
 //
 //}

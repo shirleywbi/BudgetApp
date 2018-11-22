@@ -1,6 +1,5 @@
 package test;
 
-import exceptions.InvalidEntryException;
 import exceptions.NegativeAmountException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -86,36 +85,36 @@ public class InvalidEntryExceptionTest {
 
     @Test
     public void testAddExpenseNegativeAmountExceptionPositiveInputFloat() {
-        assertEquals(budgetTracker.expense.getExpenseAmount(), 0);
+        assertEquals(budgetTracker.expense.getExpenseTotal(), 0);
         try {
             budgetTracker.expense.addExpenseAmount(1);
         } catch (NegativeAmountException e) {
             fail("NegativeAmountException thrown for positive number");
         }
-        assertEquals(budgetTracker.expense.getExpenseAmount(), 1);
+        assertEquals(budgetTracker.expense.getExpenseTotal(), 1);
     }
 
     @Test
     public void testAddExpenseNegativeAmountExceptionZeroInputFloat() {
-        assertEquals(budgetTracker.expense.getExpenseAmount(), 0);
+        assertEquals(budgetTracker.expense.getExpenseTotal(), 0);
         try {
             budgetTracker.expense.addExpenseAmount(0);
         } catch (NegativeAmountException e) {
             fail("NegativeAmountException thrown for zero");
         }
-        assertEquals(budgetTracker.expense.getExpenseAmount(), 0);
+        assertEquals(budgetTracker.expense.getExpenseTotal(), 0);
     }
 
     @Test
     public void testAddExpenseNegativeAmountExceptionNegativeInputFloat() {
-        assertEquals(budgetTracker.expense.getExpenseAmount(), 0);
+        assertEquals(budgetTracker.expense.getExpenseTotal(), 0);
         try {
             budgetTracker.expense.addExpenseAmount(-1);
             fail("No exceptions was thrown");
         } catch (NegativeAmountException e) {
             //do nothing
         }
-        assertEquals(budgetTracker.expense.getExpenseAmount(), 0);
+        assertEquals(budgetTracker.expense.getExpenseTotal(), 0);
     }
 
 // TODO: Move to ExpenseCategory

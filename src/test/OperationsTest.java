@@ -38,7 +38,7 @@ public class OperationsTest {
         float expense = 1000;
         testOp.load("testinput.txt");
         assertEquals(testOp.getIncome().getIncomeTotal(), income);
-        assertEquals(testOp.getExpense().getExpenseAmount(), expense);
+        assertEquals(testOp.getExpense().getExpenseTotal(), expense);
         assertEquals(testOp.getExpense().getExpenseItems().get(0), item0);
         assertEquals(testOp.getExpense().getExpenseItems().get(1), item1);
         assertEquals(testOp.getExpense().getExpenseItems().get(2), item2);
@@ -56,7 +56,7 @@ public class OperationsTest {
         assertTrue(testOp.getExpense().getExpenseItems().size() == 5);
         testOp.save("testoutput.txt");
         assertEquals(testOp.getIncome().getIncomeTotal(), 1200 + 501);
-        assertEquals(testOp.getExpense().getExpenseAmount(), 1000 + 351);
+        assertEquals(testOp.getExpense().getExpenseTotal(), 1000 + 351);
         assertEquals(testOp.getExpense().getExpenseItems().get(0), item0);
         assertEquals(testOp.getExpense().getExpenseItems().get(1), item1);
         assertEquals(testOp.getExpense().getExpenseItems().get(2), item2);

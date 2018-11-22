@@ -4,7 +4,7 @@ import java.util.Observable;
 
 public class Income extends Observable{
     private static Income instance=null;
-    private float incomeTotal;
+    private double incomeTotal;
 
     // EFFECTS: constructs income with 0 income
     private Income() {
@@ -19,23 +19,25 @@ public class Income extends Observable{
     }
 
     // EFFECTS: returns the total subtotal of the income
-    public float getIncomeTotal() {
+    public double getIncomeTotal() {
         return incomeTotal;
     }
 
     // MODIFIES: this
     // EFFECTS: sets income to given num
-    public void setIncome(float num) {
+    public void setIncome(double num) {
         this.incomeTotal = num;
+        setChanged();
+        notifyObservers("incomeTotal");
     }
 
     // REQUIRES: num >= 0
     // MODIFIES: this
     // EFFECTS: adds num to income
-    public float addIncome(float num) {
+    public double addIncome(double num) {
         incomeTotal += num;
         setChanged();
-        notifyObservers();
+        notifyObservers("incomeTotal");
         return incomeTotal;
     }
 }

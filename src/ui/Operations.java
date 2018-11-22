@@ -32,9 +32,9 @@ public class Operations {
             ArrayList<String> partsOfBalance = splitOnSpace(line, ": ");
             ArrayList<String> partsOfExpense = splitOnSpace(line, " ");
             if (line.contains("Total Income:")) {
-                income.setIncome((Float.valueOf(partsOfBalance.get(1))));
+                income.setIncome((Double.valueOf(partsOfBalance.get(1))));
             } else if (line.contains("Total Expenses:")) {
-                expense.setExpense((Float.valueOf(partsOfBalance.get(1))));
+                expense.setExpense((Double.valueOf(partsOfBalance.get(1))));
             } else if (line.contains("List of Expenses:")) {
                 System.out.println("");
             } else {
@@ -50,21 +50,21 @@ public class Operations {
     private void loadExpensesFromFile(ArrayList<String> partsOfExpense) throws NegativeAmountException {
         String category = partsOfExpense.get(0);
         String name = partsOfExpense.get(1);
-        float cost = Float.valueOf(partsOfExpense.get(2));
+        double cost = Double.valueOf(partsOfExpense.get(2));
         ExpenseItem loadedExpense = new ExpenseItem(name, category, cost);
         expense.addExpenseItem(loadedExpense);
         if (partsOfExpense.get(0).equals("Food")) {
-            food.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
+            food.addExpenseAmount(Double.valueOf(partsOfExpense.get(2)));
         } else if (partsOfExpense.get(0).equals("Entertainment")) {
-            entertainment.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
+            entertainment.addExpenseAmount(Double.valueOf(partsOfExpense.get(2)));
         } else if (partsOfExpense.get(0).equals("Health")) {
-            health.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
+            health.addExpenseAmount(Double.valueOf(partsOfExpense.get(2)));
         } else if (partsOfExpense.get(0).equals("Transportation")) {
-            transportation.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
+            transportation.addExpenseAmount(Double.valueOf(partsOfExpense.get(2)));
         } else if (partsOfExpense.get(0).equals("Rent")) {
-            rent.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
+            rent.addExpenseAmount(Double.valueOf(partsOfExpense.get(2)));
         } else {
-            other.addExpenseAmount(Float.valueOf(partsOfExpense.get(2)));
+            other.addExpenseAmount(Double.valueOf(partsOfExpense.get(2)));
         }
     }
 
@@ -79,7 +79,7 @@ public class Operations {
         ArrayList<String> lines = new ArrayList<>();
         PrintWriter writer = new PrintWriter(filename, "UTF-8");
         lines.add("Total Income: " + income.getIncomeTotal());
-        lines.add("Total Expenses: " + expense.getExpenseAmount());
+        lines.add("Total Expenses: " + expense.getExpenseTotal());
         lines.add("List of Expenses:");
         for (Integer i = 0; i < expense.getExpenseItems().size(); i++) {
             lines.add(expense.getExpenseItems().get(i).getExpenseItemCategory() + " "

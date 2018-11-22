@@ -31,14 +31,29 @@
 
 package ui;
 
+import model.Expense;
+import model.Income;
+import ui.panel.ExpensePanel;
+import ui.panel.IncomePanel;
+import ui.panel.ReportPanel;
+import ui.panel.SummaryPanel;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class BudgetTrackerUI {
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 800;
-    private static SelectionPanel sp = new SelectionPanel();
+
+    public static Expense expense = new Expense();
+    private Income income = Income.getInstance();
+    private static UIFormat ui = new UIFormat();
+    private static SummaryPanel sp = new SummaryPanel();
+    private static ExpensePanel ep = new ExpensePanel();
     private static ReportPanel rp = new ReportPanel();
+    private static IncomePanel ip = new IncomePanel();
+
+
 
     //EFFECTS: creates and shows GUI
     private static void createAndShowGUI() {
@@ -49,12 +64,29 @@ public class BudgetTrackerUI {
 
         //Create and set up the window.
         JFrame frame = new JFrame("Budget Tracker");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);
 
+        //Set layout type
+        frame.getContentPane().setBackground(ui.getBackgroundColor());
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 0, 0,
+                GridBagConstraints.WEST,
+                GridBagConstraints.HORIZONTAL,
+                new Insets(0, 0, 0, 0), 0, 0);
+
         //Set up the content pane.
-        frame.add(sp);
-//        frame.add(rp);
+        frame.add(sp.createSummaryPanel(), gbc);
+        gbc.gridy++;
+        frame.add(ip.createIncomePanel(), gbc);
+        gbc.gridy++;
+        frame.add(ep.createExpensePanel(), gbc);
+        gbc.gridy++;
+        frame.add(rp.createReportPanel(), gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.gridheight = 4;
+        frame.add(rp.createReportBlock(), gbc);
 
         //Display the window.
         frame.pack();
@@ -63,10 +95,17 @@ public class BudgetTrackerUI {
         frame.setResizable(false);
     }
 
+    //EFFECTS: initializes observers for expense and income
+    private void initializeObservers() {
+        expense.addObserver(sp);
+        expense.addObserver(rp);
+        income.addObserver(sp);
+    }
+
     //EFFECTS: runs program
     public static void main(String[] args) {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
+        BudgetTrackerUI bt = new BudgetTrackerUI();
+        bt.initializeObservers();
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
@@ -75,4 +114,3 @@ public class BudgetTrackerUI {
 
     }
 }
-

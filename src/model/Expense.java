@@ -1,7 +1,6 @@
 package model;
 
 import exceptions.NegativeAmountException;
-import ui.SelectionPanel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,8 @@ import java.util.Observable;
 
 public class Expense extends Observable {
     private String expenseCategoryName;
-    private float expenseTotal;
+    private double expenseTotal;
+    private List<Expense> expenses = new ArrayList();
 
     public static Expense food;
     public static Expense entertainment;
@@ -30,39 +30,34 @@ public class Expense extends Observable {
         transportation = new Expense("Transportation", 0);
         rent = new Expense("Rent", 0);
         other = new Expense("Other", 0);
+        expenses.add(food);
+        expenses.add(entertainment);
+        expenses.add(health);
+        expenses.add(transportation);
+        expenses.add(rent);
+        expenses.add(other);
     }
 
     // EFFECTS: constructs expense for subExpenses
-    public Expense(String expenseCategoryName, float expenseTotal) {
+    public Expense(String expenseCategoryName, double expenseTotal) {
         this.expenseCategoryName = expenseCategoryName;
         this.expenseTotal = expenseTotal;
     }
 
     // getters
-    public float getExpenseAmount() {
-        return expenseTotal;
+    public double getExpenseTotal() {
+        return this.expenseTotal;
     }
-
     public String getExpenseCategoryName() {
         return expenseCategoryName;
     }
-
     public List<ExpenseItem> getExpenseItems() {
         return expenseItems;
     }
 
-    public Expense getFood() {
-        return food;
-    }
-    public Expense getEntertainment() {return entertainment;}
-    public Expense getHealth() {return health;}
-    public Expense getTransportation() {return transportation;}
-    public Expense getRent() {return rent;}
-    public Expense getOther() {return other;}
-
     // MODIFIES: this
     // EFFECTS: sets expense to given num
-    public void setExpense(float num) {
+    public void setExpense(double num) {
         this.expenseTotal = num;
         setChanged();
         notifyObservers();
@@ -71,13 +66,13 @@ public class Expense extends Observable {
     // REQUIRES: num >= 0
     // MODIFIES: this
     // EFFECTS: Adds num to the total expense
-    public void addExpenseAmount(float num) throws NegativeAmountException {
+    public void addExpenseAmount(double num) throws NegativeAmountException {
         if (num < 0) {
             throw new NegativeAmountException();
         }
         expenseTotal += num;
         setChanged();
-        notifyObservers();
+        notifyObservers("expenseTotal");
     }
 
     // MODIFIES: this
@@ -85,13 +80,13 @@ public class Expense extends Observable {
     public void addExpenseItem(ExpenseItem e) {
         expenseItems.add(e);
         setChanged();
-        notifyObservers();
+        notifyObservers("expenseItems");
     }
 
     // MODIFIES: this
     // EFFECTS: sorts expense into expense category and adds it to the category expenseTotal
     public void sortExpense(ExpenseItem e) throws NegativeAmountException {
-        float cost = e.getExpenseItemCost();
+        double cost = e.getExpenseItemCost();
         switch (e.getExpenseItemCategory()) {
             case "FOOD":
                 food.addExpenseAmount(cost);
@@ -112,5 +107,39 @@ public class Expense extends Observable {
                 other.addExpenseAmount(cost);
                 break;
         }
+    }
+
+    // EFFECTS: prints list of expenses
+    public void printExpenseList() {
+        System.out.println("EXPENSE LIST:");
+        for (ExpenseItem expenseItem: expenseItems) {
+            System.out.printf(expenseItem.getExpenseItemCategory() + " " + expenseItem.getExpenseItemName() + " "
+                    + decimalFormat(expenseItem.getExpenseItemCost()) + "%n");
+        }
+    }
+
+    // EFFECTS: calculates and prints percentage of money spent in each expense category
+    public void printExpensePercentage() {
+        System.out.println("PERCENT BREAKDOWN:");
+        double allExpenseTotal = this.expenseTotal;
+        for (Expense expense: expenses) {
+            double percent = expense.getExpenseTotal()/allExpenseTotal*100;
+            System.out.printf(expense.getExpenseCategoryName() + ": "
+                    + decimalFormat(percent) + "%% %n");
+        }
+    }
+
+    // EFFECTS: prints expense breakdown for each expense type
+    public void printExpenseBreakdown() {
+        System.out.println("EXPENSE CATEGORIES:");
+        for (Expense expense: expenses) {
+            String report = expense.getExpenseCategoryName() + ": $" + decimalFormat(expense.getExpenseTotal());
+            System.out.println(report);
+        }
+    }
+
+    // EFFECTS: converts double to string in currency format X.XX
+    private String decimalFormat(double num){
+        return String.format("%.2f", num);
     }
 }
