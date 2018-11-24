@@ -5,12 +5,10 @@ import ui.UIFormat;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
-public class SummaryPanel extends UIFormat implements Observer, ActionListener {
+public class SummaryPanel implements Observer {
 
     private JLabel balanceLabel;
     private JLabel incomeLabel;
@@ -21,8 +19,8 @@ public class SummaryPanel extends UIFormat implements Observer, ActionListener {
 
     private Income income = Income.getInstance();
     public static Expense expense = ExpensePanel.expense;
-    JPanel balanceDisplay = new JPanel();
-    private GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 0, 0,
+    private UIFormat ui = new UIFormat();
+    private GridBagConstraints gbc = new GridBagConstraints(0, 0, 2, 5, 1, 1,
             GridBagConstraints.WEST,
             GridBagConstraints.HORIZONTAL,
             new Insets(0, 0, 0, 0), 0, 0);
@@ -31,45 +29,58 @@ public class SummaryPanel extends UIFormat implements Observer, ActionListener {
         balanceLabel = new JLabel("Balance:");
         incomeLabel = new JLabel("Income:");
         expenseLabel = new JLabel("Expense:");
-
-        balanceLabel.setFont(getFontDefault());
-        incomeLabel.setFont(getFontDefault());
-        expenseLabel.setFont(getFontDefault());
-
         balanceAmountLabel = new JLabel("0");
         incomeAmountLabel = new JLabel("0");
         expenseAmountLabel = new JLabel("0");
+
+        balanceLabel.setFont(ui.getTitleFontDefault());
+        incomeLabel.setFont(ui.getTitleFontDefault());
+        expenseLabel.setFont(ui.getTitleFontDefault());
+        balanceAmountLabel.setFont(ui.getSubtitleFontDefault());
+        incomeAmountLabel.setFont(ui.getSubtitleFontDefault());
+        expenseAmountLabel.setFont(ui.getSubtitleFontDefault());
+        balanceAmountLabel.setForeground(ui.getBalanceColor());
+        incomeAmountLabel.setForeground(ui.getBalanceColor());
+        expenseAmountLabel.setForeground(ui.getBalanceColor());
+
+        balanceAmountLabel.setPreferredSize(new Dimension(235,20));
     }
 
     public JPanel createSummaryPanel() {
+        JPanel balanceDisplay = new JPanel();
         balanceDisplay.setLayout(new GridBagLayout());
-        balanceDisplay.setBackground(getBackgroundColor());
-        balanceDisplay.add(balanceLabel, labelConstraints(gbc.gridx, gbc.gridy++));
-        balanceDisplay.add(balanceAmountLabel, textConstraints(gbc.gridx, gbc.gridy++));
-        balanceDisplay.add(incomeLabel, labelConstraints(gbc.gridx, gbc.gridy++));
-        balanceDisplay.add(incomeAmountLabel, textConstraints(gbc.gridx, gbc.gridy++));
-        balanceDisplay.add(expenseLabel, labelConstraints(gbc.gridx, gbc.gridy++));
-        balanceDisplay.add(expenseAmountLabel, textConstraints(gbc.gridx, gbc.gridy++));
+        balanceDisplay.setBackground(ui.getBackgroundColor());
+        balanceDisplay.add(balanceLabel, ui.labelConstraints(gbc.gridx, gbc.gridy++));
+        balanceDisplay.add(balanceAmountLabel, ui.textConstraints(gbc.gridx, gbc.gridy++));
+        balanceDisplay.add(incomeLabel, ui.labelConstraints(gbc.gridx, gbc.gridy++));
+        balanceDisplay.add(incomeAmountLabel, ui.textConstraints(gbc.gridx, gbc.gridy++));
+        balanceDisplay.add(expenseLabel, ui.labelConstraints(gbc.gridx, gbc.gridy++));
+        balanceDisplay.add(expenseAmountLabel, ui.textConstraints(gbc.gridx, gbc.gridy++));
         return balanceDisplay;
     }
 
-    //EFFECTS: updates balance when ... is pressed
-    public void actionPerformed(ActionEvent e) {
-        double newBalance = income.getIncomeTotal() - expense.getExpenseTotal();
-        balanceAmountLabel.setText(String.valueOf(newBalance));
-    }
-
+    //EFFECTS: updates summary panel balance, income and expense when values are updated
     @Override
     public void update(Observable o, Object arg) {
+        double balance = income.getIncomeTotal() - expense.getExpenseTotal();
         if (arg.equals("incomeTotal")) {
-            balanceAmountLabel.setText(decimalFormat(income.getIncomeTotal() - expense.getExpenseTotal()));
-            incomeAmountLabel.setText(decimalFormat(income.getIncomeTotal()));
+            balanceAmountLabel.setText(ui.decimalFormat(balance));
+            incomeAmountLabel.setText(ui.decimalFormat(income.getIncomeTotal()));
         } else if (arg.equals("expenseTotal")) {
-            balanceAmountLabel.setText(decimalFormat(income.getIncomeTotal() - expense.getExpenseTotal()));
-            expenseAmountLabel.setText(decimalFormat(expense.getExpenseTotal()));
+            balanceAmountLabel.setText(ui.decimalFormat(balance));
+            expenseAmountLabel.setText(ui.decimalFormat(expense.getExpenseTotal()));
         }
+        balanceFontColor(balance);
     }
 
+    //EFFECTS: changes to red font when balance is negative, black when >= 0
+    private void balanceFontColor(double balance) {
+        if (balance < 0) {
+            balanceAmountLabel.setForeground(Color.red);
+        } else {
+            balanceAmountLabel.setForeground(ui.getBalanceColor());
+        }
+    }
 }
 
 

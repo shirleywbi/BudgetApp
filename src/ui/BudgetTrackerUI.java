@@ -38,12 +38,15 @@ import ui.panel.IncomePanel;
 import ui.panel.ReportPanel;
 import ui.panel.SummaryPanel;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class BudgetTrackerUI {
-    public static final int WIDTH = 1000;
-    public static final int HEIGHT = 800;
+    private static final int WIDTH = 1000;
+    private static final int HEIGHT = 800;
 
     public static Expense expense = new Expense();
     private Income income = Income.getInstance();
@@ -52,7 +55,6 @@ public class BudgetTrackerUI {
     private static ExpensePanel ep = new ExpensePanel();
     private static ReportPanel rp = new ReportPanel();
     private static IncomePanel ip = new IncomePanel();
-
 
 
     //EFFECTS: creates and shows GUI
@@ -70,7 +72,7 @@ public class BudgetTrackerUI {
         //Set layout type
         frame.getContentPane().setBackground(ui.getBackgroundColor());
         frame.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 0, 0,
+        GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 1, 1,
                 GridBagConstraints.WEST,
                 GridBagConstraints.HORIZONTAL,
                 new Insets(0, 0, 0, 0), 0, 0);
@@ -86,6 +88,7 @@ public class BudgetTrackerUI {
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridheight = 4;
+        gbc.insets = new Insets(10,0,20,20);
         frame.add(rp.createReportBlock(), gbc);
 
         //Display the window.
@@ -97,8 +100,8 @@ public class BudgetTrackerUI {
 
     //EFFECTS: initializes observers for expense and income
     private void initializeObservers() {
-        expense.addObserver(sp);
-        expense.addObserver(rp);
+        ep.addObserver(sp);
+        ep.addObserver(rp);
         income.addObserver(sp);
     }
 

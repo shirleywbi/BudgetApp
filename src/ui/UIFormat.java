@@ -5,9 +5,12 @@ import java.awt.*;
 
 //Formatting for UI
 public class UIFormat {
-    private int insetDefault = 30;
-    private Font fontDefault = new Font(null, Font.BOLD, 13);
-    private Color backgroundColor = new Color(248,247,246);
+    private int insetDefault = 20;
+    private Font titleFontDefault = new Font(null, Font.BOLD, 16);
+    private Font subtitleFontDefault = new Font(null, Font.PLAIN,14);
+    private Font buttonFontDefault = new Font(null,Font.PLAIN,14);
+    private Color balanceColor = Color.BLACK;
+    private Color backgroundColor = new Color(216,216,216);
 
     // EFFECTS: sets label constraints and displays in given grid position (x,y)
     public GridBagConstraints labelConstraints(int x, int y) {
@@ -15,7 +18,7 @@ public class UIFormat {
         gbc.gridx = x;
         gbc.gridy = y;
         gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.insets = new Insets(insetDefault, insetDefault, 5, insetDefault);
+        gbc.insets = new Insets(10, insetDefault, 5, insetDefault);
         return gbc;
     }
 
@@ -45,7 +48,7 @@ public class UIFormat {
         gbc.gridx = x;
         gbc.gridy = y;
         gbc.anchor = GridBagConstraints.EAST;
-        gbc.insets = new Insets(0, insetDefault, 20, insetDefault);
+        gbc.insets = new Insets(0, insetDefault, 0, insetDefault);
         return gbc;
     }
 
@@ -66,10 +69,13 @@ public class UIFormat {
     }
 
     //getters
-    public Font getFontDefault() {
-        return fontDefault;
+    public Font getTitleFontDefault() {
+        return titleFontDefault;
     }
+    public Font getSubtitleFontDefault() {return subtitleFontDefault;}
+    public Font getButtonFontDefault() {return buttonFontDefault;}
     public Color getBackgroundColor() {return backgroundColor;}
+    public Color getBalanceColor() {return balanceColor;}
 
     public void setButtonColor(JButton button){
         button.setBackground(Color.lightGray);

@@ -1,9 +1,11 @@
 package model;
 
+import exceptions.NegativeAmountException;
+
 import java.util.Observable;
 
-public class Income extends Observable{
-    private static Income instance=null;
+public class Income extends Observable {
+    private static Income instance = null;
     private double incomeTotal;
 
     // EFFECTS: constructs income with 0 income
@@ -35,9 +37,15 @@ public class Income extends Observable{
     // MODIFIES: this
     // EFFECTS: adds num to income
     public double addIncome(double num) {
-        incomeTotal += num;
-        setChanged();
-        notifyObservers("incomeTotal");
+        try {
+            if (num < 0) {
+                throw new NegativeAmountException();
+            }
+            incomeTotal += num;
+            setChanged();
+            notifyObservers("incomeTotal");
+        } catch (NegativeAmountException ex) {
+        }
         return incomeTotal;
     }
 }

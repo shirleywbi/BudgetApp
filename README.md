@@ -111,16 +111,38 @@ Stage 9: Design Principles
 Stage 11: GUI
 
 1. Added GUI but bugs have been introduced.
+2. Refactored SelectionPanel into separate panels to increase cohesion.
+3. Numbers have been formatted to two decimal places.
+4. Exceptions updated to prevent invalid input.
 
 TO-DO:
 - Integrate load/save
-- Increase cohesion of SelectionPanel
 - Write out any missing REQUIRES/MODIFIES/EFFECTS
-- Format numbers so they are all $XX.XX
-- Fix exceptions so that they work with UI
-- Format to make it look nicer
+- Clean up semantic coupling, create enumeration for anything with Strings in UI
 
 Nice Additions:
 - Add dates to expense log.
 - Create visuals for the report (e.g., charts and graphs)
 - To allow editing of expense categories
+
+*********************************************************************
+PROJECT SUMMARY:
+Challenges:
+- Trying to make the UI look "nice"
+    - Didn't know what colors to use
+        Solution:
+        - Searched for other people's projects to see what colours worked (often didn't)
+        - Played around with different shades
+    - Had to translate idea to code
+        Solution:
+        - Broke idea up into different components (functions): expense, income, summary, and reports
+        - Implemented and refactored afterwards (not necessarily a good idea because some things broke when refactoring)
+- Tests: Difficult to write for Scanner and GUI
+- Writing maintainable code and balancing coupling and cohesion
+    - Did not consider maintainability when first creating the project,
+    resulted in refactoring multiple times to include class requirements
+
+What did I learn?
+- LSP - Determining whether a subclass is substitutable.
+    - EX. Panels had extended UIFormat but panels does not have an is-a relationship so instantiated instead.
+- Exceptions - Hiding non-fatal errors from users by throwing and catching exceptions

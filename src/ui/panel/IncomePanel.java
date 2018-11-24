@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class IncomePanel extends UIFormat implements ActionListener {
+public class IncomePanel implements ActionListener {
 
     private JLabel incomeAmountLabel;
     private JLabel addIncomeLabel;
@@ -16,7 +16,8 @@ public class IncomePanel extends UIFormat implements ActionListener {
     private JButton incomeAddButton;
 
     private Income income = Income.getInstance();
-    private GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 0, 0,
+    private UIFormat ui = new UIFormat();
+    private GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 1, 1,
             GridBagConstraints.WEST,
             GridBagConstraints.HORIZONTAL,
             new Insets(0, 0, 0, 0), 0, 0);
@@ -25,21 +26,23 @@ public class IncomePanel extends UIFormat implements ActionListener {
         //sets up label, field, add
         incomeAmountLabel = new JLabel("0");
         addIncomeLabel = new JLabel("Add Income");
-        addIncomeLabel.setFont(getFontDefault());
-        incomeField = new JTextField(20);
+        addIncomeLabel.setFont(ui.getTitleFontDefault());
+        incomeField = new JTextField(21);
+        incomeField.setFont(ui.getSubtitleFontDefault());
         incomeAddButton = new JButton("Add");
-        setButtonColor(incomeAddButton);
+        incomeAddButton.setFont(ui.getButtonFontDefault());
+        ui.setButtonColor(incomeAddButton);
     }
 
     public JPanel createIncomePanel() {
         JPanel incomePanel = new JPanel();
-        incomePanel.setBackground(getBackgroundColor());
+        incomePanel.setBackground(ui.getBackgroundColor());
         incomePanel.setLayout(new GridBagLayout());
 
         //adds label, field, addbutton
-        incomePanel.add(addIncomeLabel, labelConstraints(gbc.gridx, gbc.gridy++));
-        incomePanel.add(incomeField, fieldConstraints(gbc.gridx, gbc.gridy++));
-        incomePanel.add(incomeAddButton, addButtonConstraints(gbc.gridx,gbc.gridy++));
+        incomePanel.add(addIncomeLabel, ui.labelConstraints(gbc.gridx, gbc.gridy++));
+        incomePanel.add(incomeField, ui.fieldConstraints(gbc.gridx, gbc.gridy++));
+        incomePanel.add(incomeAddButton, ui.addButtonConstraints(gbc.gridx, gbc.gridy++));
 
         //sets incomeAddButton actions
         incomeAddButton.setActionCommand("add income");
@@ -55,10 +58,16 @@ public class IncomePanel extends UIFormat implements ActionListener {
     //EFFECTS: if Add income is pressed, update balance and income amount
     private void addIncomeUpdate(ActionEvent e) {
         if (e.getActionCommand().equals("add income")) {
-            double newAmount = Double.parseDouble(incomeField.getText());
-            income.addIncome(newAmount);
-            incomeAmountLabel.setText(String.valueOf(income.getIncomeTotal()));
-            incomeField.setText("");
+            try {
+                double newAmount = Double.parseDouble(incomeField.getText());
+                income.addIncome(newAmount);
+                incomeAmountLabel.setText(String.valueOf(income.getIncomeTotal()));
+                if (newAmount >= 0) {
+                    incomeField.setText("");
+                }
+            } catch (NumberFormatException ex) {
+            }
+
         }
     }
 }
