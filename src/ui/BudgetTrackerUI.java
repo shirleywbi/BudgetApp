@@ -38,11 +38,8 @@ import ui.panel.IncomePanel;
 import ui.panel.ReportPanel;
 import ui.panel.SummaryPanel;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 public class BudgetTrackerUI {
     private static final int WIDTH = 1000;
@@ -63,21 +60,32 @@ public class BudgetTrackerUI {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
         }
+        JFrame frame = setWindow();
+        GridBagConstraints gbc = setLayout(frame);
+        setContentPane(frame, gbc);
+        displayWindow(frame);
+    }
 
-        //Create and set up the window.
+    //EFFECTS: sets up window settings
+    private static JFrame setWindow() {
         JFrame frame = new JFrame("Budget Tracker");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);
+        return frame;
+    }
 
-        //Set layout type
+    //EFFECTS: sets up frame layout
+    private static GridBagConstraints setLayout(JFrame frame) {
         frame.getContentPane().setBackground(ui.getBackgroundColor());
         frame.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 1, 1,
+        return new GridBagConstraints(0, 0, 1, 1, 1, 1,
                 GridBagConstraints.WEST,
                 GridBagConstraints.HORIZONTAL,
                 new Insets(0, 0, 0, 0), 0, 0);
+    }
 
-        //Set up the content pane.
+    //EFFECTS: sets up content panes
+    private static void setContentPane(JFrame frame, GridBagConstraints gbc) {
         frame.add(sp.createSummaryPanel(), gbc);
         gbc.gridy++;
         frame.add(ip.createIncomePanel(), gbc);
@@ -90,8 +98,10 @@ public class BudgetTrackerUI {
         gbc.gridheight = 4;
         gbc.insets = new Insets(10,0,20,20);
         frame.add(rp.createReportBlock(), gbc);
+    }
 
-        //Display the window.
+    //EFFECTS: displays window
+    private static void displayWindow(JFrame frame) {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

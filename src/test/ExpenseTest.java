@@ -5,7 +5,7 @@
 //import model.Expense;
 //import model.ExpenseItem;
 //import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test2;
 //
 //import static org.junit.jupiter.api.Assertions.assertEquals;
 //import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -36,7 +36,7 @@
 //        expenseItem2 = new ExpenseItem("Item","Other",10);
 //    }
 //
-//    @Test
+//    @Test2
 //    public void testInitialBalances() {
 //        assertEquals(testExpense.getExpenseTotal(), 0);
 //        assertEquals(testFoodExpense.getExpenseTotal(), 0);
@@ -49,19 +49,19 @@
 //    }
 //
 //    //Tests for Expense
-//    @Test
+//    @Test2
 //    public void testAddExpenseZero() throws NegativeAmountException {
 //        testExpense.addExpenseAmount(0);
 //        assertTrue(testExpense.getExpenseTotal() == 0);
 //    }
 //
-//    @Test
+//    @Test2
 //    public void testAddExpenseOne() throws NegativeAmountException {
 //        testExpense.addExpenseAmount(1);
 //        assertTrue(testExpense.getExpenseTotal() == 1);
 //    }
 //
-//    @Test
+//    @Test2
 //    public void testAddExpenseMore() throws NegativeAmountException {
 //        testExpense.addExpenseAmount(1);
 //        assertTrue(testExpense.getExpenseTotal() == 1);
@@ -70,19 +70,19 @@
 //    }
 //
 //    //Tests for Categories
-//    @Test
+//    @Test2
 //    public void testAddExpenseCategoryZero() throws NegativeAmountException {
 //        testFoodExpense.addExpenseAmount(0);
 //        assertTrue(testFoodExpense.getExpenseTotal() == 0);
 //    }
 //
-//    @Test
+//    @Test2
 //    public void testAddExpenseCategoryOne() throws NegativeAmountException {
 //        testFoodExpense.addExpenseAmount(1);
 //        assertTrue(testFoodExpense.getExpenseTotal() == 1);
 //    }
 //
-//    @Test
+//    @Test2
 //    public void testAddExpenseCategoryMore() throws NegativeAmountException {
 //        testFoodExpense.addExpenseAmount(1);
 //        assertTrue(testFoodExpense.getExpenseTotal() == 1);
@@ -91,13 +91,13 @@
 //    }
 //
 //    //TODO: Bug - expenseItems is not resetting after this test
-////    @Test
+////    @Test2
 ////    public void testAddExpenseItemsToLists() {
 //////        testExpense.addExpenseItem(expenseItem1);
 //////        testExpense.getExpenseItems().contains(expenseItem1);
 ////    }
 //
-//    @Test
+//    @Test2
 //    public void testAddFoodExpenseToListsMultiple() {
 //        assertTrue(testExpense.getExpenseItems().size() == 0);
 //        testExpense.addExpenseItem(expenseItem1);
@@ -107,7 +107,7 @@
 //        assertTrue(testExpense.getExpenseItems().get(1).equals(expenseItem2));
 //    }
 //
-//    @Test
+//    @Test2
 //    public void testSortExpense() throws InvalidEntryException {
 //        assertEquals(expense.getOther().getExpenseTotal(),0);
 //        expense.sortExpense(expenseItem1);

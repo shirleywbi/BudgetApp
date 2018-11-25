@@ -52,7 +52,7 @@ public class UIFormat {
         return gbc;
     }
 
-    // EFFECTS: sets report button constraints and displays in given grid position (x,y)
+    // EFFECTS: sets chart button constraints and displays in given grid position (x,y)
     public GridBagConstraints reportButtonConstraints(int x, int y) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = x;

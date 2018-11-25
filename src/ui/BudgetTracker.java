@@ -18,13 +18,13 @@ public class BudgetTracker {
     private Scanner entry = new Scanner(System.in);
 //    private ExpenseCategory expenseCategory = new ExpenseCategory();
     private Operations op;
-//    private ReportPrinter report;
+//    private ReportPrinter chart;
 
     // MODIFIES: this, balances, reports
     // EFFECTS: loads a file and starts menu
     public void runBudgetTracker() throws IOException {
         op = new Operations();
-//        report = new ReportPrinter();
+//        chart = new ReportPrinter();
 //        expenseCategory.setupExpenseCategories();
         try {
             op.load("budgetinput.txt");
@@ -43,7 +43,7 @@ public class BudgetTracker {
     //       - input 1: requests for user's income and adds income to total income
     //       - input 2: requests for user's expense and add expense to total expense,
     //         stores item name, cost, expense category, and purchase date, and displays the information
-    //       - input 3: shows report of total income, total expense, expense list of names and costs,
+    //       - input 3: shows chart of total income, total expense, expense list of names and costs,
     //         and subtotal
     //       - input 4: saves and exits
     //       - other input: requests for a valid input of 1-4
@@ -68,7 +68,7 @@ public class BudgetTracker {
                     }
                     break;
                 case "3":
-//                    report.runReports();
+//                    chart.runReports();
                     break;
                 case "4":
                     op.save("budgetoutput.txt");
@@ -77,12 +77,12 @@ public class BudgetTracker {
         }
     }
 
-    //EFFECTS: prints menu of options - [1] add income, [2] add expense, [3] show report, [4] save and exit
+    //EFFECTS: prints menu of options - [1] add income, [2] add expense, [3] show chart, [4] save and exit
     private void displayMainMenuPrompt() {
         System.out.printf("What would you like to do? %n" +
                 "[1] Add income %n" +
                 "[2] Add expense %n" +
-                "[3] Show report %n" +
+                "[3] Show chart %n" +
                 "[4] Exit %n");
     }
 

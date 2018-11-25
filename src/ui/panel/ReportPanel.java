@@ -1,7 +1,9 @@
 package ui.panel;
 
+import javafx.embed.swing.JFXPanel;
 import model.Expense;
 import ui.UIFormat;
+import ui.chart.ExpenseBarChart;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,17 +27,22 @@ public class ReportPanel implements ActionListener, Observer {
     private JButton expenseListReportButton;
     private JButton expenseTypeReportButton;
     private JButton expensePercentReportButton;
-    private JButton expensePieChartButton;
-
     private JLabel defaultImage = new JLabel();
     private JLabel reportLabel = new JLabel("Reports");
     private JPanel reportBlock;
     private JScrollPane reportPane;
-    private JTextArea reportText;
+    private JTextArea reportFullText;
+    private JTextArea reportHalfText;
+    private JFXPanel barChartPanel;
+    private ExpenseBarChart expenseBarChart = new ExpenseBarChart();
     private Expense expense = ExpensePanel.expense;
     private UIFormat ui = new UIFormat();
-    private GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 1, 1,
+    private GridBagConstraints rpc = new GridBagConstraints(0, 0, 1, 1, 1, 1,
             GridBagConstraints.WEST,
+            GridBagConstraints.HORIZONTAL,
+            new Insets(0, 0, 0, 0), 0, 0);
+    private GridBagConstraints rbc = new GridBagConstraints(0, 0, 1, 1, 1, 1,
+            GridBagConstraints.NORTH,
             GridBagConstraints.HORIZONTAL,
             new Insets(0, 0, 0, 0), 0, 0);
 
@@ -45,46 +53,98 @@ public class ReportPanel implements ActionListener, Observer {
         expenseListReportButton.setFont(ui.getButtonFontDefault());
         expenseTypeReportButton.setFont(ui.getButtonFontDefault());
         expensePercentReportButton.setFont(ui.getButtonFontDefault());
-
-//        expensePieChartButton = new JButton("");
         ui.setButtonColor(expenseListReportButton);
         ui.setButtonColor(expenseTypeReportButton);
         ui.setButtonColor(expensePercentReportButton);
         reportLabel.setFont(ui.getTitleFontDefault());
+        redirectSystemStreams();
     }
 
-    //EFFECTS: create the report block that will show the report
+    //MODIFIES: this
+    //EFFECTS: create the chart block that will show the chart
     public JPanel createReportBlock() {
         reportBlock = new JPanel();
+        reportBlock.setLayout(new GridBagLayout());
         reportBlock.setPreferredSize(new Dimension(BLOCK_WIDTH, BLOCK_HEIGHT));
         reportBlock.setBackground(ui.getBackgroundColor());
+        showDefaultImage();
+        initializeFullTextArea();
+        initializeHalfTextArea();
+        initializeExpenseTypeBarChart();
+        return reportBlock;
+    }
+
+    //EFFECTS: sets large text area to be visible when expense list is displayed
+    //         and small text area when other reports are displayed
+    private void showTextArea() {
+        if (isReportExpenseList) {
+            reportHalfText.setVisible(false);
+            reportPane.setVisible(true);
+            reportFullText.setVisible(true);
+
+        } else if (isReportExpensePercent || isReportExpenseBreakdown) {
+            reportPane.setVisible(false);
+            reportFullText.setVisible(false);
+            reportHalfText.setVisible(true);
+        }
+    }
+
+    //EFFECTS: sets barchart to be visible when expense breakdown is presented
+    private void showBarChart() {
+        if (isReportExpenseBreakdown) {
+            barChartPanel.setVisible(true);
+        } else {
+            barChartPanel.setVisible(false);
+        }
+    }
+
+    //MODIFIES: this
+    //EFFECTS: initializes full text area
+    private void initializeFullTextArea() {
+        reportFullText = new JTextArea();
+        reportFullText.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 18));
+        reportFullText.setEditable(false);
+        reportPane = new JScrollPane(reportFullText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        reportPane.setBackground(ui.getBackgroundColor());
+        reportPane.setPreferredSize(new Dimension(BLOCK_WIDTH, BLOCK_HEIGHT));
+        reportPane.setVisible(false);
+        reportFullText.setVisible(false);
+        reportBlock.add(reportPane, rbc);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: initializes half text area
+    private void initializeHalfTextArea() {
+        reportHalfText = new JTextArea();
+        reportHalfText.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 18));
+        reportHalfText.setBorder(BorderFactory.createLineBorder(new Color(130, 135, 144)));
+        reportHalfText.setPreferredSize(new Dimension(BLOCK_WIDTH, BLOCK_HEIGHT / 4));
+        reportHalfText.setEditable(false);
+        reportHalfText.setVisible(false);
+        reportBlock.add(reportHalfText, rbc);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: shows default image in report block
+    private void showDefaultImage() {
         try {
             defaultImage.setIcon(new ImageIcon(ImageIO.read(new File(
                     "C:\\Users\\swwbi\\Dropbox\\Education (Sept 2018-)\\Term 1\\CPSC210\\projectw1_team995\\budget.jpg"))));
         } catch (IOException ex) {
         }
-        reportBlock.add(defaultImage, gbc);
-        reportText = new JTextArea();
-        reportPane = new JScrollPane(reportText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        reportPane.setBackground(ui.getBackgroundColor());
-        reportPane.setPreferredSize(new Dimension(BLOCK_WIDTH, BLOCK_HEIGHT));
-        reportText.setFont(new Font(Font.MONOSPACED, Font.PLAIN,18));
-        reportText.setEditable(false);
-        reportText.setVisible(false);
-        reportPane.setVisible(false);
-        reportBlock.add(reportPane, gbc);
-        return reportBlock;
+        reportBlock.add(defaultImage, rpc);
     }
 
-    //EFFECTS: create the report panel and buttons
+    //MODIFIES: this
+    //EFFECTS: create the chart panel and buttons
     public JPanel createReportPanel() {
         JPanel reportPanel = new JPanel();
         reportPanel.setBackground(ui.getBackgroundColor());
         reportPanel.setLayout(new GridBagLayout());
-        reportPanel.add(reportLabel, ui.labelConstraints(gbc.gridx, gbc.gridy++));
-        reportPanel.add(expenseListReportButton, ui.reportButtonConstraints(gbc.gridx, gbc.gridy++));
-        reportPanel.add(expenseTypeReportButton, ui.reportButtonConstraints(gbc.gridx, gbc.gridy++));
-        reportPanel.add(expensePercentReportButton, ui.reportButtonConstraints(gbc.gridx, gbc.gridy++));
+        reportPanel.add(reportLabel, ui.labelConstraints(rpc.gridx, rpc.gridy++));
+        reportPanel.add(expenseListReportButton, ui.reportButtonConstraints(rpc.gridx, rpc.gridy++));
+        reportPanel.add(expenseTypeReportButton, ui.reportButtonConstraints(rpc.gridx, rpc.gridy++));
+        reportPanel.add(expensePercentReportButton, ui.reportButtonConstraints(rpc.gridx, rpc.gridy++));
         expenseListReportButton.setActionCommand("expense list");
         expenseListReportButton.addActionListener(this);
         expenseTypeReportButton.setActionCommand("expense type");
@@ -92,6 +152,93 @@ public class ReportPanel implements ActionListener, Observer {
         expensePercentReportButton.setActionCommand("expense percent");
         expensePercentReportButton.addActionListener(this);
         return reportPanel;
+    }
+
+    //EFFECTS: when one of the chart buttons has been pressed, it will print the appropriate chart:
+    //         list of expenses, expense breakdown by category and percentages
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        //if any of the buttons pressed, hide default image
+        if (e.getActionCommand().equals("expense percent") ||
+                e.getActionCommand().equals("expense type") ||
+                e.getActionCommand().equals("expense list")) {
+            defaultImage.setVisible(false);
+        }
+        if (e.getActionCommand().equals("expense list")) {
+            isReportExpenseList = true;
+            isReportExpenseBreakdown = false;
+            isReportExpensePercent = false;
+            showTextArea();
+            showExpenseList();
+            showBarChart();
+        } else if (e.getActionCommand().equals("expense type")) {
+            isReportExpenseList = false;
+            isReportExpenseBreakdown = true;
+            isReportExpensePercent = false;
+            showTextArea();
+            showExpenseTypeBreakdown();
+            showBarChart();
+        } else if (e.getActionCommand().equals("expense percent")) {
+            isReportExpenseList = false;
+            isReportExpenseBreakdown = false;
+            isReportExpensePercent = true;
+            showTextArea();
+            showExpensePercent();
+            showBarChart();
+        }
+    }
+
+    //EFFECTS: returns a Scene with the Expense Type Bar Chart
+    private void initializeExpenseTypeBarChart() {
+        barChartPanel = new JFXPanel();
+        barChartPanel.setSize(new Dimension(BLOCK_WIDTH, BLOCK_HEIGHT * 3 / 4));
+        barChartPanel.setBorder(BorderFactory.createLineBorder(new Color(130, 135, 144)));
+        rbc.gridy++;
+        rbc.fill = GridBagConstraints.CENTER;
+        barChartPanel.setScene(expenseBarChart.createExpenseTypeBarChart());
+        reportBlock.add(barChartPanel, rbc);
+    }
+
+    //EFFECTS: updates data in the Expense Type Bar Chart
+    private void updateExpenseTypeBarChart() {
+        expenseBarChart = new ExpenseBarChart();
+        barChartPanel.setScene(expenseBarChart.createExpenseTypeBarChart());
+        reportBlock.add(barChartPanel, rbc);
+    }
+
+    //EFFECTS: when an expense has been added, update the chart accordingly
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg.equals("expenseTotal")) {
+            showTextArea();
+            if (isReportExpenseBreakdown) {
+                showExpenseTypeBreakdown();
+                showBarChart();
+                updateExpenseTypeBarChart();
+            } else if (isReportExpenseList) {
+                showExpenseList();
+            } else if (isReportExpensePercent) {
+                showExpensePercent();
+            }
+        }
+    }
+
+    //EFFECTS: clears text box and shows list of expenses
+    private void showExpenseList() {
+        resetPanel();
+        expense.printExpenseList();
+    }
+
+    //EFFECTS: clears text box and shows expense breakdown into types
+    private void showExpenseTypeBreakdown() {
+        resetPanel();
+        expense.printExpenseBreakdown();
+    }
+
+    //EFFECTS: clears text box and shows expense breakdown into percentages
+    private void showExpensePercent() {
+        resetPanel();
+        expense.printExpensePercentage();
     }
 
     //MODIFIES: this
@@ -123,86 +270,20 @@ public class ReportPanel implements ActionListener, Observer {
     private void updateTextArea(final String text) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                reportText.append(text);
+                if (isReportExpenseList) {
+                    reportFullText.append(text);
+                } else if (isReportExpenseBreakdown || isReportExpensePercent) {
+                    reportHalfText.append(text);
+                }
             }
         });
     }
 
-    //EFFECTS: when one of the report buttons has been pressed, it will print the appropriate report:
-    //         list of expenses, expense breakdown by category and percentages
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        redirectSystemStreams();
-        if (e.getActionCommand().equals("pie chart") ||
-                e.getActionCommand().equals("expense percent") ||
-                e.getActionCommand().equals("expense type") ||
-                e.getActionCommand().equals("expense list")) {
-            defaultImage.setVisible(false);
-            reportPane.setVisible(true);
-            reportText.setVisible(true);
-        }
-        if (e.getActionCommand().equals("expense list")) {
-            showExpenseList();
-            isReportExpenseList = true;
-            isReportExpenseBreakdown = false;
-            isReportExpensePercent = false;
-        } else if (e.getActionCommand().equals("expense type")) {
-            showExpenseTypeBreakdown();
-            isReportExpenseList = false;
-            isReportExpenseBreakdown = true;
-            isReportExpensePercent = false;
-        } else if (e.getActionCommand().equals("expense percent")) {
-            showExpensePercent();
-            isReportExpenseList = false;
-            isReportExpenseBreakdown = false;
-            isReportExpensePercent = true;
-        } else if (e.getActionCommand().equals("pie chart")) {
-            showPieChart();
-        }
-    }
-
-    //TODO: HOW DO YOU DO THIS? CHECK OUT JAVAFX
-    //EFFECTS: shows a pie chart
-    private void showPieChart() {
-        resetPanel();
-    }
-
-    //EFFECTS: clears text box and shows expense breakdown into percentages
-    private void showExpensePercent() {
-        resetPanel();
-        expense.printExpensePercentage();
-    }
-
-    //EFFECTS: clears text box and shows expense breakdown into types
-    private void showExpenseTypeBreakdown() {
-        resetPanel();
-        expense.printExpenseBreakdown();
-    }
-
-    //EFFECTS: clears text box and shows list of expenses
-    private void showExpenseList() {
-        resetPanel();
-        expense.printExpenseList();
-    }
-
-    //EFFECTS: when an expense has been added, update the report accordingly
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg.equals("expenseTotal")) {
-            reportText.setText("");
-            if (isReportExpenseBreakdown) {
-                showExpenseTypeBreakdown();
-            } else if (isReportExpenseList) {
-                showExpenseList();
-            } else if (isReportExpensePercent) {
-                showExpensePercent();
-            }
-        }
-    }
-
+    //MODIFIES: this
     //EFFECTS: clears text panel
     private void resetPanel() {
-        reportText.setText("");
+        reportFullText.setText("");
+        reportHalfText.setText("");
     }
 
 }

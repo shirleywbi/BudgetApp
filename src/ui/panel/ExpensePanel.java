@@ -30,8 +30,9 @@ public class ExpensePanel extends java.util.Observable implements ActionListener
             GridBagConstraints.HORIZONTAL,
             new Insets(0, 0, 0, 0), 0, 0);
 
+    //MODIFIES: this
+    //EFFECTS: initializes expense panel
     public ExpensePanel() {
-
         expenseNameField = new JTextField(21);
         expenseCostField = new JTextField(21);
         expenseAddButton = new JButton("Add");
@@ -49,6 +50,8 @@ public class ExpensePanel extends java.util.Observable implements ActionListener
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: creates expense panel
     public JPanel createExpensePanel() {
         JPanel expensePanel = new JPanel();
         expensePanel.setBackground(ui.getBackgroundColor());
@@ -66,6 +69,8 @@ public class ExpensePanel extends java.util.Observable implements ActionListener
         return expensePanel;
     }
 
+    //MODIFIES: this
+    //EFFECTS: updates expense label when expense Add button pressed
     @Override
     public void actionPerformed(ActionEvent e) {
         addExpenseUpdate(e);

@@ -119,6 +119,7 @@ TO-DO:
 - Integrate load/save
 - Write out any missing REQUIRES/MODIFIES/EFFECTS
 - Clean up semantic coupling, create enumeration for anything with Strings in UI
+- Add tests for model
 
 Nice Additions:
 - Add dates to expense log.
@@ -141,6 +142,8 @@ Challenges:
 - Writing maintainable code and balancing coupling and cohesion
     - Did not consider maintainability when first creating the project,
     resulted in refactoring multiple times to include class requirements
+- Decided to use Java Swing because TAs were more familiar even though JavaFX may have been easier to implement
+    - Next time: Figure out what you want out of your GUI before implementation
 
 What did I learn?
 - LSP - Determining whether a subclass is substitutable.

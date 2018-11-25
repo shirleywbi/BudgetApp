@@ -19,7 +19,7 @@ public class InvalidEntryExceptionTest {
     }
 
     //TODO: Find a way to test without logIncome method being public
-//    @Test
+//    @Test2
 //    public void testLogIncomeNegativeAmountExceptionPositiveInputFloat() {
 //        assertEquals(budgetTracker.income.getIncomeTotal(), 0);
 //        String input = "1";
@@ -35,7 +35,7 @@ public class InvalidEntryExceptionTest {
 //        assertEquals(budgetTracker.income.getIncomeTotal(), 1);
 //    }
 //
-//    @Test
+//    @Test2
 //    public void testLogIncomeNegativeAmountExceptionZeroInputFloat() {
 //        assertEquals(budgetTracker.income.getIncomeTotal(), 0);
 //        String input = "0";
@@ -51,7 +51,7 @@ public class InvalidEntryExceptionTest {
 //        assertEquals(budgetTracker.income.getIncomeTotal(), 0);
 //    }
 //
-//    @Test
+//    @Test2
 //    public void testLogIncomeNegativeAmountExceptionNegativeInputFloat() {
 //        assertEquals(budgetTracker.income.getIncomeTotal(), 0);
 //        String input = "-1";
@@ -67,7 +67,7 @@ public class InvalidEntryExceptionTest {
 //        assertEquals(budgetTracker.income.getIncomeTotal(), 0);
 //    }
 //
-//    @Test
+//    @Test2
 //    public void testLogIncomeNumberFormatExceptionNonNumeric() {
 //        assertEquals(budgetTracker.income.getIncomeTotal(), 0);
 //        String input = "test";
@@ -118,7 +118,7 @@ public class InvalidEntryExceptionTest {
     }
 
 // TODO: Move to ExpenseCategory
-//    @Test
+//    @Test2
 //    public void testCategorizeExpenseValidEntry() {
 //        String input = "1";
 //        InputStream is = new ByteArrayInputStream(input.getBytes());
@@ -131,7 +131,7 @@ public class InvalidEntryExceptionTest {
 //        }
 //    }
 //
-//    @Test
+//    @Test2
 //    public void testCategorizeExpenseInvalidNumberEntry() {
 //        String input = "1.0";
 //        InputStream is = new ByteArrayInputStream(input.getBytes());
@@ -145,7 +145,7 @@ public class InvalidEntryExceptionTest {
 //        }
 //    }
 //
-//    @Test
+//    @Test2
 //    public void testCategorizeExpenseInvalidAlphaEntry() {
 //        String input = "test";
 //        InputStream is = new ByteArrayInputStream(input.getBytes());

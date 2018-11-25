@@ -47,11 +47,32 @@ public class Expense {
     public double getExpenseTotal() {
         return this.expenseTotal;
     }
+
     public String getExpenseCategoryName() {
         return expenseCategoryName;
     }
+
     public List<ExpenseItem> getExpenseItems() {
         return expenseItems;
+    }
+
+    public Expense getFood() {
+        return food;
+    }
+    public Expense getEntertainment() {
+        return entertainment;
+    }
+    public Expense getHealth() {
+        return health;
+    }
+    public Expense getTransportation() {
+        return transportation;
+    }
+    public Expense getRent() {
+        return rent;
+    }
+    public Expense getOther() {
+        return other;
     }
 
     // MODIFIES: this
