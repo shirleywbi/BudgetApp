@@ -1,6 +1,7 @@
 package ui.panel;
 
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
 import model.Expense;
 import ui.UIFormat;
 import ui.chart.ExpenseBarChart;
@@ -14,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -61,6 +61,25 @@ public class ReportPanel implements ActionListener, Observer {
     }
 
     //MODIFIES: this
+    //EFFECTS: create the chart panel and buttons
+    public JPanel createReportPanel() {
+        JPanel reportPanel = new JPanel();
+        reportPanel.setBackground(ui.getBackgroundColor());
+        reportPanel.setLayout(new GridBagLayout());
+        reportPanel.add(reportLabel, ui.labelConstraints(rpc.gridx, rpc.gridy++));
+        reportPanel.add(expenseListReportButton, ui.reportButtonConstraints(rpc.gridx, rpc.gridy++));
+        reportPanel.add(expenseTypeReportButton, ui.reportButtonConstraints(rpc.gridx, rpc.gridy++));
+        reportPanel.add(expensePercentReportButton, ui.reportButtonConstraints(rpc.gridx, rpc.gridy++));
+        expenseListReportButton.setActionCommand("expense list");
+        expenseListReportButton.addActionListener(this);
+        expenseTypeReportButton.setActionCommand("expense type");
+        expenseTypeReportButton.addActionListener(this);
+        expensePercentReportButton.setActionCommand("expense percent");
+        expensePercentReportButton.addActionListener(this);
+        return reportPanel;
+    }
+
+    //MODIFIES: this
     //EFFECTS: create the chart block that will show the chart
     public JPanel createReportBlock() {
         reportBlock = new JPanel();
@@ -89,6 +108,7 @@ public class ReportPanel implements ActionListener, Observer {
         }
     }
 
+    //MODIFIES: this
     //EFFECTS: sets barchart to be visible when expense breakdown is presented
     private void showBarChart() {
         if (isReportExpenseBreakdown) {
@@ -96,6 +116,18 @@ public class ReportPanel implements ActionListener, Observer {
         } else {
             barChartPanel.setVisible(false);
         }
+    }
+
+    //MODIFIES: this
+    //EFFECTS: shows default image in report block
+    private void showDefaultImage() {
+        try {
+            defaultImage.setIcon(new ImageIcon(ImageIO.read(new File(
+                    "C:\\Users\\swwbi\\Dropbox\\Education (Sept 2018-)\\Term 1\\CPSC210\\projectw1_team995\\budget.jpg"))));
+        } catch (IOException ex) {
+        }
+        reportBlock.add(defaultImage, rpc);
+
     }
 
     //MODIFIES: this
@@ -124,36 +156,27 @@ public class ReportPanel implements ActionListener, Observer {
         reportBlock.add(reportHalfText, rbc);
     }
 
-    //MODIFIES: this
-    //EFFECTS: shows default image in report block
-    private void showDefaultImage() {
-        try {
-            defaultImage.setIcon(new ImageIcon(ImageIO.read(new File(
-                    "C:\\Users\\swwbi\\Dropbox\\Education (Sept 2018-)\\Term 1\\CPSC210\\projectw1_team995\\budget.jpg"))));
-        } catch (IOException ex) {
-        }
-        reportBlock.add(defaultImage, rpc);
+    //EFFECTS: returns a Scene with the Expense Type Bar Chart
+    private void initializeExpenseTypeBarChart() {
+        barChartPanel = new JFXPanel();
+        barChartPanel.setSize(new Dimension(BLOCK_WIDTH, BLOCK_HEIGHT * 3 / 4));
+        barChartPanel.setBorder(BorderFactory.createLineBorder(new Color(130, 135, 144)));
+        rbc.gridy++;
+        rbc.fill = GridBagConstraints.CENTER;
+        Scene scene = expenseBarChart.createExpenseTypeBarChart();
+        barChartPanel.setScene(scene);
+        reportBlock.add(barChartPanel, rbc);
     }
 
     //MODIFIES: this
-    //EFFECTS: create the chart panel and buttons
-    public JPanel createReportPanel() {
-        JPanel reportPanel = new JPanel();
-        reportPanel.setBackground(ui.getBackgroundColor());
-        reportPanel.setLayout(new GridBagLayout());
-        reportPanel.add(reportLabel, ui.labelConstraints(rpc.gridx, rpc.gridy++));
-        reportPanel.add(expenseListReportButton, ui.reportButtonConstraints(rpc.gridx, rpc.gridy++));
-        reportPanel.add(expenseTypeReportButton, ui.reportButtonConstraints(rpc.gridx, rpc.gridy++));
-        reportPanel.add(expensePercentReportButton, ui.reportButtonConstraints(rpc.gridx, rpc.gridy++));
-        expenseListReportButton.setActionCommand("expense list");
-        expenseListReportButton.addActionListener(this);
-        expenseTypeReportButton.setActionCommand("expense type");
-        expenseTypeReportButton.addActionListener(this);
-        expensePercentReportButton.setActionCommand("expense percent");
-        expensePercentReportButton.addActionListener(this);
-        return reportPanel;
+    //EFFECTS: updates data in the Expense Type Bar Chart
+    private void updateExpenseTypeBarChart() {
+        expenseBarChart = new ExpenseBarChart();
+        barChartPanel.setScene(expenseBarChart.createExpenseTypeBarChart());
+        reportBlock.add(barChartPanel, rbc);
     }
 
+    //MODIFIES: this
     //EFFECTS: when one of the chart buttons has been pressed, it will print the appropriate chart:
     //         list of expenses, expense breakdown by category and percentages
     @Override
@@ -162,7 +185,7 @@ public class ReportPanel implements ActionListener, Observer {
         if (e.getActionCommand().equals("expense percent") ||
                 e.getActionCommand().equals("expense type") ||
                 e.getActionCommand().equals("expense list")) {
-            defaultImage.setVisible(false);
+            removeDefaultImage();
         }
         if (e.getActionCommand().equals("expense list")) {
             isReportExpenseList = true;
@@ -188,28 +211,19 @@ public class ReportPanel implements ActionListener, Observer {
         }
     }
 
-    //EFFECTS: returns a Scene with the Expense Type Bar Chart
-    private void initializeExpenseTypeBarChart() {
-        barChartPanel = new JFXPanel();
-        barChartPanel.setSize(new Dimension(BLOCK_WIDTH, BLOCK_HEIGHT * 3 / 4));
-        barChartPanel.setBorder(BorderFactory.createLineBorder(new Color(130, 135, 144)));
-        rbc.gridy++;
-        rbc.fill = GridBagConstraints.CENTER;
-        barChartPanel.setScene(expenseBarChart.createExpenseTypeBarChart());
-        reportBlock.add(barChartPanel, rbc);
+    //MODIFIES: this
+    //EFFECTS: removes default image
+    private void removeDefaultImage() {
+        reportBlock.remove(defaultImage);
+        reportBlock.revalidate();
+        reportBlock.repaint();
     }
 
-    //EFFECTS: updates data in the Expense Type Bar Chart
-    private void updateExpenseTypeBarChart() {
-        expenseBarChart = new ExpenseBarChart();
-        barChartPanel.setScene(expenseBarChart.createExpenseTypeBarChart());
-        reportBlock.add(barChartPanel, rbc);
-    }
-
+    //MODIFIES: this
     //EFFECTS: when an expense has been added, update the chart accordingly
     @Override
     public void update(Observable o, Object arg) {
-        if (arg.equals("expenseTotal")) {
+        if (arg.equals("add expense") || arg.equals("load")) {
             showTextArea();
             if (isReportExpenseBreakdown) {
                 showExpenseTypeBreakdown();
@@ -217,24 +231,30 @@ public class ReportPanel implements ActionListener, Observer {
                 updateExpenseTypeBarChart();
             } else if (isReportExpenseList) {
                 showExpenseList();
+                updateExpenseTypeBarChart();
             } else if (isReportExpensePercent) {
                 showExpensePercent();
+                updateExpenseTypeBarChart();
             }
+
         }
     }
 
+    //MODIFIES: this
     //EFFECTS: clears text box and shows list of expenses
     private void showExpenseList() {
         resetPanel();
         expense.printExpenseList();
     }
 
+    //MODIFIES: this
     //EFFECTS: clears text box and shows expense breakdown into types
     private void showExpenseTypeBreakdown() {
         resetPanel();
         expense.printExpenseBreakdown();
     }
 
+    //MODIFIES: this
     //EFFECTS: clears text box and shows expense breakdown into percentages
     private void showExpensePercent() {
         resetPanel();

@@ -18,7 +18,7 @@ public class UIFormat {
         gbc.gridx = x;
         gbc.gridy = y;
         gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.insets = new Insets(10, insetDefault, 5, insetDefault);
+        gbc.insets = new Insets(2, insetDefault, 2, insetDefault);
         return gbc;
     }
 
@@ -38,7 +38,7 @@ public class UIFormat {
         gbc.gridx = x;
         gbc.gridy = y;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, insetDefault, 5, insetDefault);
+        gbc.insets = new Insets(2, insetDefault, 2, insetDefault);
         return gbc;
     }
 

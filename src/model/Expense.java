@@ -5,10 +5,9 @@ import exceptions.NegativeAmountException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Expense {
+public class Expense{
     private String expenseCategoryName;
     private double expenseTotal;
-    private List<Expense> expenses = new ArrayList();
 
     public static Expense food;
     public static Expense entertainment;
@@ -17,6 +16,7 @@ public class Expense {
     public static Expense rent;
     public static Expense other;
 
+    private List<Expense> expenses = new ArrayList();
     private List<ExpenseItem> expenseItems = new ArrayList<>();
 
     // EFFECTS: constructs expense with 0 expenses and initializes expense categories:
@@ -43,6 +43,20 @@ public class Expense {
         this.expenseTotal = expenseTotal;
     }
 
+    //MODIFIES: this
+    //EFFECTS: resets expenses
+    public void clearExpense() {
+        this.expenseTotal = 0;
+        this.expenseItems = new ArrayList<>();
+        food.setExpense(0);
+        entertainment.setExpense(0);
+        health.setExpense(0);
+        transportation.setExpense(0);
+        rent.setExpense(0);
+        other.setExpense(0);
+
+    }
+
     // getters
     public double getExpenseTotal() {
         return this.expenseTotal;
@@ -59,18 +73,23 @@ public class Expense {
     public Expense getFood() {
         return food;
     }
+
     public Expense getEntertainment() {
         return entertainment;
     }
+
     public Expense getHealth() {
         return health;
     }
+
     public Expense getTransportation() {
         return transportation;
     }
+
     public Expense getRent() {
         return rent;
     }
+
     public Expense getOther() {
         return other;
     }
@@ -83,11 +102,14 @@ public class Expense {
 
     // MODIFIES: this
     // EFFECTS: Adds num to the total expense
-    public void addExpenseAmount(double num) throws NegativeAmountException {
-        if (num < 0) {
-            throw new NegativeAmountException();
+    public void addExpenseAmount(double num) {
+        try {
+            if (num < 0) {
+                throw new NegativeAmountException();
+            }
+            expenseTotal += num;
+        } catch (NegativeAmountException e) {
         }
-        expenseTotal += num;
     }
 
     // MODIFIES: this
@@ -98,7 +120,7 @@ public class Expense {
 
     // MODIFIES: this
     // EFFECTS: sorts expense into expense category and adds it to the category expenseTotal
-    public void sortExpense(ExpenseItem e) throws NegativeAmountException {
+    public void sortExpense(ExpenseItem e) {
         double cost = e.getExpenseItemCost();
         switch (e.getExpenseItemCategory()) {
             case "FOOD":

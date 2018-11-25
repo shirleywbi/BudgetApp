@@ -2,12 +2,12 @@ package model;
 
 // Types of expenses
 public enum ExpenseType {
-    FOOD("Food"),
-    ENTERTAINMENT("Entertainment"),
-    HEALTH("Health"),
-    TRANSPORTATION("Transportation"),
-    RENT("Rent"),
-    OTHER("Other");
+    FOOD("FOOD"),
+    ENTERTAINMENT("ENTERTAINMENT"),
+    HEALTH("HEALTH"),
+    TRANSPORTATION("TRANSPORTATION"),
+    RENT("RENT"),
+    OTHER("OTHER");
 
     private String expenseType;
 

@@ -1,6 +1,7 @@
 package ui.panel;
 
 import model.*;
+import ui.Operations;
 import ui.UIFormat;
 
 import javax.swing.*;
@@ -43,7 +44,7 @@ public class SummaryPanel implements Observer {
         incomeAmountLabel.setForeground(ui.getBalanceColor());
         expenseAmountLabel.setForeground(ui.getBalanceColor());
 
-        balanceAmountLabel.setPreferredSize(new Dimension(235,20));
+        balanceAmountLabel.setPreferredSize(new Dimension(235, 20));
     }
 
     public JPanel createSummaryPanel() {
@@ -63,10 +64,11 @@ public class SummaryPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         double balance = income.getIncomeTotal() - expense.getExpenseTotal();
-        if (arg.equals("incomeTotal")) {
+        if (arg.equals("add income") || arg.equals("load")) {
             balanceAmountLabel.setText(ui.decimalFormat(balance));
             incomeAmountLabel.setText(ui.decimalFormat(income.getIncomeTotal()));
-        } else if (arg.equals("expenseTotal")) {
+        }
+        if (arg.equals("add expense") || arg.equals("load")) {
             balanceAmountLabel.setText(ui.decimalFormat(balance));
             expenseAmountLabel.setText(ui.decimalFormat(expense.getExpenseTotal()));
         }

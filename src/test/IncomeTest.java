@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class IncomeTest {
-    Income income;
+    Income income = Income.getInstance();
 
     @BeforeEach
     public void setup() {
-        income = Income.getInstance();
+        income.setIncome(0);
     }
 
     @Test

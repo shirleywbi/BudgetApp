@@ -5,16 +5,16 @@ import exceptions.NegativeAmountException;
 import model.Expense;
 import model.ExpenseItem;
 import model.ExpenseType;
-import ui.BudgetTrackerUI;
 import ui.UIFormat;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
 
-public class ExpensePanel extends java.util.Observable implements ActionListener {
-    public static Expense expense = BudgetTrackerUI.expense;
+public class ExpensePanel extends Observable implements ActionListener {
+    public static Expense expense = new Expense();
     JLabel addExpenseLabel = new JLabel("Add Expense");
     JLabel expenseCatLabel = new JLabel("Type");
     JLabel expenseNameLabel = new JLabel("Name");
@@ -74,6 +74,8 @@ public class ExpensePanel extends java.util.Observable implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) {
         addExpenseUpdate(e);
+        setChanged();
+        notifyObservers("add expense");
     }
 
     //EFFECTS: if Add expense is pressed, update balance and expense amount
@@ -82,7 +84,7 @@ public class ExpensePanel extends java.util.Observable implements ActionListener
             try {
                 String expCategoryInput = String.valueOf(expenseCatComboBox.getSelectedItem());
                 String expNameInput = expenseNameField.getText();
-                if (expNameInput.equals("")){
+                if (expNameInput.equals("")) {
                     throw new InvalidEntryException();
                 }
                 double expCostInput = Double.parseDouble(expenseCostField.getText());
@@ -93,8 +95,6 @@ public class ExpensePanel extends java.util.Observable implements ActionListener
                 ExpenseItem expItem = new ExpenseItem(expNameInput, expCategoryInput, expCostInput);
                 expense.addExpenseItem(expItem);
                 expense.sortExpense(expItem);
-                setChanged();
-                notifyObservers("expenseTotal");
                 resetBoxAndFields();
             } catch (InvalidEntryException ex) {
             }
@@ -108,4 +108,5 @@ public class ExpensePanel extends java.util.Observable implements ActionListener
         expenseNameField.setText("");
         expenseCostField.setText("");
     }
+
 }

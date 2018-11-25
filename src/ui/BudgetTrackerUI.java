@@ -31,12 +31,7 @@
 
 package ui;
 
-import model.Expense;
-import model.Income;
-import ui.panel.ExpensePanel;
-import ui.panel.IncomePanel;
-import ui.panel.ReportPanel;
-import ui.panel.SummaryPanel;
+import ui.panel.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,14 +40,13 @@ public class BudgetTrackerUI {
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 800;
 
-    public static Expense expense = new Expense();
-    private Income income = Income.getInstance();
+    private static Operations op = new Operations();
     private static UIFormat ui = new UIFormat();
+    private static LoadAndSavePanel lsp = new LoadAndSavePanel();
     private static SummaryPanel sp = new SummaryPanel();
     private static ExpensePanel ep = new ExpensePanel();
     private static ReportPanel rp = new ReportPanel();
     private static IncomePanel ip = new IncomePanel();
-
 
     //EFFECTS: creates and shows GUI
     private static void createAndShowGUI() {
@@ -86,6 +80,8 @@ public class BudgetTrackerUI {
 
     //EFFECTS: sets up content panes
     private static void setContentPane(JFrame frame, GridBagConstraints gbc) {
+        frame.add(lsp.createLoadAndSavePanel(),gbc);
+        gbc.gridy++;
         frame.add(sp.createSummaryPanel(), gbc);
         gbc.gridy++;
         frame.add(ip.createIncomePanel(), gbc);
@@ -95,8 +91,8 @@ public class BudgetTrackerUI {
         frame.add(rp.createReportPanel(), gbc);
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.gridheight = 4;
-        gbc.insets = new Insets(10,0,20,20);
+        gbc.gridheight = 6;
+        gbc.insets = new Insets(25,15,25,25);
         frame.add(rp.createReportBlock(), gbc);
     }
 
@@ -109,16 +105,18 @@ public class BudgetTrackerUI {
     }
 
     //EFFECTS: initializes observers for expense and income
-    private void initializeObservers() {
+    private static void initializeObservers() {
+        ip.addObserver(sp);
         ep.addObserver(sp);
         ep.addObserver(rp);
-        income.addObserver(sp);
+        lsp.addObserver(rp);
+        lsp.addObserver(sp);
+
     }
 
     //EFFECTS: runs program
     public static void main(String[] args) {
-        BudgetTrackerUI bt = new BudgetTrackerUI();
-        bt.initializeObservers();
+        initializeObservers();
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();

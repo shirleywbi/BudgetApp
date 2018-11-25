@@ -29,8 +29,6 @@ public class Income extends Observable {
     // EFFECTS: sets income to given num
     public void setIncome(double num) {
         this.incomeTotal = num;
-        setChanged();
-        notifyObservers("incomeTotal");
     }
 
     // REQUIRES: num >= 0
@@ -42,8 +40,6 @@ public class Income extends Observable {
                 throw new NegativeAmountException();
             }
             incomeTotal += num;
-            setChanged();
-            notifyObservers("incomeTotal");
         } catch (NegativeAmountException ex) {
         }
         return incomeTotal;

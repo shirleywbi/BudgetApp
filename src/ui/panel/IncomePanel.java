@@ -7,8 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
 
-public class IncomePanel implements ActionListener {
+public class IncomePanel extends Observable implements ActionListener {
 
     private JLabel incomeAmountLabel;
     private JLabel addIncomeLabel;
@@ -53,6 +54,8 @@ public class IncomePanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         addIncomeUpdate(e);
+        setChanged();
+        notifyObservers("add income");
     }
 
     //EFFECTS: if Add income is pressed, update balance and income amount

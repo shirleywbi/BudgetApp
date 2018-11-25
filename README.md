@@ -125,6 +125,7 @@ Nice Additions:
 - Add dates to expense log.
 - Create visuals for the report (e.g., charts and graphs)
 - To allow editing of expense categories
+- Reset button
 
 *********************************************************************
 PROJECT SUMMARY:
@@ -149,3 +150,11 @@ What did I learn?
 - LSP - Determining whether a subclass is substitutable.
     - EX. Panels had extended UIFormat but panels does not have an is-a relationship so instantiated instead.
 - Exceptions - Hiding non-fatal errors from users by throwing and catching exceptions
+- Bugs, bugs and more bugs
+    - Solutions are everywhere so look up what worked for other people
+    - Read your code carefully, shrink if needed
+    - Draw a class diagram, structural diagram, type hierarchy
+    - Think about possible causes for the issues
+        - Why is something repeating? Is there duplication somewhere?
+            - EX. Duplication when trying to print out report due to multiple notifyObservers in different methods
+        - Why are values not changing? Is it referring to the correct object?
