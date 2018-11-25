@@ -10,6 +10,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Observable;
 
+import static ui.ActionCommand.LOAD;
+import static ui.ActionCommand.SAVE;
+
 public class LoadAndSavePanel extends Observable implements ActionListener {
     private boolean isLoaded = false;
     private String filename = "budgetinput.txt";
@@ -41,9 +44,9 @@ public class LoadAndSavePanel extends Observable implements ActionListener {
         loadAndSavePanel.setLayout(new FlowLayout(FlowLayout.LEADING, 30, 5));
         loadAndSavePanel.add(loadButton);
         loadAndSavePanel.add(saveButton);
-        loadButton.setActionCommand("load");
+        loadButton.setActionCommand(LOAD.getAction());
         loadButton.addActionListener(this);
-        saveButton.setActionCommand("save");
+        saveButton.setActionCommand(SAVE.getAction());
         saveButton.addActionListener(this);
         return loadAndSavePanel;
     }
@@ -51,18 +54,18 @@ public class LoadAndSavePanel extends Observable implements ActionListener {
     //EFFECTS: if load button pressed, loads file; if save button pressed, saves file
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("load")) {
+        if (e.getActionCommand().equals(LOAD.getAction())) {
             if (!isLoaded) {
                 try {
                     op.load(filename);
                     setChanged();
-                    notifyObservers("load");
+                    notifyObservers(LOAD.getAction());
                     isLoaded = true;
                 } catch (IOException e1) {
                     System.out.println("File error.");
                 }
             }
-        } else if (e.getActionCommand().equals("save")) {
+        } else if (e.getActionCommand().equals(SAVE.getAction())) {
             try {
                 op.save(filename);
             } catch (IOException e1) {

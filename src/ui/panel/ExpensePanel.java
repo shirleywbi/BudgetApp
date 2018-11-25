@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 
+import static ui.ActionCommand.ADD_EXPENSE;
+
 public class ExpensePanel extends Observable implements ActionListener {
     public static Expense expense = new Expense();
     JLabel addExpenseLabel = new JLabel("Add Expense");
@@ -64,7 +66,7 @@ public class ExpensePanel extends Observable implements ActionListener {
         expensePanel.add(expenseCostLabel, ui.textConstraints(gbc.gridx, gbc.gridy++));
         expensePanel.add(expenseCostField, ui.fieldConstraints(gbc.gridx, gbc.gridy++));
         expensePanel.add(expenseAddButton, ui.addButtonConstraints(gbc.gridx, gbc.gridy++));
-        expenseAddButton.setActionCommand("add expense");
+        expenseAddButton.setActionCommand(ADD_EXPENSE.getAction());
         expenseAddButton.addActionListener(this);
         return expensePanel;
     }
@@ -75,12 +77,12 @@ public class ExpensePanel extends Observable implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         addExpenseUpdate(e);
         setChanged();
-        notifyObservers("add expense");
+        notifyObservers(ADD_EXPENSE.getAction());
     }
 
     //EFFECTS: if Add expense is pressed, update balance and expense amount
     private void addExpenseUpdate(ActionEvent e) {
-        if (e.getActionCommand().equals("add expense")) {
+        if (e.getActionCommand().equals(ADD_EXPENSE.getAction())) {
             try {
                 String expCategoryInput = String.valueOf(expenseCatComboBox.getSelectedItem());
                 String expNameInput = expenseNameField.getText();

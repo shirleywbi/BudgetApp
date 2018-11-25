@@ -12,12 +12,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Observable;
 
 import static model.Expense.*;
 import static model.ExpenseType.*;
 
-public class Operations extends Observable{
+public class Operations{
     public static Expense expense = ExpensePanel.expense;
     private Income income = Income.getInstance();
 
@@ -32,8 +31,8 @@ public class Operations extends Observable{
         expense.clearExpense();
         List<String> lines = Files.readAllLines(Paths.get(filename));
         for (String line : lines) {
-            ArrayList<String> partsOfBalance = splitOnSpace(line, ": ");
-            ArrayList<String> partsOfExpense = splitOnSpace(line, " ");
+            ArrayList<String> partsOfBalance = splitOnSpace(line, ":  ");
+            ArrayList<String> partsOfExpense = splitOnSpace(line, "  ");
             try {
                 if (line.contains("Total Income:")) {
                     income.setIncome((Double.valueOf(partsOfBalance.get(1))));
@@ -49,8 +48,6 @@ public class Operations extends Observable{
                 System.out.println("Please check numbers in file. Formatting required.");
             }
         }
-        setChanged();
-        notifyObservers("new expense");
     }
 
     // MODIFIES: this
@@ -90,12 +87,12 @@ public class Operations extends Observable{
     public void save(String filename) throws IOException {
         ArrayList<String> lines = new ArrayList<>();
         PrintWriter writer = new PrintWriter(filename, "UTF-8");
-        lines.add("Total Income: " + decimalFormat(income.getIncomeTotal()));
-        lines.add("Total Expenses: " + decimalFormat(expense.getExpenseTotal()));
+        lines.add("Total Income:  " + decimalFormat(income.getIncomeTotal()));
+        lines.add("Total Expenses:  " + decimalFormat(expense.getExpenseTotal()));
         lines.add("List of Expenses:");
         for (Integer i = 0; i < expense.getExpenseItems().size(); i++) {
-            lines.add(expense.getExpenseItems().get(i).getExpenseItemCategory() + " "
-                    + expense.getExpenseItems().get(i).getExpenseItemName() + " "
+            lines.add(expense.getExpenseItems().get(i).getExpenseItemCategory() + "  "
+                    + expense.getExpenseItems().get(i).getExpenseItemName() + "  "
                     + decimalFormat(expense.getExpenseItems().get(i).getExpenseItemCost()));
         }
         for (String line : lines) {

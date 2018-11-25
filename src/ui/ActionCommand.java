@@ -1,20 +1,14 @@
 package ui;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public enum ActionCommand {
+    ADD_EXPENSE("add expense"),
+    ADD_INCOME("add income"),
+    LOAD("load"),
+    SAVE("save"),
     EXPENSE_LIST("expense list"),
     EXPENSE_TYPE("expense type"),
-    EXPENSE_PERCENT("expense percent");
-
-    private Set reportCommands = new HashSet();
-
-    private void initializeCommands() {
-        reportCommands.add(EXPENSE_LIST.getAction());
-        reportCommands.add(EXPENSE_PERCENT.getAction());
-        reportCommands.add(EXPENSE_TYPE.getAction());
-    }
+    EXPENSE_PERCENT("expense percent")
+    ;
 
     private String action;
 

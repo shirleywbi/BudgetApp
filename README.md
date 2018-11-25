@@ -114,18 +114,19 @@ Stage 11: GUI
 2. Refactored SelectionPanel into separate panels to increase cohesion.
 3. Numbers have been formatted to two decimal places.
 4. Exceptions updated to prevent invalid input.
-
-TO-DO:
-- Integrate load/save
-- Write out any missing REQUIRES/MODIFIES/EFFECTS
-- Clean up semantic coupling, create enumeration for anything with Strings in UI
-- Add tests for model
+5. Integrated load/save functions.
+6. Created enumeration for Action Commands to reduce semantic coupling
+7. Added tests for model
 
 Nice Additions:
 - Add dates to expense log.
 - Create visuals for the report (e.g., charts and graphs)
 - To allow editing of expense categories
 - Reset button
+- Load from other files JFileChooser
+- Write out any missing REQUIRES/MODIFIES/EFFECTS (most have been completed)
+- Clean up semantic coupling, create enumeration for anything for label/button/text names
+- Learn how to write tests for GUI
 
 *********************************************************************
 PROJECT SUMMARY:
@@ -145,6 +146,7 @@ Challenges:
     resulted in refactoring multiple times to include class requirements
 - Decided to use Java Swing because TAs were more familiar even though JavaFX may have been easier to implement
     - Next time: Figure out what you want out of your GUI before implementation
+- Combining JavaFX with Java Swing - Doable but if you miss a step, you continually get errors
 
 What did I learn?
 - LSP - Determining whether a subclass is substitutable.

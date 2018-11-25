@@ -1,5 +1,7 @@
 package ui.chart;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -10,38 +12,37 @@ import javafx.scene.paint.Color;
 import model.Expense;
 import ui.panel.ExpensePanel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static model.ExpenseType.*;
 
 public class ExpenseBarChart {
     Expense expense = ExpensePanel.expense;
-    Group root;
+    Group root = new Group();
     Scene scene;
+    BarChart<String, Number> bc;
+    CategoryAxis xAxis;
+    NumberAxis yAxis;
     XYChart.Series series = new XYChart.Series();
-    List data = new ArrayList<XYChart.Series>();
 
     //EFFECTS: returns a Scene with the Expense Type Bar Chart
     public Scene createExpenseTypeBarChart() {
-        root = new Group();
+        xAxis = new CategoryAxis();
+        yAxis = new NumberAxis();
         scene = new Scene(root, Color.WHITE);
 
-        CategoryAxis xAxis = new CategoryAxis();
-        NumberAxis yAxis = new NumberAxis();
-        BarChart<String, Number> bc = new BarChart(xAxis, yAxis);
+        bc = new BarChart(xAxis, yAxis);
         bc.setTitle("Expense Breakdown");
         xAxis.setLabel("Expense Category");
         yAxis.setLabel("Amount Spent ($)");
 
         setData();
         bc.setLegendVisible(false);
-        bc.getData().addAll(series);
+        bc.setData(FXCollections.observableArrayList(series));
         root.getChildren().add(bc);
         return (scene);
     }
 
     //EFFECTS: creates expense type data series for bar chart
+
     private void setData() {
         series.getData().add(new XYChart.Data(FOOD.getExpenseType(), expense.getFood().getExpenseTotal()));
         series.getData().add(new XYChart.Data(ENTERTAINMENT.getExpenseType(), expense.getEntertainment().getExpenseTotal()));

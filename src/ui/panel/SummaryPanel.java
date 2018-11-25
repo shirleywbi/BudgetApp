@@ -1,13 +1,16 @@
 package ui.panel;
 
 import model.*;
-import ui.Operations;
 import ui.UIFormat;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
+
+import static ui.ActionCommand.ADD_EXPENSE;
+import static ui.ActionCommand.ADD_INCOME;
+import static ui.ActionCommand.LOAD;
 
 public class SummaryPanel implements Observer {
 
@@ -64,11 +67,11 @@ public class SummaryPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         double balance = income.getIncomeTotal() - expense.getExpenseTotal();
-        if (arg.equals("add income") || arg.equals("load")) {
+        if (arg.equals(ADD_INCOME.getAction()) || arg.equals(LOAD.getAction())) {
             balanceAmountLabel.setText(ui.decimalFormat(balance));
             incomeAmountLabel.setText(ui.decimalFormat(income.getIncomeTotal()));
         }
-        if (arg.equals("add expense") || arg.equals("load")) {
+        if (arg.equals(ADD_EXPENSE.getAction()) || arg.equals(LOAD.getAction())) {
             balanceAmountLabel.setText(ui.decimalFormat(balance));
             expenseAmountLabel.setText(ui.decimalFormat(expense.getExpenseTotal()));
         }

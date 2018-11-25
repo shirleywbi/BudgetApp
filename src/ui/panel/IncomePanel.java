@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 
+import static ui.ActionCommand.ADD_INCOME;
+
 public class IncomePanel extends Observable implements ActionListener {
 
     private JLabel incomeAmountLabel;
@@ -46,7 +48,7 @@ public class IncomePanel extends Observable implements ActionListener {
         incomePanel.add(incomeAddButton, ui.addButtonConstraints(gbc.gridx, gbc.gridy++));
 
         //sets incomeAddButton actions
-        incomeAddButton.setActionCommand("add income");
+        incomeAddButton.setActionCommand(ADD_INCOME.getAction());
         incomeAddButton.addActionListener(this);
         return incomePanel;
     }
@@ -55,12 +57,12 @@ public class IncomePanel extends Observable implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         addIncomeUpdate(e);
         setChanged();
-        notifyObservers("add income");
+        notifyObservers(ADD_INCOME.getAction());
     }
 
     //EFFECTS: if Add income is pressed, update balance and income amount
     private void addIncomeUpdate(ActionEvent e) {
-        if (e.getActionCommand().equals("add income")) {
+        if (e.getActionCommand().equals(ADD_INCOME.getAction())) {
             try {
                 double newAmount = Double.parseDouble(incomeField.getText());
                 income.addIncome(newAmount);

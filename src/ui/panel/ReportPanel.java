@@ -1,5 +1,6 @@
 package ui.panel;
 
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import model.Expense;
@@ -17,6 +18,8 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Observable;
 import java.util.Observer;
+
+import static ui.ActionCommand.*;
 
 public class ReportPanel implements ActionListener, Observer {
     private static final int BLOCK_WIDTH = 800;
@@ -70,11 +73,20 @@ public class ReportPanel implements ActionListener, Observer {
         reportPanel.add(expenseListReportButton, ui.reportButtonConstraints(rpc.gridx, rpc.gridy++));
         reportPanel.add(expenseTypeReportButton, ui.reportButtonConstraints(rpc.gridx, rpc.gridy++));
         reportPanel.add(expensePercentReportButton, ui.reportButtonConstraints(rpc.gridx, rpc.gridy++));
-        expenseListReportButton.setActionCommand("expense list");
+        expenseListReportButton.setActionCommand(EXPENSE_LIST.getAction());
         expenseListReportButton.addActionListener(this);
-        expenseTypeReportButton.setActionCommand("expense type");
+        expenseTypeReportButton.setActionCommand(EXPENSE_TYPE.getAction());
+        expensePercentReportButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateExpenseTypeBarChart();
+                    }
+                });
+            }});
         expenseTypeReportButton.addActionListener(this);
-        expensePercentReportButton.setActionCommand("expense percent");
+        expensePercentReportButton.setActionCommand(EXPENSE_PERCENT.getAction());
         expensePercentReportButton.addActionListener(this);
         return reportPanel;
     }
@@ -163,16 +175,27 @@ public class ReportPanel implements ActionListener, Observer {
         barChartPanel.setBorder(BorderFactory.createLineBorder(new Color(130, 135, 144)));
         rbc.gridy++;
         rbc.fill = GridBagConstraints.CENTER;
-        Scene scene = expenseBarChart.createExpenseTypeBarChart();
-        barChartPanel.setScene(scene);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Scene scene = expenseBarChart.createExpenseTypeBarChart();
+                barChartPanel.setScene(scene);
+            }
+        });
         reportBlock.add(barChartPanel, rbc);
     }
 
     //MODIFIES: this
     //EFFECTS: updates data in the Expense Type Bar Chart
     private void updateExpenseTypeBarChart() {
-        expenseBarChart = new ExpenseBarChart();
-        barChartPanel.setScene(expenseBarChart.createExpenseTypeBarChart());
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                expenseBarChart = new ExpenseBarChart();
+                barChartPanel.setScene(expenseBarChart.createExpenseTypeBarChart());
+
+            }
+        });
         reportBlock.add(barChartPanel, rbc);
     }
 
@@ -182,26 +205,26 @@ public class ReportPanel implements ActionListener, Observer {
     @Override
     public void actionPerformed(ActionEvent e) {
         //if any of the buttons pressed, hide default image
-        if (e.getActionCommand().equals("expense percent") ||
-                e.getActionCommand().equals("expense type") ||
-                e.getActionCommand().equals("expense list")) {
+        if (e.getActionCommand().equals(EXPENSE_PERCENT.getAction()) ||
+                e.getActionCommand().equals(EXPENSE_TYPE.getAction()) ||
+                e.getActionCommand().equals(EXPENSE_LIST.getAction())) {
             removeDefaultImage();
         }
-        if (e.getActionCommand().equals("expense list")) {
+        if (e.getActionCommand().equals(EXPENSE_LIST.getAction())) {
             isReportExpenseList = true;
             isReportExpenseBreakdown = false;
             isReportExpensePercent = false;
             showTextArea();
             showExpenseList();
             showBarChart();
-        } else if (e.getActionCommand().equals("expense type")) {
+        } else if (e.getActionCommand().equals(EXPENSE_TYPE.getAction())) {
             isReportExpenseList = false;
             isReportExpenseBreakdown = true;
             isReportExpensePercent = false;
             showTextArea();
             showExpenseTypeBreakdown();
             showBarChart();
-        } else if (e.getActionCommand().equals("expense percent")) {
+        } else if (e.getActionCommand().equals(EXPENSE_PERCENT.getAction())) {
             isReportExpenseList = false;
             isReportExpenseBreakdown = false;
             isReportExpensePercent = true;
@@ -223,18 +246,16 @@ public class ReportPanel implements ActionListener, Observer {
     //EFFECTS: when an expense has been added, update the chart accordingly
     @Override
     public void update(Observable o, Object arg) {
-        if (arg.equals("add expense") || arg.equals("load")) {
+        if (arg.equals(ADD_EXPENSE.getAction()) || arg.equals(LOAD.getAction())) {
             showTextArea();
+            updateExpenseTypeBarChart();
             if (isReportExpenseBreakdown) {
                 showExpenseTypeBreakdown();
                 showBarChart();
-                updateExpenseTypeBarChart();
             } else if (isReportExpenseList) {
                 showExpenseList();
-                updateExpenseTypeBarChart();
             } else if (isReportExpensePercent) {
                 showExpensePercent();
-                updateExpenseTypeBarChart();
             }
 
         }
