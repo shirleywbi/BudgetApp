@@ -1,0 +1,7 @@
+Total Income: 2000.0
+Total Expenses: 1396.0
+List of Expenses:
+Food Apple 3.00
+Transportation BusPass 93.00
+Rent Rent 800.00
+Other Pikachu 500.00

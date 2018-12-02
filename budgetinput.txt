@@ -1,0 +1,10 @@
+Total Income:  1000.00
+Total Expenses:  529.94
+List of Expenses:
+FOOD  Pizza  200.00
+RENT  Cable  150.00
+OTHER  Item  50.00
+ENTERTAINMENT  Fun  25.99
+HEALTH  Flu Shot  10.95
+TRANSPORTATION  Bus Pass  93.00
+
